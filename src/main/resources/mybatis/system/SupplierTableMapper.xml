@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.supplierInf.mapper.SupplierTableMapper">
+    
+    <resultMap type="SupplierTable" id="SupplierTableResult">
+        <result property="supplieraddress"    column="supplierAddress"    />
+        <result property="suppliername"    column="supplierName"    />
+        <result property="supplierid"    column="supplierID"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectSupplierTableVo">
+        select supplierAddress, supplierName, supplierID, id from supplier_table
+    </sql>
+
+    <select id="selectSupplierTableList" parameterType="SupplierTable" resultMap="SupplierTableResult">
+        <include refid="selectSupplierTableVo"/>
+        <where>  
+            <if test="supplieraddress != null  and supplieraddress != ''"> and supplierAddress = #{supplieraddress}</if>
+            <if test="suppliername != null  and suppliername != ''"> and supplierName like concat('%', #{suppliername}, '%')</if>
+            <if test="supplierid != null  and supplierid != ''"> and supplierID = #{supplierid}</if>
+        </where>
+    </select>
+    
+    <select id="selectSupplierTableById" parameterType="Long" resultMap="SupplierTableResult">
+        <include refid="selectSupplierTableVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSupplierTable" parameterType="SupplierTable" useGeneratedKeys="true" keyProperty="id">
+        insert into supplier_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="supplieraddress != null  and supplieraddress != ''">supplierAddress,</if>
+            <if test="suppliername != null  and suppliername != ''">supplierName,</if>
+            <if test="supplierid != null  and supplierid != ''">supplierID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="supplieraddress != null  and supplieraddress != ''">#{supplieraddress},</if>
+            <if test="suppliername != null  and suppliername != ''">#{suppliername},</if>
+            <if test="supplierid != null  and supplierid != ''">#{supplierid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSupplierTable" parameterType="SupplierTable">
+        update supplier_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="supplieraddress != null  and supplieraddress != ''">supplierAddress = #{supplieraddress},</if>
+            <if test="suppliername != null  and suppliername != ''">supplierName = #{suppliername},</if>
+            <if test="supplierid != null  and supplierid != ''">supplierID = #{supplierid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSupplierTableById" parameterType="Long">
+        delete from supplier_table where id = #{id}
+    </delete>
+
+    <delete id="deleteSupplierTableByIds" parameterType="String">
+        delete from supplier_table where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="selectBySupplierid" parameterType="String" resultMap="SupplierTableResult">
+        <include refid="selectSupplierTableVo"/>
+        where supplierid = #{supplierid}
+    </select>
+
+
+    <update id="updateSupplierid" parameterType="SupplierTable">
+        update supplier_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="supplieraddress != null  and supplieraddress != ''">supplierAddress = #{supplieraddress},</if>
+            <if test="suppliername != null  and suppliername != ''">supplierName = #{suppliername},</if>
+        </trim>
+        where supplierid = #{supplierid}
+    </update>
+
+
+    <select id="getAllSupplierData" resultMap="SupplierTableResult">
+        select supplierAddress, supplierName, supplierID, id from supplier_table
+    </select>
+
+
+</mapper>

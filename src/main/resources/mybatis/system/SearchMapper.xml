@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.search.mapper.SearchMapper">
+    
+    <resultMap type="Search" id="SearchResult">
+        <result property="id"    column="id"    />
+        <result property="datatype"    column="datatype"    />
+        <result property="datacontext"    column="dataContext"    />
+        <result property="updata"    column="updata"    />
+    </resultMap>
+
+    <sql id="selectSearchVo">
+        select id, datatype, dataContext, updata from search
+    </sql>
+
+    <select id="selectSearchList" parameterType="Search" resultMap="SearchResult">
+        <include refid="selectSearchVo"/>
+        <where>  
+            <if test="datacontext != null  and datacontext != ''"> and dataContext like concat('%', #{datacontext}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSearchById" parameterType="Long" resultMap="SearchResult">
+        <include refid="selectSearchVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSearch" parameterType="Search" useGeneratedKeys="true" keyProperty="id">
+        insert into search
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="datatype != null  and datatype != ''">datatype,</if>
+            <if test="datacontext != null  and datacontext != ''">dataContext,</if>
+            <if test="updata != null ">updata,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="datatype != null  and datatype != ''">#{datatype},</if>
+            <if test="datacontext != null  and datacontext != ''">#{datacontext},</if>
+            <if test="updata != null ">#{updata},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSearch" parameterType="Search">
+        update search
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="datatype != null  and datatype != ''">datatype = #{datatype},</if>
+            <if test="datacontext != null  and datacontext != ''">dataContext = #{datacontext},</if>
+            <if test="updata != null ">updata = #{updata},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSearchById" parameterType="Long">
+        delete from search where id = #{id}
+    </delete>
+
+    <delete id="deleteSearchByIds" parameterType="String">
+        delete from search where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

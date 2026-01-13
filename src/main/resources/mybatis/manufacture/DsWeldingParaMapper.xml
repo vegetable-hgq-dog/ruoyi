@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.manufacture.weldpara.mapper.DsWeldingParaMapper">
+    
+    <resultMap type="DsWeldingPara" id="DsWeldingParaResult">
+        <result property="paraBackfireHoldtime"    column="para_backfire_holdtime"    />
+        <result property="paraBackfireTime"    column="para_backfire_time"    />
+        <result property="paraBackfireElec"    column="para_backfire_elec"    />
+        <result property="paraPluseCoolTime"    column="para_pluse_cool_time"    />
+        <result property="paraPluseBetwCoolTime"    column="para_pluse_betw_cool_time"    />
+        <result property="paraPulseNum"    column="para_pulse_num"    />
+        <result property="paraWeldTime"    column="para_weld_time"    />
+        <result property="paraWeldElec"    column="para_weld_elec"    />
+        <result property="paraCoolTime"    column="para_cool_time"    />
+        <result property="paraPretempTime"    column="para_pretemp_time"    />
+        <result property="paraPretempElec"    column="para_pretemp_elec"    />
+        <result property="paraPreloadTime"    column="para_preload_time"    />
+        <result property="paraElecPress"    column="para_elec_press"    />
+        <result property="paraElecCapType"    column="para_elec_cap_type"    />
+        <result property="weldProgramid"    column="weld_programID"    />
+        <result property="weldGunMaxpress"    column="weld_gun_maxpress"    />
+        <result property="weldDiameter"    column="weld_diameter"    />
+        <result property="totalThick"    column="total_thick"    />
+        <result property="weldThick3"    column="weld_thick_3"    />
+        <result property="weldMaterial3"    column="weld_material_3"    />
+        <result property="hasWeldGlue2"    column="has_weld_glue_2"    />
+        <result property="weldThick2"    column="weld_thick_2"    />
+        <result property="weldMaterial2"    column="weld_material_2"    />
+        <result property="hasWeldGlue1"    column="has_weld_glue_1"    />
+        <result property="weldThick1"    column="weld_thick_1"    />
+        <result property="weldMaterial1"    column="weld_material_1"    />
+        <result property="weldSpotId"    column="weld_spot_id"    />
+        <result property="gunType"    column="gun_type"    />
+        <result property="robotId"    column="robot_id"    />
+        <result property="autoId"    column="auto_id"    />
+    </resultMap>
+
+    <sql id="selectDsWeldingParaVo">
+        select para_backfire_holdtime, para_backfire_time, para_backfire_elec, para_pluse_cool_time, para_pluse_betw_cool_time, para_pulse_num, para_weld_time, para_weld_elec, para_cool_time, para_pretemp_time, para_pretemp_elec, para_preload_time, para_elec_press, para_elec_cap_type, weld_programID, weld_gun_maxpress, weld_diameter, total_thick, weld_thick_3, weld_material_3, has_weld_glue_2, weld_thick_2, weld_material_2, has_weld_glue_1, weld_thick_1, weld_material_1, weld_spot_id, gun_type, robot_id, auto_id from ds_welding_para
+    </sql>
+
+    <select id="selectDsWeldingParaList" parameterType="DsWeldingPara" resultMap="DsWeldingParaResult">
+        <include refid="selectDsWeldingParaVo"/>
+        <where>  
+            <if test="weldProgramid != null "> and weld_programID = #{weldProgramid}</if>
+            <if test="weldSpotId != null  and weldSpotId != ''"> and weld_spot_id like concat('%',#{weldSpotId},'%')</if>
+            <if test="gunType != null  and gunType != ''"> and gun_type like concat('%', #{gunType}, '%')</if>
+            <if test="robotId != null  and robotId != ''"> and robot_id like concat('%', #{robotId}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDsWeldingParaById" parameterType="Long" resultMap="DsWeldingParaResult">
+        <include refid="selectDsWeldingParaVo"/>
+        where auto_id = #{autoId}
+    </select>
+        
+    <insert id="insertDsWeldingPara" parameterType="DsWeldingPara" useGeneratedKeys="true" keyProperty="autoId">
+        insert into ds_welding_para
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="paraBackfireHoldtime != null ">para_backfire_holdtime,</if>
+            <if test="paraBackfireTime != null ">para_backfire_time,</if>
+            <if test="paraBackfireElec != null ">para_backfire_elec,</if>
+            <if test="paraPluseCoolTime != null ">para_pluse_cool_time,</if>
+            <if test="paraPluseBetwCoolTime != null ">para_pluse_betw_cool_time,</if>
+            <if test="paraPulseNum != null ">para_pulse_num,</if>
+            <if test="paraWeldTime != null ">para_weld_time,</if>
+            <if test="paraWeldElec != null ">para_weld_elec,</if>
+            <if test="paraCoolTime != null ">para_cool_time,</if>
+            <if test="paraPretempTime != null ">para_pretemp_time,</if>
+            <if test="paraPretempElec != null ">para_pretemp_elec,</if>
+            <if test="paraPreloadTime != null ">para_preload_time,</if>
+            <if test="paraElecPress != null ">para_elec_press,</if>
+            <if test="paraElecCapType != null  and paraElecCapType != ''">para_elec_cap_type,</if>
+            <if test="weldProgramid != null ">weld_programID,</if>
+            <if test="weldGunMaxpress != null ">weld_gun_maxpress,</if>
+            <if test="weldDiameter != null ">weld_diameter,</if>
+            <if test="totalThick != null ">total_thick,</if>
+            <if test="weldThick3 != null ">weld_thick_3,</if>
+            <if test="weldMaterial3 != null  and weldMaterial3 != ''">weld_material_3,</if>
+            <if test="hasWeldGlue2 != null  and hasWeldGlue2 != ''">has_weld_glue_2,</if>
+            <if test="weldThick2 != null ">weld_thick_2,</if>
+            <if test="weldMaterial2 != null  and weldMaterial2 != ''">weld_material_2,</if>
+            <if test="hasWeldGlue1 != null  and hasWeldGlue1 != ''">has_weld_glue_1,</if>
+            <if test="weldThick1 != null ">weld_thick_1,</if>
+            <if test="weldMaterial1 != null  and weldMaterial1 != ''">weld_material_1,</if>
+            <if test="weldSpotId != null  and weldSpotId != ''">weld_spot_id,</if>
+            <if test="gunType != null  and gunType != ''">gun_type,</if>
+            <if test="robotId != null  and robotId != ''">robot_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="paraBackfireHoldtime != null ">#{paraBackfireHoldtime},</if>
+            <if test="paraBackfireTime != null ">#{paraBackfireTime},</if>
+            <if test="paraBackfireElec != null ">#{paraBackfireElec},</if>
+            <if test="paraPluseCoolTime != null ">#{paraPluseCoolTime},</if>
+            <if test="paraPluseBetwCoolTime != null ">#{paraPluseBetwCoolTime},</if>
+            <if test="paraPulseNum != null ">#{paraPulseNum},</if>
+            <if test="paraWeldTime != null ">#{paraWeldTime},</if>
+            <if test="paraWeldElec != null ">#{paraWeldElec},</if>
+            <if test="paraCoolTime != null ">#{paraCoolTime},</if>
+            <if test="paraPretempTime != null ">#{paraPretempTime},</if>
+            <if test="paraPretempElec != null ">#{paraPretempElec},</if>
+            <if test="paraPreloadTime != null ">#{paraPreloadTime},</if>
+            <if test="paraElecPress != null ">#{paraElecPress},</if>
+            <if test="paraElecCapType != null  and paraElecCapType != ''">#{paraElecCapType},</if>
+            <if test="weldProgramid != null ">#{weldProgramid},</if>
+            <if test="weldGunMaxpress != null ">#{weldGunMaxpress},</if>
+            <if test="weldDiameter != null ">#{weldDiameter},</if>
+            <if test="totalThick != null ">#{totalThick},</if>
+            <if test="weldThick3 != null ">#{weldThick3},</if>
+            <if test="weldMaterial3 != null  and weldMaterial3 != ''">#{weldMaterial3},</if>
+            <if test="hasWeldGlue2 != null  and hasWeldGlue2 != ''">#{hasWeldGlue2},</if>
+            <if test="weldThick2 != null ">#{weldThick2},</if>
+            <if test="weldMaterial2 != null  and weldMaterial2 != ''">#{weldMaterial2},</if>
+            <if test="hasWeldGlue1 != null  and hasWeldGlue1 != ''">#{hasWeldGlue1},</if>
+            <if test="weldThick1 != null ">#{weldThick1},</if>
+            <if test="weldMaterial1 != null  and weldMaterial1 != ''">#{weldMaterial1},</if>
+            <if test="weldSpotId != null  and weldSpotId != ''">#{weldSpotId},</if>
+            <if test="gunType != null  and gunType != ''">#{gunType},</if>
+            <if test="robotId != null  and robotId != ''">#{robotId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsWeldingPara" parameterType="DsWeldingPara">
+        update ds_welding_para
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="paraBackfireHoldtime != null ">para_backfire_holdtime = #{paraBackfireHoldtime},</if>
+            <if test="paraBackfireTime != null ">para_backfire_time = #{paraBackfireTime},</if>
+            <if test="paraBackfireElec != null ">para_backfire_elec = #{paraBackfireElec},</if>
+            <if test="paraPluseCoolTime != null ">para_pluse_cool_time = #{paraPluseCoolTime},</if>
+            <if test="paraPluseBetwCoolTime != null ">para_pluse_betw_cool_time = #{paraPluseBetwCoolTime},</if>
+            <if test="paraPulseNum != null ">para_pulse_num = #{paraPulseNum},</if>
+            <if test="paraWeldTime != null ">para_weld_time = #{paraWeldTime},</if>
+            <if test="paraWeldElec != null ">para_weld_elec = #{paraWeldElec},</if>
+            <if test="paraCoolTime != null ">para_cool_time = #{paraCoolTime},</if>
+            <if test="paraPretempTime != null ">para_pretemp_time = #{paraPretempTime},</if>
+            <if test="paraPretempElec != null ">para_pretemp_elec = #{paraPretempElec},</if>
+            <if test="paraPreloadTime != null ">para_preload_time = #{paraPreloadTime},</if>
+            <if test="paraElecPress != null ">para_elec_press = #{paraElecPress},</if>
+            <if test="paraElecCapType != null  and paraElecCapType != ''">para_elec_cap_type = #{paraElecCapType},</if>
+            <if test="weldProgramid != null ">weld_programID = #{weldProgramid},</if>
+            <if test="weldGunMaxpress != null ">weld_gun_maxpress = #{weldGunMaxpress},</if>
+            <if test="weldDiameter != null ">weld_diameter = #{weldDiameter},</if>
+            <if test="totalThick != null ">total_thick = #{totalThick},</if>
+            <if test="weldThick3 != null ">weld_thick_3 = #{weldThick3},</if>
+            <if test="weldMaterial3 != null  and weldMaterial3 != ''">weld_material_3 = #{weldMaterial3},</if>
+            <if test="hasWeldGlue2 != null  and hasWeldGlue2 != ''">has_weld_glue_2 = #{hasWeldGlue2},</if>
+            <if test="weldThick2 != null ">weld_thick_2 = #{weldThick2},</if>
+            <if test="weldMaterial2 != null  and weldMaterial2 != ''">weld_material_2 = #{weldMaterial2},</if>
+            <if test="hasWeldGlue1 != null  and hasWeldGlue1 != ''">has_weld_glue_1 = #{hasWeldGlue1},</if>
+            <if test="weldThick1 != null ">weld_thick_1 = #{weldThick1},</if>
+            <if test="weldMaterial1 != null  and weldMaterial1 != ''">weld_material_1 = #{weldMaterial1},</if>
+            <if test="weldSpotId != null  and weldSpotId != ''">weld_spot_id = #{weldSpotId},</if>
+            <if test="gunType != null  and gunType != ''">gun_type = #{gunType},</if>
+            <if test="robotId != null  and robotId != ''">robot_id = #{robotId},</if>
+        </trim>
+        where auto_id = #{autoId}
+    </update>
+
+    <delete id="deleteDsWeldingParaById" parameterType="Long">
+        delete from ds_welding_para where auto_id = #{autoId}
+    </delete>
+
+    <delete id="deleteDsWeldingParaByIds" parameterType="String">
+        delete from ds_welding_para where auto_id in 
+        <foreach item="autoId" collection="array" open="(" separator="," close=")">
+            #{autoId}
+        </foreach>
+    </delete>
+    
+</mapper>

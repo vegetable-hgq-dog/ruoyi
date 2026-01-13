@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.hotdata.mapper.HotdataMapper">
+    
+    <resultMap type="Hotdata" id="HotdataResult">
+        <result property="id"    column="id"    />
+        <result property="datatype"    column="datatype"    />
+        <result property="content"    column="content"    />
+        <result property="uptime"    column="uptime"    />
+    </resultMap>
+
+    <sql id="selectHotdataVo">
+        select id, datatype, content, uptime from hotdata
+    </sql>
+
+    <select id="selectHotdataList" parameterType="Hotdata" resultMap="HotdataResult">
+        <include refid="selectHotdataVo"/>
+        <where>  
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectHotdataById" parameterType="Long" resultMap="HotdataResult">
+        <include refid="selectHotdataVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertHotdata" parameterType="Hotdata" useGeneratedKeys="true" keyProperty="id">
+        insert into hotdata
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="datatype != null  and datatype != ''">datatype,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="uptime != null ">uptime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="datatype != null  and datatype != ''">#{datatype},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="uptime != null ">#{uptime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHotdata" parameterType="Hotdata">
+        update hotdata
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="datatype != null  and datatype != ''">datatype = #{datatype},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="uptime != null ">uptime = #{uptime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteHotdataById" parameterType="Long">
+        delete from hotdata where id = #{id}
+    </delete>
+
+    <delete id="deleteHotdataByIds" parameterType="String">
+        delete from hotdata where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

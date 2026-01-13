@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/weldingShopDataHTML.css">
+</head>
+<body>
+    <header>
+        <h1>焊装车间制造数据可视化</h1>
+        <div class="show_time"></div>
+        <script>
+            var t = null;
+            t = setTimeout(myTime, 1000); //开始运行
+            function myTime() {
+                clearTimeout(t); //清除定时器
+                dt = new Date();
+                var y = dt.getFullYear();
+                var mt = dt.getMonth() + 1;
+                var day = dt.getDate();
+                var h = dt.getHours(); //获取时
+                var m = dt.getMinutes(); //获取分
+                var s = dt.getSeconds(); //获取秒
+                document.querySelector(".show_time").innerHTML =
+                    y +
+                    "年" +
+                    mt +
+                    "月" +
+                    day +
+                    "日-" +
+                    h +
+                    "时" +
+                    m +
+                    "分" +
+                    s +
+                    "秒";
+                t = setTimeout(myTime, 1000); //设定定时器，循环运行
+            }
+        </script>
+    </header>
+    <section>
+        <div class="info_data">
+            <div class="current_work_info">
+                <div class="row1"></div>
+                <div class="row2"></div>
+
+                <div class="current_work_info_content">
+                    <div class="current_work_info_title">
+                        <div class="title_info_data">当前作业信息</div>
+                    </div>
+                    <div class="current_work_info_data">
+                        <div id="factor_info_up">
+                            <div class="info_name" id="station">工位：
+<!--                                <select id="stationSelect">-->
+<!--                                    <option value="0">请选择工位ID：</option>-->
+<!--                                    <option class="selectFactory" th:each="allDeviceInfo : ${allDeviceInfo}" th:value="${allDeviceInfo.stationid}" th:text="${allDeviceInfo.stationid}"></option>-->
+<!--                                    <option class="selectFactory"></option>-->
+<!--                                </select>-->
+                            </div>
+                            <div class="info_name" id="equip">设备：
+<!--                                <select id="deviceSelect">-->
+<!--                                    <option value="">请选择设备ID：</option>-->
+<!--                                    <option class="selectFactory" th:each="allDeviceInfo : ${allDeviceInfo}" th:value="${allDeviceInfo.deviceid}" th:text="${allDeviceInfo.deviceid}"></option>-->
+<!--                                </select>-->
+                            </div>
+<!--                            <div class="info_name">车号：<span class="info_value">168921</span></div>-->
+                            <div class="info_name" id="weldingSpot">焊点号：
+<!--                                <select id="weldingSpotSelect">-->
+<!--                                    <option value="">请选择焊点号：</option>-->
+<!--                                </select>-->
+<!--                                <span id="weldingNo" class="info_value"></span>-->
+                            </div>
+                        </div>
+
+                        <div id="factor_info_box">
+                            <div id="factor_info">参数信息</div>
+                        </div>
+
+                        <div id="factor_info_down">
+                            <div class="info_name" id="programNum">程序号：<span id="programNumVal" class="info_value"></span></div>
+                            <div class="info_name" id="weldingElec">焊接电流：<span id="weldingElecVal" class="info_value"></span></div>
+                            <div class="info_name" id="weldingTime">焊接时间：<span  id="weldingTimeVal" class="info_value"></span></div>
+                            <div class="info_name" id="electrodePressure">电极压力：<span id="electrodePressureVal" class="info_value"></span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom_border">
+                    <div class="bottom_border_bl"></div>
+                    <div class="bottom_border_br"></div>
+                </div>
+
+            </div>
+            <div class="current_welding_data">
+                <div class="row1"></div>
+                <div class="row2"></div>
+
+                <div class="current_welding_data_content">
+                    <div class="current_welding_data_head">
+                        <span id="current_welding_data_title">焊接实时数据</span>
+                        <span id="welding_quality">焊接质量：<span id="welding_quality_value">正常</span></span>
+                    </div>
+                    <div id="current_welding_data_pic" class="current_welding_data_pic"></div>
+                </div>
+
+                <div class="bottom_border">
+                    <div class="bottom_border_bl"></div>
+                    <div class="bottom_border_br"></div>
+                </div>
+
+            </div>
+            <div class="history_welding_data">
+                <div class="row1"></div>
+                <div class="row2"></div>
+                <div class="history_welding_data_content">
+                    <div class="history_welding_data_title">
+                        <div class="title_history_welding_data">焊接历史数据</div>
+                    </div>
+                    <div id="history_welding_data_pic" class="history_welding_data_pic"></div>
+                </div>
+
+                <div class="bottom_border">
+                    <div class="bottom_border_bl"></div>
+                    <div class="bottom_border_br"></div>
+                </div>
+            </div>
+        </div>
+        <div class="overview_pic">
+            <div class="plan_overview">
+                <div class="row1"></div>
+                <div class="row2"></div>
+                <div class="plan_overview_content">
+                    <div class="plan_overview_title">
+                        <div class="title_plan_overview_info">今日计划状态总览</div>
+                    </div>
+                    <div class="plan_overview_data"></div>
+                </div>
+                <div class="bottom_border">
+                    <div class="bottom_border_bl"></div>
+                    <div class="bottom_border_br"></div>
+                </div>
+
+            </div>
+            <div class="station_pic">
+                <div class="row1"></div>
+                <div class="row2"></div>
+                <div class="station_pic_content"></div>
+                <div class="bottom_border">
+                    <div class="bottom_border_bl"></div>
+                    <div class="bottom_border_br"></div>
+                </div>
+            </div>
+        </div>
+        <div class="overview_info">
+            <div class="production_statistic_info">
+                <div class="row1"></div>
+                <div class="row2"></div>
+                <div class="production_statistic_info_content">
+                    <div class="production_statistic_info_title">
+                        <div class="title_production_statistic">生产统计信息</div>
+                    </div>
+                    <div id="pass_percent">合格率：<span id="pass_percent_value"></span></div>
+                    <div id="production_statistic_info_data" class="production_statistic_info_data"></div>
+                </div>
+                <div class="bottom_border">
+                    <div class="bottom_border_bl"></div>
+                    <div class="bottom_border_br"></div>
+                </div>
+            </div>
+            <div class="historical_pass_rate">
+                <div class="row1"></div>
+                <div class="row2"></div>
+                <div class="historical_pass_rate_content">
+                    <div class="historical_pass_rate_title">
+                        <div class="title_historical_pass_rate">历史合格率</div>
+                    </div>
+                    <div id="historical_pass_rate_data" class="historical_pass_rate_data"></div>
+                </div>
+                <div class="bottom_border">
+                    <div class="bottom_border_bl"></div>
+                    <div class="bottom_border_br"></div>
+                </div>
+            </div>
+            <div class="warning_info">
+                <div class="row1"></div>
+                <div class="row2"></div>
+                <div class="warning_info_content">
+                    <div class="warning_info_title">
+                        <div class="title_warning_info">报警信息</div>
+                    </div>
+                    <div class="warning_info_data">
+                        <table class="warning_info_table">
+                            <tr class="even_title">
+                                <th>时间</th>
+                                <th>内容</th>
+                            </tr>
+                            <tr class="odd_row">
+                                <td>2022/11/21 9:30:31</td>
+                                <td>MB090上件超时</td>
+                            </tr>
+                            <tr class="even_row">
+                                <td>2022/11/21 10:20:15</td>
+                                <td>MB090_R02电极帽换帽</td>
+                            </tr>
+                            <tr class="odd_row">
+                                <td>2022/11/21 10:30:31</td>
+                                <td>MB090_R02焊点虚焊</td>
+                            </tr>
+                            <tr class="even_row">
+                                <td>2022/11/21 11:40:26</td>
+                                <td>MB090_R02焊点烧穿</td>
+                            </tr>
+                            <tr class="odd_row">
+                                <td>2022/11/21 14:36:39</td>
+                                <td>MB090_R02焊点参数错误</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="bottom_border">
+                    <div class="bottom_border_bl"></div>
+                    <div class="bottom_border_br"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script th:src="@{/echarts/echarts.min.js}"></script>
+
+    <script type="text/javascript">
+        $.when(
+            $.getJSON('/system/weldingParameterInfo/getAllWeldingSpotPara'),
+            $.getJSON('/system/stationsInfo/selectStationID'),
+            $.getJSON('/system/devicesInfo/getAllDeviceInfo')
+
+        ).done(function (weldingSpotPara,stationID,deviceID) {
+            // var wdeviceID = [];
+            // var weldingSpotID = [];
+            // var programname = [];
+            // var controlcurrent = [];
+            // var controlpressure = [];
+            // var controltime = [];
+            // for (let i = 0; i < weldingSpotPara[0].length; i++) {
+            //     wdeviceID[i] = weldingSpotPara[0][i].deviceid;
+            //     weldingSpotID[i] = weldingSpotPara[0][i].weldingspotid;
+            //     programname[i] = weldingSpotPara[0][i].programname;
+            //     controlcurrent[i] = weldingSpotPara[0][i].controlcurrent;
+            //     controlpressure[i] = weldingSpotPara[0][i].controlpressure;
+            //     controltime[i] = weldingSpotPara[0][i].controltime;
+            // }
+
+            //工位下拉框
+            var eachStation= '';
+            for (let i = 0;i < stationID[0].length;i++){
+                eachStation += '<option th:value="' + stationID[0][i].stationid + '">' + stationID[0][i].stationid + '</option>\n';
+            }
+            var stationChoose = '工位：<select id="stationSelect">\n' +
+                '                                    <option value="0">请选择工位ID：</option>\n' +
+                eachStation +
+                '                                </select>';
+            document.getElementById('station').innerHTML = stationChoose;
+
+            var choosenStation;
+            var choosenDevice;
+            var choosenWeldingSpot;
+            //依据工位下拉框选择值生成对应的设备下拉框
+            if (1 < 5){
+
+            }
+            $("#stationSelect").change(function () {
+                //刷新焊点号下拉框
+                document.getElementById('weldingSpot').innerHTML = '焊点号：';
+                //清空参数信息
+                $("#programNumVal").text('')
+                $("#weldingElecVal").text('')
+                $("#weldingTimeVal").text('')
+                $("#electrodePressureVal").text('')
+
+
+                var eachDevice = '';
+                choosenStation = $('#stationSelect').find("option:selected").val();
+                for (let i = 0;i < deviceID[0].length;i++){
+                    if (choosenStation == deviceID[0][i].stationid){
+                        eachDevice += '<option th:value="' + deviceID[0][i].deviceid + '">' + deviceID[0][i].deviceid + '</option>\n';
+                    }
+                }
+                var deviceChoose = '设备：<select id="deviceSelect">\n' +
+                    '                                    <option value="">请选择设备ID：</option>\n' +
+                    eachDevice +
+                    '                                </select>';
+
+                document.getElementById('equip').innerHTML = deviceChoose;
+                //依据工位和设备选择焊点
+                $("#deviceSelect").change(function () {
+                    //清空参数信息
+                    $("#programNumVal").text('')
+                    $("#weldingElecVal").text('')
+                    $("#weldingTimeVal").text('')
+                    $("#electrodePressureVal").text('')
+
+                    var eachWeldingSpot = '';
+                    choosenDevice = $('#deviceSelect').find("option:selected").val();
+                    for (let i = 0;i < weldingSpotPara[0].length;i++){
+                        if (choosenDevice == weldingSpotPara[0][i].deviceid){
+                            eachWeldingSpot += '<option th:value="' + weldingSpotPara[0][i].weldingspotid + '">' + weldingSpotPara[0][i].weldingspotid + '</option>\n';
+                        }
+                    }
+                    var weldingSpotChoose = '焊点号：<select id="weldingSpotSelect">\n' +
+                        '                                    <option value="0">请选择焊点号：</option>\n' +
+                        eachWeldingSpot +
+                        '                                </select>';
+                    document.getElementById('weldingSpot').innerHTML = weldingSpotChoose;
+                    //根据选择的工位设备和焊点号获得参数信息
+                    $("#weldingSpotSelect").change(function () {
+                        choosenWeldingSpot = $('#weldingSpotSelect').find("option:selected").val();
+                        for (let j = 0; j < weldingSpotPara[0].length; j++){
+                            if (choosenDevice == weldingSpotPara[0][j].deviceid && choosenWeldingSpot == weldingSpotPara[0][j].weldingspotid){
+                                $("#programNumVal").text(weldingSpotPara[0][j].programname)
+                                $("#weldingElecVal").text(weldingSpotPara[0][j].controlcurrent)
+                                $("#weldingTimeVal").text(weldingSpotPara[0][j].controltime)
+                                $("#electrodePressureVal").text(weldingSpotPara[0][j].controlpressure)
+                            }
+                        }
+                    })
+
+                })
+            })
+
+
+
+            // $("#deviceSelect").change(function () {
+            //     var val = $(this).find("option:selected").text();
+            //     for (let j = 0; j < deviceID.length; j++) {
+            //         if (val == deviceID[j]) {
+            //             $("#weldingNo").text(weldingSpotID[j])
+            //             $("#programNumVal").text(programname[j])
+            //             $("#weldingElecVal").text(controlcurrent[j])
+            //             $("#weldingTimeVal").text(controltime[j])
+            //             $("#electrodePressureVal").text(controlpressure[j])
+            //         }
+            //     }
+            //
+            // })
+
+        })
+        //     $.when(
+        //         $.getJSON('/system/devicesInfo/getAllDeviceInfo')
+        //     ).done(function (deviceInfo){
+        //         var devicesID=[];
+        //         var stationsID=[];
+        //         for (let i = 0;i < deviceInfo.length;i++){
+        //             devicesID[i] = deviceInfo[i].deviceid;
+        //             stationsID[i] = deviceInfo[i].stationid;
+        //         }
+        //         $("#deviceSelect").change(function (){
+        //             var val2 = $(this).find("option:selected").val();
+        //             for (let j = 0;j < devicesID.length;j++){
+        //                 if (val2 == devicesID[j]){
+        //                     $("#stationSelect").find("option:selected").text(stationsID[j])
+        //
+        //                 }
+        //             }
+        //
+        //         })
+        //
+        // })
+        $.when(
+            $.getJSON('/system/dataInfo/getAllCurrentData'),
+
+        ).done(function (cur) {
+            var myChart = echarts.init(document.getElementById('current_welding_data_pic'));
+            var datatime=[];
+            var current =[];
+            var voltage = [];
+            var resistance = [];
+            // var welding_quality = [];
+            for (let i = 0;i < cur.length;i++){
+                datatime[i] = cur[i].datatime;
+                current[i] = cur[i].current;
+                voltage[i] = cur[i].voltage;
+                resistance[i] = cur[i].resistance;
+                // welding_quality[i] = cur[i].weldingquality;
+            }
+
+            var option = {
+                color:['#DF7401','#DF0101','#298A08'],
+                tooltip: {
+                    trigger: 'axis',
+
+                    axisPointer: {
+                        animation: false
+                    }
+                },
+                legend: {
+                    y:'center',
+                    x:'right',
+                    orient:'vertical',
+                    verticalAlign: 'middle',
+                    layout: 'vertical',
+                    textStyle:{
+                        color: '#ffffff'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '22%',
+                    bottom: '5%',
+                    top:'5%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    axisLine:{
+                        lineStyle:{
+                            //修改x坐标轴颜色
+                            color:'#ffffff'
+                        }
+                    },
+
+                    splitLine: {
+                        show: false
+                    },
+                    data:[]
+                },
+                yAxis: [
+                        {
+                        type: 'value',
+                        // boundaryGap: [0, '100%'],
+                        name:'电流',
+                        min:0,
+                        position:'left',
+                        axisLine:{
+                            show:true,
+                            lineStyle:{
+                                //修改y坐标轴颜色
+                                color:'#DF7401'
+                            }
+                        },
+                        axisLabel:{
+                          formatter:'{value}'
+                        },
+                        splitLine: {
+                            show: false
+                        }
+                    },
+                    {
+                        type: 'value',
+                        // boundaryGap: [0, '100%'],
+                        name:'电压',
+                        min:0,
+                        position:'right',
+                        axisLine:{
+                            show:true,
+                            lineStyle:{
+                                //修改y坐标轴颜色
+                                color:'#DF0101'
+                            }
+                        },
+                        axisLabel:{
+                            formatter:'{value}'
+                        },
+                        splitLine: {
+                            show: false
+                        }
+                    },
+
+                    {
+                        type: 'value',
+                        // boundaryGap: [0, '100%'],
+                        name:'电阻',
+                        min:0,
+                        position:'right',
+                        offset:30,
+                        axisLine:{
+                            show:true,
+                            lineStyle:{
+                                //修改y坐标轴颜色
+                                color:'#298A08'
+                            }
+                        },
+                        axisLabel:{
+                            formatter:'{value}'
+                        },
+                        splitLine: {
+                            show: false
+                        }
+                    }
+                ],
+                series: [
+
+                    {
+                        name: '电流',
+                        type: 'line',
+                        showSymbol: false,
+                        data: []
+                    },
+                    {
+                        name: '电压',
+                        type: 'line',
+                        showSymbol: false,
+                        yAxisIndex:1,
+                        data: []
+                    },
+                    {
+                        name: '电阻',
+                        type: 'line',
+                        showSymbol: false,
+                        yAxisIndex:2,
+                        data: []
+                    }
+                ]
+            };
+            myChart.setOption(option);
+            setInterval(runChart,1000);
+            function runChart(){
+
+                myChart.setOption({
+                    xAxis: {
+                        data: datatime
+                    },
+                    series: [
+                        {
+                            name: '电流',
+                            data: current
+                        },
+                        {
+                            name: '电压',
+                            data: voltage
+                        },
+                        {
+                            name: '电阻',
+                            data: resistance
+                        }
+                    ]
+                });
+                if (datatime.length >= 3) {
+                    datatime.shift();
+                    current.shift();
+                }
+            }
+
+        })
+
+        $.when(
+            $.getJSON('/system/dataInfo/getAllCurrentData'),
+        ).done(function (vals) {
+            var myChart = echarts.init(document.getElementById('history_welding_data_pic'));
+            var datatime = [];
+            var energyvalue = [];
+            var powervalue = [];
+            var currentvalue = [];
+            for (let j = 0;j < vals.length;j++){
+                //取时分秒
+                datatime[j] = vals[j].datatime.substring(11);
+                energyvalue[j] = vals[j].energyvalue;
+                powervalue[j] = vals[j].powervalue;
+                currentvalue[j] = vals[j].currentvalue;
+            }
+            console.log(datatime[0].length)
+            var option = {
+                color:['#92D050','#ED7D31','#02ACEC'],
+                tooltip: {
+                    trigger: 'axis',
+
+                    axisPointer: {
+                        animation: false
+                    }
+                },
+                legend: {
+                    y:'top',
+                    x:'center',
+                    orient:'horizontal',
+                    verticalAlign: 'middle',
+                    layout: 'vertical',
+                    textStyle:{
+                        color: '#ffffff'
+                    }
+                },
+                grid: {
+                    left: '5%',
+                    right: '10%',
+                    bottom: '5%',
+                    top:'20%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    axisLine:{
+                        lineStyle:{
+                            //修改x坐标轴颜色
+                            color:'#ffffff'
+                        }
+                    },
+
+                    splitLine: {
+                        show: false
+                    },
+                    data:[]
+                },
+                yAxis: [
+                    {
+                        type: 'value',
+                        // boundaryGap: [0, '100%'],
+                        name:'能量',
+                        min:0,
+                        position:'left',
+                        axisLine:{
+                            show:true,
+                            lineStyle:{
+                                //修改y坐标轴颜色
+                                color:'#92D050'
+                            }
+                        },
+                        axisLabel:{
+                            formatter:'{value}'
+                        },
+                        splitLine: {
+                            show: false
+                        }
+                    },
+                    {
+                        type: 'value',
+                        // boundaryGap: [0, '100%'],
+                        name:'功率',
+                        min:0,
+                        position:'right',
+                        offset:10,
+                        axisLine:{
+                            show:true,
+                            lineStyle:{
+                                //修改y坐标轴颜色
+                                color:'#ED7D31'
+                            }
+                        },
+                        axisLabel:{
+                            formatter:'{value}'
+                        },
+                        splitLine: {
+                            show: false
+                        }
+                    },
+
+                    {
+                        type: 'value',
+                        // boundaryGap: [0, '100%'],
+                        name:'电流',
+                        min:0,
+                        position:'right',
+                        offset: 40,
+                        axisLine:{
+                            show:true,
+                            lineStyle:{
+                                //修改y坐标轴颜色
+                                color:'#02ACEC'
+                            }
+                        },
+                        axisLabel:{
+                            formatter:'{value}'
+                        },
+                        splitLine: {
+                            show: false
+                        }
+                    }
+                ],
+                //     {
+                //     type: 'value',
+                //     boundaryGap: [0, '100%'],
+                //     axisLine:{
+                //         lineStyle:{
+                //             //修改y坐标轴颜色
+                //             color:'#ffffff'
+                //         }
+                //     },
+                //     splitLine: {
+                //         show: false
+                //     }
+                // },
+                series: [
+                    {
+                        name: '能量',
+                        type: 'bar',
+                        showSymbol: false,
+                        data: []
+                    },
+                    {
+                        name: '功率',
+                        type: 'bar',
+                        showSymbol: false,
+                        yAxisIndex:1,
+                        data: []
+                    },
+                    {
+                        name: '电流',
+                        type: 'line',
+                        showSymbol: false,
+                        yAxisIndex:2,
+                        data: []
+                    }
+                ]
+            };
+            myChart.setOption(option);
+            setInterval(runChart,1000);
+            function runChart(){
+
+                myChart.setOption({
+                    xAxis: {
+                        data: datatime
+                    },
+                    series: [
+                        {
+                            name: '能量',
+                            data: energyvalue
+                        },
+                        {
+                            name: '功率',
+                            data: powervalue
+                        },
+                        {
+                            name: '电流',
+                            data: currentvalue
+                        }
+                    ]
+                });
+                if (datatime.length >= 6) {
+                    datatime.shift();
+                    currentvalue.shift();
+                }
+            }
+
+        })
+
+        $.when(
+            $.getJSON('/system/dataInfo/getWeldingQualityNum'),
+        ).done(function (wq) {
+            var myChart = echarts.init(document.getElementById('production_statistic_info_data'));
+            var weldingQualityNum = [];
+            for (let k = 0;k < wq.length;k++){
+                weldingQualityNum[k] = wq[k].weldingQualityNum;
+            }
+            var pass_percent = (weldingQualityNum[0]/(weldingQualityNum[0]+weldingQualityNum[1]+weldingQualityNum[2])).toFixed(4)*100 + '%';
+            $("#pass_percent_value").text(pass_percent)
+            var option = {
+                color:['#92D050','#ED7D31','#FFC72F'],
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    y:'center',
+                    x:'right',
+                    orient:'vertical',
+                    verticalAlign: 'middle',
+                    layout: 'vertical',
+                    textStyle:{
+                        color: '#ffffff'
+                    },
+                },
+                grid: {
+                    left: '5%',
+                    right: '15%',
+                    bottom: '2%',
+                    top:'5%',
+                    containLabel: true
+                },
+                series: [
+                    {
+                        type: 'pie',
+                        radius: '70%',
+                        data: [
+                            {value:weldingQualityNum[0],name:'合格'},
+                            {value:weldingQualityNum[1],name:'虚焊'},
+                            {value:weldingQualityNum[2],name:'过烧'}
+                        ],
+                        itemStyle:{
+                          normal:{
+                              label:{
+                                  show:true,
+                                  formatter:'{c}',
+                                  textStyle:{
+                                      color:'white'
+                                  }
+                              }
+                          }
+                        },
+                        // labelLine: {
+                        //     show: false
+                        // },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        })
+
+        $.when(
+            $.getJSON('/system/dataInfo/getHistoryQuality'),
+            $.getJSON('/system/dataInfo/getAllCurrentData')
+        ).done(function (dateData,allData) {
+            var myChart = echarts.init(document.getElementById('historical_pass_rate_data'));
+            var ymd = [];
+            var dateTotalNum = [];
+            var datatime = [];
+            var weldingQuality = [];
+            for (let i = 0;i < dateData[0].length;i++){
+                ymd[i] = dateData[0][i].ymd;
+                dateTotalNum[i] = dateData[0][i].dateTotalNum;
+            }
+            for (let i = 0;i < allData[0].length;i++){
+                datatime[i] = allData[0][i].datatime;
+                weldingQuality[i] = allData[0][i].weldingquality;
+            }
+            console.log(ymd)
+            console.log(dateTotalNum)
+            console.log(datatime[0].substr(0,10))
+            console.log(weldingQuality)
+
+            var dayPassPercent = [];
+            var qualified = 0;
+
+            for (let j = 0;j < ymd.length;j++){
+                for (let k = 0;k < datatime.length;k++){
+                    if (ymd[j] == datatime[k].substr(0,10) && weldingQuality[k] == 1){
+                        qualified++;
+                    }
+                }
+                dayPassPercent[j] = (qualified/dateTotalNum[j] * 100).toFixed(2);
+                qualified = 0;
+            }
+    console.log(dayPassPercent)
+
+            var option = {
+                color:['#92D050','#ED7D31'],
+                // tooltip: {
+                //     trigger: 'axis'
+                // },
+                grid: {
+                    left: '5%',
+                    right: '5%',
+                    bottom: '5%',
+                    top:'15%',
+                    containLabel: true
+                },
+
+                xAxis: [
+                    {
+                        type: 'category',
+                        axisLine:{
+                            show:true,
+                            lineStyle:{
+                                //修改y坐标轴颜色
+                                color:'#ffffff'
+                            }
+                        },
+                        splitLine: {
+                            show: false
+                        },
+                        data: ymd
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value',
+                        splitLine: {
+                            show: false
+                        },
+                        axisLine:{
+                            show:false
+                        },
+                        axisLabel:{
+                            show:false
+                        }
+                    }
+                ],
+                series: [
+
+                    {
+                        // name:'历史合格率',
+                        type:'bar',
+
+                        /*设置柱状图颜色*/
+                        itemStyle: {
+                            normal: {
+                                /*信息显示方式*/
+                                label: {
+                                    show: false,
+                                    // position: 'top',
+                                    // formatter: '{c}',
+                                    // textStyle:{
+                                    //     color:'white'
+                                    // }
+                                }
+                            }
+                        },
+                        data:dayPassPercent
+                    },
+                    {
+                        name:'历史合格率',
+                        type:'line',
+                        itemStyle: {
+                            normal: {
+                                /*信息显示方式*/
+                                label: {
+                                    show: true,
+                                    position: 'top',
+                                    formatter: '{c}%',
+                                    textStyle:{
+                                        color:'white'
+                                    }
+                                }
+                            }
+                        },
+                        data:dayPassPercent
+                    }
+                ]
+            };
+            myChart.setOption(option);
+
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.materialInf.mapper.MaterialsTableMapper">
+    
+    <resultMap type="MaterialsTable" id="MaterialsTableResult">
+        <result property="materialname"    column="materialName"    />
+        <result property="supplierid"    column="supplierID"    />
+        <result property="factoryid"    column="factoryID"    />
+        <result property="materialid"    column="materialID"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectMaterialsTableVo">
+        select materialName, supplierID, factoryID, materialID, id from materials_table
+    </sql>
+
+    <select id="selectMaterialsTableList" parameterType="MaterialsTable" resultMap="MaterialsTableResult">
+        <include refid="selectMaterialsTableVo"/>
+        <where>  
+            <if test="materialname != null  and materialname != ''"> and materialName like concat('%', #{materialname}, '%')</if>
+            <if test="supplierid != null  and supplierid != ''"> and supplierID = #{supplierid}</if>
+            <if test="factoryid != null  and factoryid != ''"> and factoryID = #{factoryid}</if>
+            <if test="materialid != null  and materialid != ''"> and materialID = #{materialid}</if>
+        </where>
+    </select>
+    
+    <select id="selectMaterialsTableById" parameterType="Long" resultMap="MaterialsTableResult">
+        <include refid="selectMaterialsTableVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMaterialsTable" parameterType="MaterialsTable" useGeneratedKeys="true" keyProperty="id">
+        insert into materials_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="materialname != null  and materialname != ''">materialName,</if>
+            <if test="supplierid != null  and supplierid != ''">supplierID,</if>
+            <if test="factoryid != null  and factoryid != ''">factoryID,</if>
+            <if test="materialid != null  and materialid != ''">materialID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="materialname != null  and materialname != ''">#{materialname},</if>
+            <if test="supplierid != null  and supplierid != ''">#{supplierid},</if>
+            <if test="factoryid != null  and factoryid != ''">#{factoryid},</if>
+            <if test="materialid != null  and materialid != ''">#{materialid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMaterialsTable" parameterType="MaterialsTable">
+        update materials_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="materialname != null  and materialname != ''">materialName = #{materialname},</if>
+            <if test="supplierid != null  and supplierid != ''">supplierID = #{supplierid},</if>
+            <if test="factoryid != null  and factoryid != ''">factoryID = #{factoryid},</if>
+            <if test="materialid != null  and materialid != ''">materialID = #{materialid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMaterialsTableById" parameterType="Long">
+        delete from materials_table where id = #{id}
+    </delete>
+
+    <delete id="deleteMaterialsTableByIds" parameterType="String">
+        delete from materials_table where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="selectBymaterialid" parameterType="String" resultMap="MaterialsTableResult">
+        <include refid="selectMaterialsTableVo"/>
+        where materialid = #{materialid}
+    </select>
+
+    <update id="updateMaterialid" parameterType="MaterialsTable">
+        update materials_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="materialname != null  and materialname != ''">materialName = #{materialname},</if>
+            <if test="supplierid != null  and supplierid != ''">supplierID = #{supplierid},</if>
+            <if test="factoryid != null  and factoryid != ''">factoryID = #{factoryid},</if>
+        </trim>
+        where materialid = #{materialid}
+    </update>
+
+
+    <select id="getAllMaterialData" resultMap="MaterialsTableResult">
+        select materialName, supplierID, factoryID, materialID, id from materials_table
+    </select>
+
+</mapper>

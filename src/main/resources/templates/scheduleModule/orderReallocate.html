@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/orderReallocate.css">
+
+</head>
+<body>
+
+    <section>
+        <div class="processPart">
+            <div class="algorithmPicture">
+                <div class="ap-title">NSGA-II_RM算法流程</div>
+                <div class="ap-picture">
+                    <img class="ap-pictureIMG" src="/img/NSGA2RM.png">
+                </div>
+            </div>
+            <div class="originalAllocate">
+                <div class="oa-uploadTitle">初始订单分配方案</div>
+                <div class="oa-uploadPart">
+                    <div class="top oa-top">
+                        <img id="oa-img" class="img oa-img" src="/img/uploadIcon.png">
+<!--                        <input type="file" class="click oa-click" id="oa-click" alt="">-->
+                    </div>
+<!--                    <div class="oa-bottom" id="oa-bottom">点击上传</div>-->
+                </div>
+            </div>
+        </div>
+        <div class="parameterPart">
+            <div class="modelParameter">
+                <div class="mp-uploadTitle">模型参数输入</div>
+                <div class="mp-uploadPart1">
+                    <div class="inputText deliveryText">计划交期（周）：<input type="text" value="12"></div>
+                    <div class="inputText crText">齐套要求（%）：<input type="text" value="100"></div>
+                </div>
+                <div class="mp-uploadPart2">
+                    <div class="mp-fileUpload firmBasicInfos">
+                        <div class="top fi-top">
+                            <img id="fi-img" class="img fi-img" src="/img/uploadIcon.png">
+<!--                            <input type="file" class="click fi-click" id="fi-click" alt="">-->
+                        </div>
+                        <div class="bottom fi-bottom" id="fi-bottom">企业基础数据集</div>
+                    </div>
+                    <div class="mp-fileUpload demand-typeNumber">
+                        <div class="top dt-top">
+                            <img id="dt-img" class="img dt-img" src="/img/uploadIcon.png" >
+<!--                            <input type="button" class="click dt-click" id="dt-click" alt="">-->
+                        </div>
+                        <div class="bottom dt-bottom" id="dt-bottom">需求数据集</div>
+                    </div>
+                </div>
+            </div>
+            <div class="algorithmParameter">
+                <div class="alp-uploadTitle">算法参数输入</div>
+                <div class="alp-uploadPart1">
+                    <div class="inputText1">变异概率：<input type="text" value="0.1"></div>
+                    <div class="inputText1">交叉概率：<input type="text" value="0.9"></div>
+                    <div class="inputText1">迭代次数：<input type="text" value="70"></div>
+                    <div class="inputText1">种群规模：<input type="text" value="150"></div>
+                </div>
+                <div class="alp-uploadPart2">
+                    <button id="alp-button" onclick="getResults()"><img class="runButtonIcon" src="/img/runAlgorithm.png"></button>
+                </div>
+            </div>
+        </div>
+        <div class="paretoPart">
+            <div class="algorithmResultPicture">
+                <div class="ar-title ar-resultTitle">算法求解结果</div>
+                <div class="ar-results" id="ar-results">
+                    <img class="ar-resultsIMG" src="/img/pareto.png">
+                </div>
+            </div>
+            <div class="algorithmResultInfos">
+                <div class="ar-title ar-resultListTitle">可行解总览</div>
+                <div class="ar-resultList" id="ar-resultList">
+                    <table class="resultListTable">
+                        <tr>
+                            <th>供应商1</th>
+                            <th>供应商2</th>
+                            <th>供应商3</th>
+                            <th>供应商4</th>
+                            <th>供应商5</th>
+                            <th>供应商6</th>
+                            <th>供应商7</th>
+                            <th>供应商8</th>
+                            <th>供应商9</th>
+                            <th>供应商10</th>
+                            <th>成本</th>
+                            <th>不合格数</th>
+                        </tr>
+                        <tr class="resultListTableData">
+                            <td>103</td>
+                            <td>797</td>
+                            <td>553</td>
+                            <td>216</td>
+                            <td>1474</td>
+                            <td>1302</td>
+                            <td>75</td>
+                            <td>0</td>
+                            <td>575</td>
+                            <td>325</td>
+                            <td>808151</td>
+                            <td>371</td>
+                        </tr>
+                        <tr class="resultListTableData">
+                            <td>103</td>
+                            <td>797</td>
+                            <td>553</td>
+                            <td>480</td>
+                            <td>1192</td>
+                            <td>1320</td>
+                            <td>75</td>
+                            <td>0</td>
+                            <td>575</td>
+                            <td>325</td>
+                            <td>809027</td>
+                            <td>370</td>
+                        </tr>
+                        <tr class="resultListTableData">
+                            <td>103</td>
+                            <td>797</td>
+                            <td>737</td>
+                            <td>216</td>
+                            <td>1270</td>
+                            <td>1302</td>
+                            <td>75</td>
+                            <td>0</td>
+                            <td>575</td>
+                            <td>325</td>
+                            <td>809987</td>
+                            <td>369</td>
+                        </tr>
+                        <tr class="resultListTableData">
+                            <td>103</td>
+                            <td>797</td>
+                            <td>737</td>
+                            <td>312</td>
+                            <td>1203</td>
+                            <td>1273</td>
+                            <td>75</td>
+                            <td>0</td>
+                            <td>575</td>
+                            <td>325</td>
+                            <td>810661</td>
+                            <td>368</td>
+                        </tr>
+                        <tr class="resultListTableData">
+                            <td>103</td>
+                            <td>797</td>
+                            <td>803</td>
+                            <td>1052</td>
+                            <td>754</td>
+                            <td>203</td>
+                            <td>788</td>
+                            <td>0</td>
+                            <td>575</td>
+                            <td>325</td>
+                            <td>834897</td>
+                            <td>332</td>
+                        </tr>
+                        <tr class="resultListTableData">
+                            <td>103</td>
+                            <td>797</td>
+                            <td>319</td>
+                            <td>1200</td>
+                            <td>1081</td>
+                            <td>0</td>
+                            <td>1000</td>
+                            <td>0</td>
+                            <td>532</td>
+                            <td>368</td>
+                            <td>838023</td>
+                            <td>328</td>
+                        </tr>
+                        <tr class="resultListTableData">
+                            <td>283</td>
+                            <td>617</td>
+                            <td>990</td>
+                            <td>1200</td>
+                            <td>332</td>
+                            <td>78</td>
+                            <td>1000</td>
+                            <td>57</td>
+                            <td>575</td>
+                            <td>268</td>
+                            <td>868333</td>
+                            <td>316</td>
+                        </tr>
+                    </table>
+<!--                    <iframe class="ar-resultListInfos" src="/text/NSGA-II_RM-Pareto.txt"></iframe>-->
+<!--                    <iframe class="ar-resultListInfos" src="http://localhost:8080/system/feature"></iframe>-->
+                </div>
+                <div class="finalResultsTitle">推荐分配方案</div>
+                <div class="finalResults" id="finalResults">
+                    <table class="resultListTable">
+                        <tr class="finalResultsData">
+                            <td>283</td>
+                            <td>617</td>
+                            <td>990</td>
+                            <td>1200</td>
+                            <td>332</td>
+                            <td>78</td>
+                            <td>1000</td>
+                            <td>57</td>
+                            <td>518</td>
+                            <td>325</td>
+                            <td>868333</td>
+                            <td>316</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="PopUp oa-PopUp" id="oa-PopUp" >
+        <h3>初始订单分配情况</h3>
+        <div class="move_close" id="move_close1">
+            <button id="windows-close1" class="windows-close" style="background-color: red;">关闭</button>
+        </div>
+        <div class="PopUpContent">
+            <iframe class="PopUp-url" src="http://localhost:8080/system/firmallocationstates"></iframe>
+        </div>
+    </div>
+
+    <div class="PopUp fi-PopUp" id="fi-PopUp">
+        <h3>企业基础数据</h3>
+        <div class="move_close" id="move_close2">
+            <button id="windows-close2" class="windows-close" style="background-color: red;">关闭</button>
+        </div>
+        <div  class="PopUpContent">
+            <iframe class="PopUp-url" src="http://localhost:8080/system/firmalgorithmparameter"></iframe>
+        </div>
+    </div>
+
+    <div class="PopUp dt-PopUp" id="dt-PopUp">
+        <h3>需求数据</h3>
+        <div class="move_close" id="move_close3">
+            <button id="windows-close3" class="windows-close" style="background-color: red;">关闭</button>
+        </div>
+        <div class="PopUpContent">
+            <iframe class="PopUp-url" src="http://localhost:8080/system/firmmaterialqueryanddemands"></iframe>
+        </div>
+    </div>
+
+
+
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script th:src="@{/echarts/echarts.min.js}"></script>
+
+    <script>
+
+        // function oaClick(){
+        //     $("#oa-click").click();
+        // }
+        // function fiClick(){
+        //     $("#fi-click").click();
+        // }
+        // function dtClick(){
+        //     $("#dt-click").click(function (){
+        //             alert("111");
+        //     }
+        //
+        //     );
+        // }
+        //参数设置页面
+        $("#oa-img").click(function (){
+            $("#oa-PopUp").show()
+            $("#oa-PopUp").css({ "left": 5 + "%", "top": 5 + "%" })
+        })
+
+        $("#fi-img").click(function (){
+            $("#fi-PopUp").show()
+            $("#fi-PopUp").css({ "left": 5 + "%", "top": 7 + "%" })
+        })
+
+        $("#dt-img").click(function (){
+            $("#dt-PopUp").show()
+            $("#dt-PopUp").css({ "left": 5 + "%", "top": 5 + "%" })
+        })
+        //点击关闭按钮关系小窗口
+        $("#move_close1").click(function () {
+            $("#oa-PopUp").hide()
+        });
+        $("#move_close2").click(function () {
+            $("#fi-PopUp").hide()
+        });
+        $("#move_close3").click(function () {
+            $("#dt-PopUp").hide()
+        });
+
+        // $("section").on("change","div.top input.click",function(){
+        //
+        //     var reads = new FileReader();
+        //     var f = $(this).get(0).files[0];
+        //
+        //
+        //     reads.readAsDataURL(f);
+        //     var that = this;
+        //     reads.onload = function(e) {
+        //         $(that).parent().find("img").attr("src","/img/uploadSuccess.png");
+        //
+        //     };
+        //
+        //
+        //       });
+    </script>
+    <script>
+        document.getElementById("ar-results").style.visibility="hidden";
+        document.getElementById("ar-resultList").style.visibility="hidden";
+        document.getElementById("finalResults").style.visibility="hidden";
+    </script>
+
+    <script>
+        function getResults(){
+            document.getElementById("ar-results").style.visibility="visible";
+            document.getElementById("ar-resultList").style.visibility="visible";
+            document.getElementById("finalResults").style.visibility="visible";
+        }
+    </script>
+
+</body>
+</html>

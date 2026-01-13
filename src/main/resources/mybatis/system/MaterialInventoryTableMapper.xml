@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.materialInventoryInf.mapper.MaterialInventoryTableMapper">
+    
+    <resultMap type="MaterialInventoryTable" id="MaterialInventoryTableResult">
+        <result property="supplierid"    column="supplierID"    />
+        <result property="materialid"    column="materialID"    />
+        <result property="storagelocationdec"    column="storageLocationDec"    />
+        <result property="inventoryamount"    column="inventoryAmount"    />
+        <result property="inventoryid"    column="inventoryID"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectMaterialInventoryTableVo">
+        select supplierID, materialID, storageLocationDec, inventoryAmount, inventoryID, id from material_inventory_table
+    </sql>
+
+    <select id="selectMaterialInventoryTableList" parameterType="MaterialInventoryTable" resultMap="MaterialInventoryTableResult">
+        <include refid="selectMaterialInventoryTableVo"/>
+        <where>  
+            <if test="supplierid != null  and supplierid != ''"> and supplierID = #{supplierid}</if>
+            <if test="materialid != null  and materialid != ''"> and materialID = #{materialid}</if>
+            <if test="storagelocationdec != null  and storagelocationdec != ''"> and storageLocationDec = #{storagelocationdec}</if>
+            <if test="inventoryamount != null  and inventoryamount != ''"> and inventoryAmount = #{inventoryamount}</if>
+            <if test="inventoryid != null  and inventoryid != ''"> and inventoryID = #{inventoryid}</if>
+        </where>
+    </select>
+    
+    <select id="selectMaterialInventoryTableById" parameterType="Long" resultMap="MaterialInventoryTableResult">
+        <include refid="selectMaterialInventoryTableVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMaterialInventoryTable" parameterType="MaterialInventoryTable" useGeneratedKeys="true" keyProperty="id">
+        insert into material_inventory_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="supplierid != null  and supplierid != ''">supplierID,</if>
+            <if test="materialid != null  and materialid != ''">materialID,</if>
+            <if test="storagelocationdec != null  and storagelocationdec != ''">storageLocationDec,</if>
+            <if test="inventoryamount != null  and inventoryamount != ''">inventoryAmount,</if>
+            <if test="inventoryid != null  and inventoryid != ''">inventoryID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="supplierid != null  and supplierid != ''">#{supplierid},</if>
+            <if test="materialid != null  and materialid != ''">#{materialid},</if>
+            <if test="storagelocationdec != null  and storagelocationdec != ''">#{storagelocationdec},</if>
+            <if test="inventoryamount != null  and inventoryamount != ''">#{inventoryamount},</if>
+            <if test="inventoryid != null  and inventoryid != ''">#{inventoryid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMaterialInventoryTable" parameterType="MaterialInventoryTable">
+        update material_inventory_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="supplierid != null  and supplierid != ''">supplierID = #{supplierid},</if>
+            <if test="materialid != null  and materialid != ''">materialID = #{materialid},</if>
+            <if test="storagelocationdec != null  and storagelocationdec != ''">storageLocationDec = #{storagelocationdec},</if>
+            <if test="inventoryamount != null  and inventoryamount != ''">inventoryAmount = #{inventoryamount},</if>
+            <if test="inventoryid != null  and inventoryid != ''">inventoryID = #{inventoryid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMaterialInventoryTableById" parameterType="Long">
+        delete from material_inventory_table where id = #{id}
+    </delete>
+
+    <delete id="deleteMaterialInventoryTableByIds" parameterType="String">
+        delete from material_inventory_table where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="selectByInventoryid" parameterType="String" resultMap="MaterialInventoryTableResult">
+        <include refid="selectMaterialInventoryTableVo"/>
+        where inventoryid = #{inventoryid}
+    </select>
+
+    <update id="updateInventoryid" parameterType="MaterialInventoryTable">
+        update material_inventory_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="supplierid != null  and supplierid != ''">supplierID = #{supplierid},</if>
+            <if test="materialid != null  and materialid != ''">materialID = #{materialid},</if>
+            <if test="storagelocationdec != null  and storagelocationdec != ''">storageLocationDec = #{storagelocationdec},</if>
+            <if test="inventoryamount != null  and inventoryamount != ''">inventoryAmount = #{inventoryamount},</if>
+        </trim>
+        where inventoryid = #{inventoryid}
+    </update>
+
+
+</mapper>

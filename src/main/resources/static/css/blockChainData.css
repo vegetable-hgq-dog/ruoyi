@@ -1,0 +1,75 @@
+html{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+section{
+    width: 100%;
+    height: 100%;
+}
+.queryCondition{
+    width: 96%;
+    height: 8%;
+    margin-left: 2%;
+}
+.production_prediction_form{
+    width: 96%;
+    height: 90%;
+    margin-left: 2%;
+}
+
+.queryPart{
+    float: left;
+    height: 100%;
+    margin-left: 1%;
+    display: flex;
+    align-items: center;
+}
+.firmName{
+    margin-left: 2%;
+}
+
+#queryButton{
+    color: white;
+    border-color: grey;
+    background-color: #3a6cc6;
+    width: 100%;
+
+}
+
+#queryButton:hover{
+    background-color: lightskyblue;
+}
+
+.production_prediction_form_title{
+    width: 100%;
+    height: 5%;
+    background: #4472C4;
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+    color: white;
+}
+.production_prediction_form_content{
+    width: 100%;
+    height: 85%;
+    overflow-y: auto;
+}
+.form_table{
+    border: solid 1px #4472C4;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+.num{
+    width: 40px;
+}

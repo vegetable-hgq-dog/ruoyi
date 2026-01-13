@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('salevehicle列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+
+                            <li>
+                                <p>定价：</p>
+                                <input type="text" name="vehicleprice"/>
+                            </li>
+                            <li class="select-time">
+                                <p>出厂日期：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginVehiclebirthdate]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endVehiclebirthdate]"/>
+                            </li>
+                            <li>
+                                <p>生产地：</p>
+                                <input type="text" name="vehiclebirthplace"/>
+                            </li>
+                            <li>
+                                <p>车辆类型：</p>
+                                <select name="vehicletype" th:with="type=${@dict.getType('vehicle_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>车辆名称：</p>
+                                <input type="text" name="vehiclename"/>
+                            </li>
+                            <li>
+                                <p>车辆制造ID：</p>
+                                <input type="text" name="vechiclemanuid"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:salevehicle:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:salevehicle:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:salevehicle:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:salevehicle:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:salevehicle:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:salevehicle:remove')}]];
+        var vehicletypeDatas = [[${@dict.getType('vehicle_type')}]];
+        var prefix = ctx + "system/salevehicle";
+
+        $(function() {
+            var options = {
+                uniqueId: 'vehicleid',
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "salevehicle",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'vehicleprice', 
+                    title : '定价'
+                },
+                {
+                    field : 'vehiclebirthdate', 
+                    title : '出厂日期'
+                },
+                {
+                    field : 'vehiclebirthplace', 
+                    title : '生产地'
+                },
+                {
+                    field : 'vehicletype', 
+                    title : '车辆类型',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(vehicletypeDatas, value);
+                    }
+                },
+                {
+                    field : 'vehiclename', 
+                    title : '车辆名称'
+                },
+                {
+                    field : 'vechiclemanuid',
+                    title : '车辆制造ID'
+                },
+                {
+                    field : 'vehicleid', 
+                    title : '出厂编号',
+                    visible: false
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.vehicleid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.vehicleid + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.transportInf.mapper.TransportTableMapper">
+    
+    <resultMap type="TransportTable" id="TransportTableResult">
+        <result property="pickupplanid"    column="pickupPlanID"    />
+        <result property="drivername"    column="driverName"    />
+        <result property="orderid"    column="orderID"    />
+        <result property="alertstatus"    column="alertStatus"    />
+        <result property="shippingstatus"    column="shippingStatus"    />
+        <result property="dateofdelivery"    column="dateOfDelivery"    />
+        <result property="dateofmake"    column="dateOfMake"    />
+        <result property="licenseplate"    column="licensePlate"    />
+        <result property="transporttype"    column="transportType"    />
+        <result property="carriername"    column="carrierName"    />
+        <result property="transportplanid"    column="transportPlanID"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectTransportTableVo">
+        select pickupPlanID, driverName, orderID, alertStatus, shippingStatus, dateOfDelivery, dateOfMake, licensePlate, transportType, carrierName, transportPlanID, id from transport_table
+    </sql>
+
+    <select id="selectTransportTableList" parameterType="TransportTable" resultMap="TransportTableResult">
+        <include refid="selectTransportTableVo"/>
+        <where>  
+            <if test="pickupplanid != null  and pickupplanid != ''"> and pickupPlanID = #{pickupplanid}</if>
+            <if test="drivername != null  and drivername != ''"> and driverName like concat('%', #{drivername}, '%')</if>
+            <if test="orderid != null  and orderid != ''"> and orderID = #{orderid}</if>
+            <if test="alertstatus != null  and alertstatus != ''"> and alertStatus = #{alertstatus}</if>
+            <if test="shippingstatus != null  and shippingstatus != ''"> and shippingStatus = #{shippingstatus}</if>
+            <if test="dateofdelivery != null "> and dateOfDelivery = #{dateofdelivery}</if>
+            <if test="dateofmake != null "> and dateOfMake = #{dateofmake}</if>
+            <if test="licenseplate != null  and licenseplate != ''"> and licensePlate = #{licenseplate}</if>
+            <if test="transporttype != null  and transporttype != ''"> and transportType = #{transporttype}</if>
+            <if test="carriername != null  and carriername != ''"> and carrierName like concat('%', #{carriername}, '%')</if>
+            <if test="transportplanid != null  and transportplanid != ''"> and transportPlanID = #{transportplanid}</if>
+        </where>
+    </select>
+    
+    <select id="selectTransportTableById" parameterType="Long" resultMap="TransportTableResult">
+        <include refid="selectTransportTableVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTransportTable" parameterType="TransportTable" useGeneratedKeys="true" keyProperty="id">
+        insert into transport_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pickupplanid != null  and pickupplanid != ''">pickupPlanID,</if>
+            <if test="drivername != null  and drivername != ''">driverName,</if>
+            <if test="orderid != null  and orderid != ''">orderID,</if>
+            <if test="alertstatus != null  and alertstatus != ''">alertStatus,</if>
+            <if test="shippingstatus != null  and shippingstatus != ''">shippingStatus,</if>
+            <if test="dateofdelivery != null ">dateOfDelivery,</if>
+            <if test="dateofmake != null ">dateOfMake,</if>
+            <if test="licenseplate != null  and licenseplate != ''">licensePlate,</if>
+            <if test="transporttype != null  and transporttype != ''">transportType,</if>
+            <if test="carriername != null  and carriername != ''">carrierName,</if>
+            <if test="transportplanid != null  and transportplanid != ''">transportPlanID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pickupplanid != null  and pickupplanid != ''">#{pickupplanid},</if>
+            <if test="drivername != null  and drivername != ''">#{drivername},</if>
+            <if test="orderid != null  and orderid != ''">#{orderid},</if>
+            <if test="alertstatus != null  and alertstatus != ''">#{alertstatus},</if>
+            <if test="shippingstatus != null  and shippingstatus != ''">#{shippingstatus},</if>
+            <if test="dateofdelivery != null ">#{dateofdelivery},</if>
+            <if test="dateofmake != null ">#{dateofmake},</if>
+            <if test="licenseplate != null  and licenseplate != ''">#{licenseplate},</if>
+            <if test="transporttype != null  and transporttype != ''">#{transporttype},</if>
+            <if test="carriername != null  and carriername != ''">#{carriername},</if>
+            <if test="transportplanid != null  and transportplanid != ''">#{transportplanid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTransportTable" parameterType="TransportTable">
+        update transport_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pickupplanid != null  and pickupplanid != ''">pickupPlanID = #{pickupplanid},</if>
+            <if test="drivername != null  and drivername != ''">driverName = #{drivername},</if>
+            <if test="orderid != null  and orderid != ''">orderID = #{orderid},</if>
+            <if test="alertstatus != null  and alertstatus != ''">alertStatus = #{alertstatus},</if>
+            <if test="shippingstatus != null  and shippingstatus != ''">shippingStatus = #{shippingstatus},</if>
+            <if test="dateofdelivery != null ">dateOfDelivery = #{dateofdelivery},</if>
+            <if test="dateofmake != null ">dateOfMake = #{dateofmake},</if>
+            <if test="licenseplate != null  and licenseplate != ''">licensePlate = #{licenseplate},</if>
+            <if test="transporttype != null  and transporttype != ''">transportType = #{transporttype},</if>
+            <if test="carriername != null  and carriername != ''">carrierName = #{carriername},</if>
+            <if test="transportplanid != null  and transportplanid != ''">transportPlanID = #{transportplanid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTransportTableById" parameterType="Long">
+        delete from transport_table where id = #{id}
+    </delete>
+
+    <delete id="deleteTransportTableByIds" parameterType="String">
+        delete from transport_table where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="getAllTransportData" resultMap="TransportTableResult">
+        select pickupPlanID, driverName, orderID, alertStatus, shippingStatus, dateOfDelivery, dateOfMake, licensePlate, transportType, carrierName, transportPlanID, id from transport_table
+    </select>
+    
+</mapper>

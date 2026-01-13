@@ -1,0 +1,281 @@
+html{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #203864;
+}
+section{
+    width: 100%;
+    height: 100%;
+}
+.form_info{
+    float: left;
+    height: 98%;
+    width: 27%;
+
+}
+.pic_info{
+    float: left;
+    height: 98%;
+    width: 44%;
+}
+.bar_info{
+    float: left;
+    height: 98%;
+    width: 29%;
+}
+
+.inventoryBox{
+    height: 48%;
+    width: 96%;
+    margin-left: 1.5%;
+    margin-top: 2%;
+    border: 2px solid #2F5597;
+    background: #1F4E79;
+}
+.inventoryContent{
+    height: 97%;
+    width: 96%;
+    margin-left: 2%;
+    margin-top: 1%;
+    border: solid 1.5px black;
+    background: #203864;
+}
+.supplyBox{
+    height: 48%;
+    width: 96%;
+    margin-left: 1.5%;
+    margin-top: 1%;
+    border: 2px solid #2F5597;
+    background: #1F4E79;
+}
+.supplyContent{
+    height: 97%;
+    width: 96%;
+    margin-left: 2%;
+    margin-top: 1%;
+    border: solid 1.5px black;
+    background: #203864;
+}
+.inventoryContentTitle{
+    width: 100%;
+    height: 10%;
+    padding-top: 1%;
+    text-align: center;
+    font-size: medium;
+    font-weight: bold;
+    color: white;
+}
+.inventoryContentData{
+    overflow-y: auto;
+    width: 100%;
+    height: 90%;
+    margin-top: -1%;
+    background: #1F4E79;
+}
+.inventoryContentData::-webkit-scrollbar{
+    width: 8px;
+    height: 4px;
+}
+.inventoryContentData::-webkit-scrollbar-thumb{
+    border-radius: 3px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: #c7c4c4;
+}
+.inventoryContentData::-webkit-scrollbar-track{
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.2) inset;
+}
+.inventoryContentData::-webkit-scrollbar-corner{
+    background: transparent;
+}
+
+.supplyContentTitle{
+    width: 100%;
+    height: 10%;
+    padding-top: 1%;
+    text-align: center;
+    font-size: medium;
+    font-weight: bold;
+    color: white;
+}
+.supplyContentData{
+    overflow-y: auto;
+    width: 100%;
+    height: 90%;
+    margin-top: -1%;
+    background: #1F4E79;
+}
+
+.supplyContentData::-webkit-scrollbar{
+    width: 8px;
+    height: 4px;
+}
+.supplyContentData::-webkit-scrollbar-thumb{
+    border-radius: 3px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: #c7c4c4;
+}
+.supplyContentData::-webkit-scrollbar-track{
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.2) inset;
+}
+.supplyContentData::-webkit-scrollbar-corner{
+    background: transparent;
+}
+
+
+
+.staticBox{
+    height: 48%;
+    width: 98%;
+    margin-left: 0.5%;
+    margin-top: 1%;
+    border: 2px solid #2F5597;
+    background: #203864;
+}
+.mapBox{
+    height: 48%;
+    width: 98%;
+    margin-left: 0.5%;
+    margin-top: 1%;
+    border: 2px solid #2F5597;
+    background: #203864;
+}
+.orderBox1{
+    height: 48%;
+    width: 98%;
+
+    margin-top: 1.5%;
+    border: 2px solid #2F5597;
+    background: #203864;
+}
+.orderBox2{
+    height: 48%;
+    width: 98%;
+
+    margin-top: 1.5%;
+    border: 2px solid #2F5597;
+    background: #203864;
+}
+.upTwoBar{
+    width: 100%;
+    height: 50%;
+}
+.settlementBar{
+    float: left;
+    width: 50%;
+    height: 100%;
+}
+.receiptBar{
+    float: left;
+    width: 50%;
+    height: 100%;
+}
+.downOneBar{
+    width: 100%;
+    height: 50%;
+}
+
+.settlementBarTitle{
+    width: 100%;
+    height: 15%;
+    text-align: center;
+    font-size: small;
+    color: white;
+}
+#settlementBarTitle{
+    font-size: medium;
+    color: #FFD966;
+}
+
+.settlementBarData{
+    width: 100%;
+    height: 85%;
+
+}
+
+.receiptBarTitle{
+    width: 100%;
+    height: 15%;
+    text-align: center;
+    font-size: small;
+    color: white;
+}
+#receiptBarTitle{
+    font-size: medium;
+    color: #FFD966;
+}
+
+.receiptBarData{
+    width: 100%;
+    height: 85%;
+
+}
+.downOneBarTitle{
+    width: 100%;
+    height: 15%;
+    text-align: center;
+    font-size: small;
+    color: white;
+}
+#downOneBarTitle{
+    font-size: medium;
+    color: #FFD966;
+}
+.downOneBarData{
+    width: 100%;
+    height: 85%;
+
+}
+.table_data{
+    width: 100%;
+    height: 100%;
+    border-left: black solid 1.5px;
+    border-top: black solid 1.5px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    text-align: center;
+    color: white;
+    font-size: small;
+}
+.table_data th{
+    border-right: black solid 1.5px;
+    border-bottom: black solid 1.5px;
+    border-spacing: 0;
+    font-size: small;
+}
+.table_data td{
+    /*border-right: black solid 1.5px;*/
+    /*border-bottom: black solid 1.5px;*/
+    border: black solid 1.5px;
+    border-spacing: 0;
+    font-size: small;
+    word-break: break-all;
+}
+.greenState{
+    color: green;
+    font-weight: bold;
+}
+.orangeState{
+    color: orange;
+    font-weight: bold;
+}
+.redState{
+    color: red;
+    font-weight: bold;
+}
+.hasReceipted{
+    color: green;
+    font-weight: bold;
+}
+.notReceipt{
+    color: red;
+    font-weight: bold;
+}
+

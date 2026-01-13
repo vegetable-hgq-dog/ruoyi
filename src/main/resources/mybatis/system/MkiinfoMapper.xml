@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mkiinfo.mapper.MkiinfoMapper">
+    
+    <resultMap type="Mkiinfo" id="MkiinfoResult">
+        <result property="mkiid"    column="mkiID"    />
+        <result property="mkiname"    column="mkiName"    />
+        <result property="processname"    column="processName"    />
+        <result property="materialname"    column="materialName"    />
+        <result property="partname"    column="partName"    />
+        <result property="manufacturingfeaturename"    column="manufacturingFeatureName"    />
+        <result property="shapefeaturename"    column="shapeFeatureName"    />
+        <result property="ktypename"    column="KTypeName"    />
+        <result property="details"    column="details"    />
+        <result property="edittime"    column="editTime"    />
+        <result property="ktypenum"   column="ktypenum"  />
+        <result property="processnum"   column="processnum"  />
+    </resultMap>
+
+
+    <sql id="selectMkiinfoVo">
+        select mkiID, mkiName, processName, materialName, partName, manufacturingFeatureName, shapeFeatureName, KTypeName, details, editTime from mkiinfo
+    </sql>
+
+    <select id="selectMkiinfoList" parameterType="Mkiinfo" resultMap="MkiinfoResult">
+        <include refid="selectMkiinfoVo"/>
+        <where>  
+            <if test="mkiname != null  and mkiname != ''"> and mkiName like concat('%', #{mkiname}, '%')</if>
+            <if test="processname != null  and processname != ''"> and processName like concat('%', #{processname}, '%')</if>
+            <if test="materialname != null  and materialname != ''"> and materialName like concat('%', #{materialname}, '%')</if>
+            <if test="partname != null  and partname != ''"> and partName like concat('%', #{partname}, '%')</if>
+            <if test="manufacturingfeaturename != null  and manufacturingfeaturename != ''"> and manufacturingFeatureName like concat('%', #{manufacturingfeaturename}, '%')</if>
+            <if test="shapefeaturename != null  and shapefeaturename != ''"> and shapeFeatureName like concat('%', #{shapefeaturename}, '%')</if>
+            <if test="ktypename != null  and ktypename != ''"> and KTypeName like concat('%', #{ktypename}, '%')</if>
+            <if test="details != null  and details != ''"> and details = #{details}</if>
+            <if test="edittime != null "> and editTime = #{edittime}</if>
+        </where>
+    </select>
+    
+    <select id="selectMkiinfoById" parameterType="Long" resultMap="MkiinfoResult">
+        <include refid="selectMkiinfoVo"/>
+        where mkiID = #{mkiid}
+    </select>
+        
+    <insert id="insertMkiinfo" parameterType="Mkiinfo" useGeneratedKeys="true" keyProperty="mkiid">
+        insert into mkiinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mkiname != null  and mkiname != ''">mkiName,</if>
+            <if test="processname != null  and processname != ''">processName,</if>
+            <if test="materialname != null  and materialname != ''">materialName,</if>
+            <if test="partname != null  and partname != ''">partName,</if>
+            <if test="manufacturingfeaturename != null  and manufacturingfeaturename != ''">manufacturingFeatureName,</if>
+            <if test="shapefeaturename != null  and shapefeaturename != ''">shapeFeatureName,</if>
+            <if test="ktypename != null  and ktypename != ''">KTypeName,</if>
+            <if test="details != null  and details != ''">details,</if>
+            <if test="edittime != null ">editTime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mkiname != null  and mkiname != ''">#{mkiname},</if>
+            <if test="processname != null  and processname != ''">#{processname},</if>
+            <if test="materialname != null  and materialname != ''">#{materialname},</if>
+            <if test="partname != null  and partname != ''">#{partname},</if>
+            <if test="manufacturingfeaturename != null  and manufacturingfeaturename != ''">#{manufacturingfeaturename},</if>
+            <if test="shapefeaturename != null  and shapefeaturename != ''">#{shapefeaturename},</if>
+            <if test="ktypename != null  and ktypename != ''">#{ktypename},</if>
+            <if test="details != null  and details != ''">#{details},</if>
+            <if test="edittime != null ">#{edittime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMkiinfo" parameterType="Mkiinfo">
+        update mkiinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mkiname != null  and mkiname != ''">mkiName = #{mkiname},</if>
+            <if test="processname != null  and processname != ''">processName = #{processname},</if>
+            <if test="materialname != null  and materialname != ''">materialName = #{materialname},</if>
+            <if test="partname != null  and partname != ''">partName = #{partname},</if>
+            <if test="manufacturingfeaturename != null  and manufacturingfeaturename != ''">manufacturingFeatureName = #{manufacturingfeaturename},</if>
+            <if test="shapefeaturename != null  and shapefeaturename != ''">shapeFeatureName = #{shapefeaturename},</if>
+            <if test="ktypename != null  and ktypename != ''">KTypeName = #{ktypename},</if>
+            <if test="details != null  and details != ''">details = #{details},</if>
+            <if test="edittime != null ">editTime = #{edittime},</if>
+        </trim>
+        where mkiID = #{mkiid}
+    </update>
+
+    <delete id="deleteMkiinfoById" parameterType="Long">
+        delete from mkiinfo where mkiID = #{mkiid}
+    </delete>
+
+    <delete id="deleteMkiinfoByIds" parameterType="String">
+        delete from mkiinfo where mkiID in 
+        <foreach item="mkiid" collection="array" open="(" separator="," close=")">
+            #{mkiid}
+        </foreach>
+    </delete>
+
+
+    <select id="selectMkiinfo"  resultMap="MkiinfoResult">
+        select * from mkiinfo
+    </select>
+
+
+    <select id="checkKTypeNum"  statementType="CALLABLE" resultMap="MkiinfoResult" useCache="false">
+        {
+call ktypenum()
+        }
+    </select>
+
+
+    <select id="checkProcessNum"  statementType="CALLABLE" resultMap="MkiinfoResult" useCache="false">
+        {
+            call processnum()
+            }
+    </select>
+
+</mapper>

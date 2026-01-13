@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.supplyInf.mapper.SupplyTableMapper">
+    
+    <resultMap type="SupplyTable" id="SupplyTableResult">
+        <result property="orderid"    column="orderID"    />
+        <result property="receiptstatus"    column="receiptStatus"    />
+        <result property="materialid"    column="materialID"    />
+        <result property="suppliername"    column="supplierName"    />
+        <result property="supplierid"    column="supplierID"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectSupplyTableVo">
+        select orderID, receiptStatus, materialID, supplierName, supplierID, id from supply_table
+    </sql>
+
+    <select id="selectSupplyTableList" parameterType="SupplyTable" resultMap="SupplyTableResult">
+        <include refid="selectSupplyTableVo"/>
+        <where>  
+            <if test="orderid != null  and orderid != ''"> and orderID = #{orderid}</if>
+            <if test="receiptstatus != null  and receiptstatus != ''"> and receiptStatus = #{receiptstatus}</if>
+            <if test="materialid != null  and materialid != ''"> and materialID = #{materialid}</if>
+            <if test="suppliername != null  and suppliername != ''"> and supplierName like concat('%', #{suppliername}, '%')</if>
+            <if test="supplierid != null  and supplierid != ''"> and supplierID = #{supplierid}</if>
+        </where>
+    </select>
+    
+    <select id="selectSupplyTableById" parameterType="Long" resultMap="SupplyTableResult">
+        <include refid="selectSupplyTableVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSupplyTable" parameterType="SupplyTable" useGeneratedKeys="true" keyProperty="id">
+        insert into supply_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderid != null  and orderid != ''">orderID,</if>
+            <if test="receiptstatus != null  and receiptstatus != ''">receiptStatus,</if>
+            <if test="materialid != null  and materialid != ''">materialID,</if>
+            <if test="suppliername != null  and suppliername != ''">supplierName,</if>
+            <if test="supplierid != null  and supplierid != ''">supplierID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderid != null  and orderid != ''">#{orderid},</if>
+            <if test="receiptstatus != null  and receiptstatus != ''">#{receiptstatus},</if>
+            <if test="materialid != null  and materialid != ''">#{materialid},</if>
+            <if test="suppliername != null  and suppliername != ''">#{suppliername},</if>
+            <if test="supplierid != null  and supplierid != ''">#{supplierid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSupplyTable" parameterType="SupplyTable">
+        update supply_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderid != null  and orderid != ''">orderID = #{orderid},</if>
+            <if test="receiptstatus != null  and receiptstatus != ''">receiptStatus = #{receiptstatus},</if>
+            <if test="materialid != null  and materialid != ''">materialID = #{materialid},</if>
+            <if test="suppliername != null  and suppliername != ''">supplierName = #{suppliername},</if>
+            <if test="supplierid != null  and supplierid != ''">supplierID = #{supplierid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSupplyTableById" parameterType="Long">
+        delete from supply_table where id = #{id}
+    </delete>
+
+    <delete id="deleteSupplyTableByIds" parameterType="String">
+        delete from supply_table where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="getAllSupplyData" resultMap="SupplyTableResult">
+        select orderID, receiptStatus, materialID, supplierName, supplierID, id from supply_table
+    </select>
+</mapper>

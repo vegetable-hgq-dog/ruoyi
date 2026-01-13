@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.manufacture.robotAlert.mapper.OdsMb050ExterrorRdsVDiMapper">
+    
+    <resultMap type="OdsMb050ExterrorRdsVDi" id="OdsMb050ExterrorRdsVDiResult">
+        <result property="etltime"    column="etltime"    />
+        <result property="servodyndvstateTxt"    column="servodyndvstate_txt"    />
+        <result property="servodyndvstate"    column="servodyndvstate"    />
+        <result property="iserrorTxt"    column="iserror_txt"    />
+        <result property="iserror"    column="iserror"    />
+        <result property="errorcode2Txt"    column="errorcode2_txt"    />
+        <result property="errorcode2"    column="errorcode2"    />
+        <result property="errorcode1Txt"    column="errorcode1_txt"    />
+        <result property="errorcode1"    column="errorcode1"    />
+        <result property="timername"    column="timername"    />
+        <result property="datetime"    column="datetime"    />
+        <result property="protrecordId"    column="protrecord_id"    />
+        <result property="autoid"    column="autoID"    />
+    </resultMap>
+
+    <sql id="selectOdsMb050ExterrorRdsVDiVo">
+        select etltime, servodyndvstate_txt, servodyndvstate, iserror_txt, iserror, errorcode2_txt, errorcode2, errorcode1_txt, errorcode1, timername, datetime, protrecord_id, autoID from ods_mb050_exterror_rds_v_di
+    </sql>
+
+    <select id="selectOdsMb050ExterrorRdsVDiList" parameterType="OdsMb050ExterrorRdsVDi" resultMap="OdsMb050ExterrorRdsVDiResult">
+        <include refid="selectOdsMb050ExterrorRdsVDiVo"/>
+        <where>  
+            <if test="errorcode1Txt != null  and errorcode1Txt != ''"> and errorcode1_txt like concat('%', #{errorcode1Txt}, '%')</if>
+            <if test="errorcode1 != null "> and errorcode1 = #{errorcode1}</if>
+            <if test="timername != null  and timername != ''"> and timername like concat('%', #{timername}, '%')</if>
+            <if test="datetime != null "> and datetime = #{datetime}</if>
+        </where>
+    </select>
+    
+    <select id="selectOdsMb050ExterrorRdsVDiById" parameterType="Long" resultMap="OdsMb050ExterrorRdsVDiResult">
+        <include refid="selectOdsMb050ExterrorRdsVDiVo"/>
+        where autoID = #{autoid}
+    </select>
+        
+    <insert id="insertOdsMb050ExterrorRdsVDi" parameterType="OdsMb050ExterrorRdsVDi" useGeneratedKeys="true" keyProperty="autoid">
+        insert into ods_mb050_exterror_rds_v_di
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="etltime != null ">etltime,</if>
+            <if test="servodyndvstateTxt != null  and servodyndvstateTxt != ''">servodyndvstate_txt,</if>
+            <if test="servodyndvstate != null ">servodyndvstate,</if>
+            <if test="iserrorTxt != null  and iserrorTxt != ''">iserror_txt,</if>
+            <if test="iserror != null ">iserror,</if>
+            <if test="errorcode2Txt != null  and errorcode2Txt != ''">errorcode2_txt,</if>
+            <if test="errorcode2 != null ">errorcode2,</if>
+            <if test="errorcode1Txt != null  and errorcode1Txt != ''">errorcode1_txt,</if>
+            <if test="errorcode1 != null ">errorcode1,</if>
+            <if test="timername != null  and timername != ''">timername,</if>
+            <if test="datetime != null ">datetime,</if>
+            <if test="protrecordId != null ">protrecord_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="etltime != null ">#{etltime},</if>
+            <if test="servodyndvstateTxt != null  and servodyndvstateTxt != ''">#{servodyndvstateTxt},</if>
+            <if test="servodyndvstate != null ">#{servodyndvstate},</if>
+            <if test="iserrorTxt != null  and iserrorTxt != ''">#{iserrorTxt},</if>
+            <if test="iserror != null ">#{iserror},</if>
+            <if test="errorcode2Txt != null  and errorcode2Txt != ''">#{errorcode2Txt},</if>
+            <if test="errorcode2 != null ">#{errorcode2},</if>
+            <if test="errorcode1Txt != null  and errorcode1Txt != ''">#{errorcode1Txt},</if>
+            <if test="errorcode1 != null ">#{errorcode1},</if>
+            <if test="timername != null  and timername != ''">#{timername},</if>
+            <if test="datetime != null ">#{datetime},</if>
+            <if test="protrecordId != null ">#{protrecordId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOdsMb050ExterrorRdsVDi" parameterType="OdsMb050ExterrorRdsVDi">
+        update ods_mb050_exterror_rds_v_di
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="etltime != null ">etltime = #{etltime},</if>
+            <if test="servodyndvstateTxt != null  and servodyndvstateTxt != ''">servodyndvstate_txt = #{servodyndvstateTxt},</if>
+            <if test="servodyndvstate != null ">servodyndvstate = #{servodyndvstate},</if>
+            <if test="iserrorTxt != null  and iserrorTxt != ''">iserror_txt = #{iserrorTxt},</if>
+            <if test="iserror != null ">iserror = #{iserror},</if>
+            <if test="errorcode2Txt != null  and errorcode2Txt != ''">errorcode2_txt = #{errorcode2Txt},</if>
+            <if test="errorcode2 != null ">errorcode2 = #{errorcode2},</if>
+            <if test="errorcode1Txt != null  and errorcode1Txt != ''">errorcode1_txt = #{errorcode1Txt},</if>
+            <if test="errorcode1 != null ">errorcode1 = #{errorcode1},</if>
+            <if test="timername != null  and timername != ''">timername = #{timername},</if>
+            <if test="datetime != null ">datetime = #{datetime},</if>
+            <if test="protrecordId != null ">protrecord_id = #{protrecordId},</if>
+        </trim>
+        where autoID = #{autoid}
+    </update>
+
+    <delete id="deleteOdsMb050ExterrorRdsVDiById" parameterType="Long">
+        delete from ods_mb050_exterror_rds_v_di where autoID = #{autoid}
+    </delete>
+
+    <delete id="deleteOdsMb050ExterrorRdsVDiByIds" parameterType="String">
+        delete from ods_mb050_exterror_rds_v_di where autoID in 
+        <foreach item="autoid" collection="array" open="(" separator="," close=")">
+            #{autoid}
+        </foreach>
+    </delete>
+    
+</mapper>

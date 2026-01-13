@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增serviceorder')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-serviceorder-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">中心ID：</label>
+                <div class="col-sm-8">
+<!--                    <input name="centerid" class="form-control" type="text" required>-->
+                    <select id="centerid" name="centerid" class="form-control" required>
+                        <option th:each="center : ${centerIdInfo}" th:text="${center.centerid}" th:value="${center.centerid}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">顾客电话：</label>
+                <div class="col-sm-8">
+                    <input name="customerphone" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">顾客姓名：</label>
+                <div class="col-sm-8">
+                    <input name="customername" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">车辆编号：</label>
+                <div class="col-sm-8">
+<!--                    <input name="vehicleid" class="form-control" type="text" required>-->
+                    <select id="vehicleid" name="vehicleid" class="form-control" required>
+                        <option th:each="vehicle : ${vehicleIdInfo}" th:text="${vehicle.vehicleid}" th:value="${vehicle.vehicleid}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">订单日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="serviceorderdate" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">故障原因：</label>
+                <div class="col-sm-8">
+                    <input name="faultreason" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">故障部位：</label>
+                <div class="col-sm-8">
+                    <input name="faultlocation" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">故障类型：</label>
+                <div class="col-sm-8">
+                    <select name="faulttype" class="form-control m-b" th:with="type=${@dict.getType('fault_type')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/serviceorder"
+        $("#form-serviceorder-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-serviceorder-add').serialize());
+            }
+        }
+
+        $("input[name='serviceorderdate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

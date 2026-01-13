@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--360浏览器优先以webkit内核解析-->
+  <title>设计数据可视化</title>
+<!--  <link rel="shortcut icon" href="favicon.ico">-->
+<!--  <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>-->
+<!--  <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>-->
+<!--  <link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>-->
+<!--  <link href="../static/css/main/style.min862f.css" th:href="@{/css/main/style.min862f.css}" rel="stylesheet"/>-->
+  <link rel="stylesheet" type="text/css" href="/css/datashow.css">
+</head>
+
+<body class="gray-bg"  >
+<div class="row1">
+  <div id="or1" class="col-sm-6" style="height: 250px;width: 450px"></div>
+  <div id="or2" class="col-sm-6" style="height: 300px;width: 650px"></div>
+  <div id="or3" class="col-sm-6" style="height: 300px;width: 650px"></div>
+
+</div>
+
+
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script th:src="@{/echarts/echarts.min.js}"></script>
+<!--<script th:inline="javascript"> var ctx = [[@{/}]]; var lockscreen = [[${session.lockscreen}]]; if(lockscreen){window.top.location=ctx+"lockscreen";} </script>-->
+<script type="text/javascript">
+
+
+  $.ajax({
+    url:"/data/ordertest.json",
+    type:"GET",
+    dateType:"json",
+    success:function (dat){
+      console.log(dat.RECORDS[0].orderID)
+      var myChart = echarts.init(document.getElementById('or2'));
+
+      console.log(dat)
+
+      var option = {
+        color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // Use axis to trigger tooltip
+            type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
+          }
+        },
+        legend: {
+          textStyle:{
+            color: '#ffffff'
+          }
+
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: {
+          axisLine:{
+            lineStyle:{
+              //修改x坐标轴颜色
+              color:'#ffffff'
+            }
+          },
+          type: 'value'
+
+        },
+        yAxis: {
+          axisLine:{
+            lineStyle:{
+              //修改y坐标轴颜色
+              color:'#ffffff'
+            }
+          },
+          type: 'category',
+          data: ['订单'+dat.RECORDS[0].orderID, '订单'+dat.RECORDS[1].orderID]
+        },
+        series: [
+          {
+            name: '计划数量',
+            type: 'bar',
+            stack: 'total',
+            label: {
+              show: true
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: [dat.RECORDS[0].planUseAmount,dat.RECORDS[1].planUseAmount]
+          },
+          {
+            name: '已用数量',
+            type: 'bar',
+            stack: 'total',
+            label: {
+              show: true
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: [dat.RECORDS[0].hasUsedAmount,dat.RECORDS[1].hasUsedAmount]
+          }
+        ]
+      };
+      myChart.setOption(option);
+    }
+  });
+  $.when(
+          $.getJSON('/data/order_table.json')
+          // $.getJSON(ctx+'system/goods/getCtn')
+  ).done(function (dta1) {
+    var myChart = echarts.init(document.getElementById('or1'));
+
+    console.log(dta1)
+
+    var option = {
+      // title: {
+      //     text: '总销量、总金额'+'\n'+'总计: '+dta2[0]
+      // },
+      tooltip: {},
+      legend: {
+        data: ['总销量', '总金额(元)'],
+        verticalAlign: 'middle',
+        layout: 'vertical'
+      },
+      xAxis: {
+        data: ["a","b"]
+      },
+      yAxis: {},
+      series: [{
+        name: '总销量',
+        type: 'bar',
+        data: [1,2]
+      }, {
+        name: '总金额(元)',
+        type: 'bar',
+        data: [3,4]
+      }
+      ]
+    };
+    myChart.setOption(option);
+  });
+
+
+
+  $.when(
+          $.getJSON('/system/orderInf/allData')
+          // $.getJSON('/data/order_table.json')
+  ).done(function (d){
+    var myChart = echarts.init(document.getElementById('or3'));
+
+console.log(d[0].orderdeliverystate)
+    var option = {
+      // title: {
+      //     text: '总销量、总金额'+'\n'+'总计: '+dta2[0]
+      // },
+      tooltip: {},
+      legend: {
+        data: ['总销量', '总金额(元)'],
+        verticalAlign: 'middle',
+        layout: 'vertical'
+      },
+      xAxis: {
+        data: [d[0].orderid,d[1].orderid],
+      },
+      yAxis: {},
+      series: [{
+        name: '总销量',
+        type: 'bar',
+        data: [1,2]
+      }, {
+        name: '总金额(元)',
+        type: 'bar',
+        data: [8,5]
+      }
+      ]
+    };
+    myChart.setOption(option);
+  });
+</script>
+
+</body>
+</html>

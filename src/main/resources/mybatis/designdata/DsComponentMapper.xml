@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.data.designdata.component.mapper.DsComponentMapper">
+    
+    <resultMap type="DsComponent" id="DsComponentResult">
+        <result property="componentid"    column="componentID"    />
+        <result property="componentfatherid"    column="componentFatherID"    />
+        <result property="componentname"    column="componentName"    />
+        <result property="componentlevel"    column="componentLevel"    />
+        <result property="componentmodel"    column="componentModel"    />
+        <result property="componentstandard"    column="componentStandard"    />
+        <result property="componenttype"    column="componentType"    />
+        <result property="materialid"    column="materialID"    />
+        <result property="parentName" column="parent_name" />
+    </resultMap>
+
+    <sql id="selectDsComponentVo">
+        select componentID, componentFatherID, componentName, componentLevel, componentModel, componentStandard, componentType, materialID from ds_component
+    </sql>
+
+    <select id="selectDsComponentList" parameterType="DsComponent" resultMap="DsComponentResult">
+        <include refid="selectDsComponentVo"/>
+        <where>  
+            <if test="componentname != null  and componentname != ''"> and componentName like concat('%', #{componentname}, '%')</if>
+            <if test="componentlevel != null  and componentlevel != ''"> and componentLevel = #{componentlevel}</if>
+            <if test="componenttype != null  and componenttype != ''"> and componentType = #{componenttype}</if>
+        </where>
+        order by componentFatherID
+    </select>
+    
+    <select id="selectDsComponentById" parameterType="Long" resultMap="DsComponentResult">
+        select t.componentID, t.componentFatherID, t.componentName, t.componentLevel, t.componentModel, t.componentStandard, t.componentType, t.materialID, p.componentName as parent_name
+        from ds_component t
+        left join ds_component p on p.componentID = t.componentFatherID
+        where t.componentID = #{componentid}
+    </select>
+        
+    <insert id="insertDsComponent" parameterType="DsComponent" useGeneratedKeys="true" keyProperty="componentid">
+        insert into ds_component
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="componentfatherid != null ">componentFatherID,</if>
+            <if test="componentname != null  and componentname != ''">componentName,</if>
+            <if test="componentlevel != null  and componentlevel != ''">componentLevel,</if>
+            <if test="componentmodel != null  and componentmodel != ''">componentModel,</if>
+            <if test="componentstandard != null  and componentstandard != ''">componentStandard,</if>
+            <if test="componenttype != null  and componenttype != ''">componentType,</if>
+            <if test="materialid != null ">materialID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="componentfatherid != null ">#{componentfatherid},</if>
+            <if test="componentname != null  and componentname != ''">#{componentname},</if>
+            <if test="componentlevel != null  and componentlevel != ''">#{componentlevel},</if>
+            <if test="componentmodel != null  and componentmodel != ''">#{componentmodel},</if>
+            <if test="componentstandard != null  and componentstandard != ''">#{componentstandard},</if>
+            <if test="componenttype != null  and componenttype != ''">#{componenttype},</if>
+            <if test="materialid != null ">#{materialid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsComponent" parameterType="DsComponent">
+        update ds_component
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="componentfatherid != null ">componentFatherID = #{componentfatherid},</if>
+            <if test="componentname != null  and componentname != ''">componentName = #{componentname},</if>
+            <if test="componentlevel != null  and componentlevel != ''">componentLevel = #{componentlevel},</if>
+            <if test="componentmodel != null  and componentmodel != ''">componentModel = #{componentmodel},</if>
+            <if test="componentstandard != null  and componentstandard != ''">componentStandard = #{componentstandard},</if>
+            <if test="componenttype != null  and componenttype != ''">componentType = #{componenttype},</if>
+            <if test="materialid != null ">materialID = #{materialid},</if>
+        </trim>
+        where componentID = #{componentid}
+    </update>
+
+    <delete id="deleteDsComponentById" parameterType="Long">
+        delete from ds_component where componentID = #{componentid}
+    </delete>
+
+    <delete id="deleteDsComponentByIds" parameterType="String">
+        delete from ds_component where componentID in 
+        <foreach item="componentid" collection="array" open="(" separator="," close=")">
+            #{componentid}
+        </foreach>
+    </delete>
+    
+</mapper>

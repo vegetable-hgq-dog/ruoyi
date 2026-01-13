@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.material.mapper.DsMaterialMapper">
+    
+    <resultMap type="DsMaterial" id="DsMaterialResult">
+        <result property="materialid"    column="materialID"    />
+        <result property="materialname"    column="materialName"    />
+        <result property="materialtype"    column="materialType"    />
+    </resultMap>
+
+    <sql id="selectDsMaterialVo">
+        select materialID, materialName, materialType from ds_material
+    </sql>
+
+    <select id="selectDsMaterialList" parameterType="DsMaterial" resultMap="DsMaterialResult">
+        <include refid="selectDsMaterialVo"/>
+        <where>  
+            <if test="materialname != null  and materialname != ''"> and materialName like concat('%', #{materialname}, '%')</if>
+            <if test="materialtype != null  and materialtype != ''"> and materialType = #{materialtype}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsMaterialById" parameterType="Long" resultMap="DsMaterialResult">
+        <include refid="selectDsMaterialVo"/>
+        where materialID = #{materialid}
+    </select>
+        
+    <insert id="insertDsMaterial" parameterType="DsMaterial" useGeneratedKeys="true" keyProperty="materialid">
+        insert into ds_material
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="materialname != null  and materialname != ''">materialName,</if>
+            <if test="materialtype != null  and materialtype != ''">materialType,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="materialname != null  and materialname != ''">#{materialname},</if>
+            <if test="materialtype != null  and materialtype != ''">#{materialtype},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsMaterial" parameterType="DsMaterial">
+        update ds_material
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="materialname != null  and materialname != ''">materialName = #{materialname},</if>
+            <if test="materialtype != null  and materialtype != ''">materialType = #{materialtype},</if>
+        </trim>
+        where materialID = #{materialid}
+    </update>
+
+    <delete id="deleteDsMaterialById" parameterType="Long">
+        delete from ds_material where materialID = #{materialid}
+    </delete>
+
+    <delete id="deleteDsMaterialByIds" parameterType="String">
+        delete from ds_material where materialID in 
+        <foreach item="materialid" collection="array" open="(" separator="," close=")">
+            #{materialid}
+        </foreach>
+    </delete>
+    
+</mapper>

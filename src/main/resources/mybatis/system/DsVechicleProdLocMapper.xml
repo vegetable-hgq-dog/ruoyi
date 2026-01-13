@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.vechicle.mapper.DsVechicleProdLocMapper">
+    
+    <resultMap type="DsVechicleProdLoc" id="DsVechicleProdLocResult">
+        <result property="id"    column="ID"    />
+        <result property="vechicleid"    column="vechicleID"    />
+        <result property="stationid"    column="stationID"    />
+        <result property="manupartsnumber"    column="manupartsNumber"    />
+        <result property="vechicletypeid"    column="vechicletypeID"    />
+        <result property="starttime"    column="starttime"    />
+        <result property="endtime"    column="endtime"    />
+        <result property="processname"    column="processName"    />
+        <result property="processquality"    column="processQuality"    />
+    </resultMap>
+
+    <sql id="selectDsVechicleProdLocVo">
+        select ID, vechicleID, stationID, manupartsNumber, vechicletypeID, starttime, endtime, processName, processQuality from ds_vechicle_prod_loc
+    </sql>
+
+    <select id="selectDsVechicleProdLocList" parameterType="DsVechicleProdLoc" resultMap="DsVechicleProdLocResult">
+        <include refid="selectDsVechicleProdLocVo"/>
+        <where>  
+            <if test="vechicleid != null  and vechicleid != ''"> and vechicleID = #{vechicleid}</if>
+            <if test="stationid != null "> and stationID = #{stationid}</if>
+            <if test="manupartsnumber != null  and manupartsnumber != ''"> and manupartsNumber = #{manupartsnumber}</if>
+            <if test="vechicletypeid != null "> and vechicletypeID = #{vechicletypeid}</if>
+            <if test="processname != null  and processname != ''"> and processName like concat('%', #{processname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDsVechicleProdLocById" parameterType="Long" resultMap="DsVechicleProdLocResult">
+        <include refid="selectDsVechicleProdLocVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertDsVechicleProdLoc" parameterType="DsVechicleProdLoc">
+        insert into ds_vechicle_prod_loc
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">ID,</if>
+            <if test="vechicleid != null  and vechicleid != ''">vechicleID,</if>
+            <if test="stationid != null ">stationID,</if>
+            <if test="manupartsnumber != null  and manupartsnumber != ''">manupartsNumber,</if>
+            <if test="vechicletypeid != null ">vechicletypeID,</if>
+            <if test="starttime != null ">starttime,</if>
+            <if test="endtime != null ">endtime,</if>
+            <if test="processname != null  and processname != ''">processName,</if>
+            <if test="processquality != null  and processquality != ''">processQuality,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="vechicleid != null  and vechicleid != ''">#{vechicleid},</if>
+            <if test="stationid != null ">#{stationid},</if>
+            <if test="manupartsnumber != null  and manupartsnumber != ''">#{manupartsnumber},</if>
+            <if test="vechicletypeid != null ">#{vechicletypeid},</if>
+            <if test="starttime != null ">#{starttime},</if>
+            <if test="endtime != null ">#{endtime},</if>
+            <if test="processname != null  and processname != ''">#{processname},</if>
+            <if test="processquality != null  and processquality != ''">#{processquality},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsVechicleProdLoc" parameterType="DsVechicleProdLoc">
+        update ds_vechicle_prod_loc
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vechicleid != null  and vechicleid != ''">vechicleID = #{vechicleid},</if>
+            <if test="stationid != null ">stationID = #{stationid},</if>
+            <if test="manupartsnumber != null  and manupartsnumber != ''">manupartsNumber = #{manupartsnumber},</if>
+            <if test="vechicletypeid != null ">vechicletypeID = #{vechicletypeid},</if>
+            <if test="starttime != null ">starttime = #{starttime},</if>
+            <if test="endtime != null ">endtime = #{endtime},</if>
+            <if test="processname != null  and processname != ''">processName = #{processname},</if>
+            <if test="processquality != null  and processquality != ''">processQuality = #{processquality},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteDsVechicleProdLocById" parameterType="Long">
+        delete from ds_vechicle_prod_loc where ID = #{id}
+    </delete>
+
+    <delete id="deleteDsVechicleProdLocByIds" parameterType="String">
+        delete from ds_vechicle_prod_loc where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

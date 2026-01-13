@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/blockChainData.css">
+</head>
+<body>
+    <section>
+        <div class="queryCondition">
+            <div class="queryPart firmName">企业名称：
+                <input id="firmName" type="text">
+            </div>
+            <div class="queryPart materialName">物料编号：
+                <input id="materialName" type="text">
+            </div>
+<!--            <div class="queryPart startDate">开始日期（去掉）:<input id="startDate" type="datetime-local"></div>-->
+<!--            <div class="queryPart endDate">结束日期（去掉）:<input id="endDate" type="datetime-local"></div>-->
+            <div class="queryPart ">
+                <button id="queryButton" type="button">查询</button>
+            </div>
+        </div>
+        <div class="production_prediction_form">
+            <div class="production_prediction_form_title">企业生产数据</div>
+            <div class="production_prediction_form_content" id="production_prediction_form_content">
+                <table class="form_table">
+                    <tr>
+                        <th class="num">序号</th>
+                        <th>企业名称</th>
+                        <th>产品编号</th>
+                        <th>计划交期剩余</th>
+                        <th>库存量</th>
+                        <th>设备维修时间</th>
+                        <th>运输时间</th>
+                        <th>换线时间</th>
+                        <th>需求量</th>
+                    </tr>
+                    <tr class="form_table_detail">
+                        <td class="num">1</td>
+                        <td>G</td>
+                        <td>8891389963G51</td>
+                        <td>12</td>
+                        <td>57110</td>
+                        <td>2</td>
+                        <td>2.4</td>
+                        <td>5.5</td>
+                        <td>145000</td>
+                    </tr>
+                    <tr class="form_table_detail">
+                        <td class="num">2</td>
+                        <td>haili</td>
+                        <td>HNJ002346</td>
+                        <td>10.2</td>
+                        <td>1500</td>
+                        <td>2</td>
+                        <td>3.5</td>
+                        <td>0</td>
+                        <td>30000</td>
+                    </tr>
+                    <tr class="form_table_detail">
+                        <td class="num">3</td>
+                        <td>sanling</td>
+                        <td>66523GF12</td>
+                        <td>8.6</td>
+                        <td>4500</td>
+                        <td>2.2</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>16000</td>
+                    </tr>
+                    <tr class="form_table_detail">
+                        <td class="num">4</td>
+                        <td>sanhua</td>
+                        <td>389S3G51</td>
+                        <td>12</td>
+                        <td>23000</td>
+                        <td>1.3</td>
+                        <td>4.4</td>
+                        <td>0</td>
+                        <td>156000</td>
+                    </tr>
+                    <tr class="form_table_detail">
+                        <td class="num">5</td>
+                        <td>rifeng</td>
+                        <td>FG888951</td>
+                        <td>12</td>
+                        <td>1200</td>
+                        <td>2.1</td>
+                        <td>3</td>
+                        <td>0</td>
+                        <td>25000</td>
+                    </tr>
+                    <tr class="form_table_detail">
+                        <td class="num">6</td>
+                        <td>hongtai</td>
+                        <td>ZX00051</td>
+                        <td>12</td>
+                        <td>2300</td>
+                        <td>1.9</td>
+                        <td>2.7</td>
+                        <td>0</td>
+                        <td>102000</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

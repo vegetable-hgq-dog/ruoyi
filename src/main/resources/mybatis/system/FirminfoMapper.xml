@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.firminfo.mapper.FirminfoMapper">
+    
+    <resultMap type="Firminfo" id="FirminfoResult">
+        <result property="productlayer"    column="productLayer"    />
+        <result property="targetfirm"    column="targetFirm"    />
+        <result property="offerproduct"    column="offerProduct"    />
+        <result property="firmname"    column="firmName"    />
+        <result property="firmId"    column="ID"    />
+    </resultMap>
+
+    <sql id="selectFirminfoVo">
+        select productLayer, targetFirm, offerProduct, firmName, ID from firminfo
+    </sql>
+
+    <select id="selectFirminfoList" parameterType="Firminfo" resultMap="FirminfoResult">
+        <include refid="selectFirminfoVo"/>
+        <where>  
+            <if test="productlayer != null "> and productLayer = #{productlayer}</if>
+            <if test="targetfirm != null  and targetfirm != ''"> and targetFirm = #{targetfirm}</if>
+            <if test="offerproduct != null  and offerproduct != ''"> and offerProduct = #{offerproduct}</if>
+            <if test="firmname != null  and firmname != ''"> and firmName like concat('%', #{firmname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectFirminfoById" parameterType="Long" resultMap="FirminfoResult">
+        <include refid="selectFirminfoVo"/>
+        where ID = #{firmId}
+    </select>
+        
+    <insert id="insertFirminfo" parameterType="Firminfo" useGeneratedKeys="true" keyProperty="firmId">
+        insert into firminfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productlayer != null ">productLayer,</if>
+            <if test="targetfirm != null  and targetfirm != ''">targetFirm,</if>
+            <if test="offerproduct != null  and offerproduct != ''">offerProduct,</if>
+            <if test="firmname != null  and firmname != ''">firmName,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productlayer != null ">#{productlayer},</if>
+            <if test="targetfirm != null  and targetfirm != ''">#{targetfirm},</if>
+            <if test="offerproduct != null  and offerproduct != ''">#{offerproduct},</if>
+            <if test="firmname != null  and firmname != ''">#{firmname},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFirminfo" parameterType="Firminfo">
+        update firminfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productlayer != null ">productLayer = #{productlayer},</if>
+            <if test="targetfirm != null  and targetfirm != ''">targetFirm = #{targetfirm},</if>
+            <if test="offerproduct != null  and offerproduct != ''">offerProduct = #{offerproduct},</if>
+            <if test="firmname != null  and firmname != ''">firmName = #{firmname},</if>
+        </trim>
+        where ID = #{firmId}
+    </update>
+
+    <delete id="deleteFirminfoById" parameterType="Long">
+        delete from firminfo where ID = #{firmId}
+    </delete>
+
+    <delete id="deleteFirminfoByIds" parameterType="String">
+        delete from firminfo where ID in 
+        <foreach item="firmId" collection="array" open="(" separator="," close=")">
+            #{firmId}
+        </foreach>
+    </delete>
+
+
+    <select id="selectFirmInfos"  resultMap="FirminfoResult">
+        select * from firminfo
+    </select>
+
+    <select id="getLayers"  resultMap="FirminfoResult">
+        select distinct productLayer from firminfo
+    </select>
+
+
+</mapper>

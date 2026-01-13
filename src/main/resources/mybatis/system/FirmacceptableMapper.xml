@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.firmacceptable.mapper.FirmacceptableMapper">
+    
+    <resultMap type="Firmacceptable" id="FirmacceptableResult">
+        <result property="acceptablechange"    column="acceptableChange"    />
+        <result property="firmname"    column="firmName"    />
+        <result property="id"    column="ID"    />
+    </resultMap>
+
+    <sql id="selectFirmacceptableVo">
+        select acceptableChange, firmName, ID from firmacceptable
+    </sql>
+
+    <select id="selectFirmacceptableList" parameterType="Firmacceptable" resultMap="FirmacceptableResult">
+        <include refid="selectFirmacceptableVo"/>
+        <where>  
+            <if test="acceptablechange != null "> and acceptableChange = #{acceptablechange}</if>
+            <if test="firmname != null  and firmname != ''"> and firmName like concat('%', #{firmname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectFirmacceptableById" parameterType="Long" resultMap="FirmacceptableResult">
+        <include refid="selectFirmacceptableVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertFirmacceptable" parameterType="Firmacceptable" useGeneratedKeys="true" keyProperty="id">
+        insert into firmacceptable
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="acceptablechange != null ">acceptableChange,</if>
+            <if test="firmname != null  and firmname != ''">firmName,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="acceptablechange != null ">#{acceptablechange},</if>
+            <if test="firmname != null  and firmname != ''">#{firmname},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFirmacceptable" parameterType="Firmacceptable">
+        update firmacceptable
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="acceptablechange != null ">acceptableChange = #{acceptablechange},</if>
+            <if test="firmname != null  and firmname != ''">firmName = #{firmname},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteFirmacceptableById" parameterType="Long">
+        delete from firmacceptable where ID = #{id}
+    </delete>
+
+    <delete id="deleteFirmacceptableByIds" parameterType="String">
+        delete from firmacceptable where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getAcceptable"  resultMap="FirmacceptableResult">
+        select * from firmacceptable
+    </select>
+    
+</mapper>

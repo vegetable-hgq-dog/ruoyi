@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.firmallocationstates.mapper.FirmallocationstatesMapper">
+    
+    <resultMap type="Firmallocationstates" id="FirmallocationstatesResult">
+        <result property="offerproduct"    column="offerProduct"    />
+        <result property="allocations"    column="allocations"    />
+        <result property="firmname"    column="firmName"    />
+        <result property="id"    column="ID"    />
+    </resultMap>
+
+    <sql id="selectFirmallocationstatesVo">
+        select offerProduct, allocations, firmName, ID from firmallocationstates
+    </sql>
+
+    <select id="selectFirmallocationstatesList" parameterType="Firmallocationstates" resultMap="FirmallocationstatesResult">
+        <include refid="selectFirmallocationstatesVo"/>
+        <where>  
+            <if test="offerproduct != null  and offerproduct != ''"> and offerProduct = #{offerproduct}</if>
+            <if test="allocations != null "> and allocations = #{allocations}</if>
+            <if test="firmname != null  and firmname != ''"> and firmName like concat('%', #{firmname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectFirmallocationstatesById" parameterType="Long" resultMap="FirmallocationstatesResult">
+        <include refid="selectFirmallocationstatesVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertFirmallocationstates" parameterType="Firmallocationstates" useGeneratedKeys="true" keyProperty="id">
+        insert into firmallocationstates
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="offerproduct != null  and offerproduct != ''">offerProduct,</if>
+            <if test="allocations != null ">allocations,</if>
+            <if test="firmname != null  and firmname != ''">firmName,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="offerproduct != null  and offerproduct != ''">#{offerproduct},</if>
+            <if test="allocations != null ">#{allocations},</if>
+            <if test="firmname != null  and firmname != ''">#{firmname},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFirmallocationstates" parameterType="Firmallocationstates">
+        update firmallocationstates
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="offerproduct != null  and offerproduct != ''">offerProduct = #{offerproduct},</if>
+            <if test="allocations != null ">allocations = #{allocations},</if>
+            <if test="firmname != null  and firmname != ''">firmName = #{firmname},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteFirmallocationstatesById" parameterType="Long">
+        delete from firmallocationstates where ID = #{id}
+    </delete>
+
+    <delete id="deleteFirmallocationstatesByIds" parameterType="String">
+        delete from firmallocationstates where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

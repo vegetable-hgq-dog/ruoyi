@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.workshop.mapper.DsWorkshopMapper">
+    
+    <resultMap type="DsWorkshop" id="DsWorkshopResult">
+        <result property="workshopid"    column="workshopID"    />
+        <result property="factoryid"    column="factoryID"    />
+        <result property="workshopname"    column="workshopName"    />
+        <result property="workshoptype"    column="workshopType"    />
+    </resultMap>
+
+    <sql id="selectDsWorkshopVo">
+        select workshopID, factoryID, workshopName, workshopType from ds_workshop
+    </sql>
+
+    <select id="selectDsWorkshopList" parameterType="DsWorkshop" resultMap="DsWorkshopResult">
+        <include refid="selectDsWorkshopVo"/>
+        <where>  
+            <if test="factoryid != null "> and factoryID = #{factoryid}</if>
+            <if test="workshopname != null  and workshopname != ''"> and workshopName like concat('%', #{workshopname}, '%')</if>
+            <if test="workshoptype != null  and workshoptype != ''"> and workshopType = #{workshoptype}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsWorkshopById" parameterType="Long" resultMap="DsWorkshopResult">
+        <include refid="selectDsWorkshopVo"/>
+        where workshopID = #{workshopid}
+    </select>
+        
+    <insert id="insertDsWorkshop" parameterType="DsWorkshop" useGeneratedKeys="true" keyProperty="workshopid">
+        insert into ds_workshop
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="factoryid != null ">factoryID,</if>
+            <if test="workshopname != null  and workshopname != ''">workshopName,</if>
+            <if test="workshoptype != null  and workshoptype != ''">workshopType,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="factoryid != null ">#{factoryid},</if>
+            <if test="workshopname != null  and workshopname != ''">#{workshopname},</if>
+            <if test="workshoptype != null  and workshoptype != ''">#{workshoptype},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsWorkshop" parameterType="DsWorkshop">
+        update ds_workshop
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="factoryid != null ">factoryID = #{factoryid},</if>
+            <if test="workshopname != null  and workshopname != ''">workshopName = #{workshopname},</if>
+            <if test="workshoptype != null  and workshoptype != ''">workshopType = #{workshoptype},</if>
+        </trim>
+        where workshopID = #{workshopid}
+    </update>
+
+    <delete id="deleteDsWorkshopById" parameterType="Long">
+        delete from ds_workshop where workshopID = #{workshopid}
+    </delete>
+
+    <delete id="deleteDsWorkshopByIds" parameterType="String">
+        delete from ds_workshop where workshopID in 
+        <foreach item="workshopid" collection="array" open="(" separator="," close=")">
+            #{workshopid}
+        </foreach>
+    </delete>
+    
+</mapper>

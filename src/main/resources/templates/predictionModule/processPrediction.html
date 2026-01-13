@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.1/math.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/processPrediction.css">
+</head>
+<body>
+    <section>
+        <div class="keyChainCalculate">
+            <div class="inputKeyChainParameter">
+                <h1>需求-供应参数输入</h1>
+                <iframe class="ikcp-url" src="http://localhost:8080/system/firmkeychainparameter"></iframe>
+            </div>
+            <div class="runEnchartsButton">
+                <button id="re-button" onclick="getKeyChains()"><img class="runButtonIcon" src="/img/runAlgorithm.png"></button>
+            </div>
+        </div>
+        <div class="predictionPart">
+<!--            关键链条-->
+            <div class="keyChainEchartsShow" id="keyChainEchartsShow"></div>
+
+            <div class="mathModel">
+                <img class="predictionModel" src="/img/predictionModel.png">
+            </div>
+            <div class="judgeControlNeed">
+                <div class="acceptableProcessState">
+                    <img id="acceptableValue" src="/img/uploadIcon.png">
+                </div>
+                <div class="jcn-runButton">
+                    <button id="jcn-button" onclick="getKeyNodes()"><img class="runButtonIcon" src="/img/runAlgorithm.png"></button>
+                </div>
+<!--                关键节点-->
+                <div class="resultsShow">
+                    <div class="needControlEcharts" id="needControlEcharts"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="PopUp" id="PopUp">
+        <h3>生产进度最大可接受的影响程度</h3>
+        <div class="move_close" id="move_close1">
+            <button id="windows-close1" class="windows-close" style="background-color: red;">关闭</button>
+        </div>
+        <div class="PopUpContent">
+            <iframe class="PopUp-url" src="http://localhost:8080/system/firmacceptable"></iframe>
+        </div>
+    </div>
+
+</body>
+
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script th:src="@{/echarts/echarts.min.js}"></script>
+
+
+    <script>
+
+        $("#acceptableValue").click(function (){
+            $("#PopUp").show()
+            $("#PopUp").css({ "left": 5 + "%", "top": 5 + "%" })
+        })
+        //点击关闭按钮关系小窗口
+        $("#move_close1").click(function () {
+            $("#PopUp").hide()
+        });
+    </script>
+
+<!--关键链条-->
+    <script type="text/javascript">
+    $.when(
+        $.getJSON('/system/firminfo/getFirmInfos'),
+        $.getJSON('/system/firminfo/getLayers'),
+        $.getJSON('/system/firmrelystates/getRelyState'),
+        $.getJSON('/system/firmkeychainparameter/getKeyChainParameter'),
+        // $.getJSON('/system/firmacceptable/getAcceptable')
+    ).done(function (firmInfos,layers,relys,keychains){
+
+        var myChart = echarts.init(document.getElementById('keyChainEchartsShow'));
+        let firmId = [];
+        let firmname = [];
+        let targetfirm = [];
+        let layerType = [];
+        //默认从小到大
+        let productlayer = [];
+        for (let i = 0;i < firmInfos[0].length;i++){
+            firmId[i] = firmInfos[0][i].firmId;
+            firmname[i] = firmInfos[0][i].firmname;
+            targetfirm[i] = firmInfos[0][i].targetfirm;
+            layerType[i] = firmInfos[0][i].productlayer;
+
+        }
+        for (let i = 0;i < layers[0].length;i++){
+            productlayer[i] = layers[0][i].productlayer;
+        }
+
+        let rely_firmname = [];
+        let rely_relyfirmname = [];
+        let rely_relydegree = [];
+
+        let key_firmname = [];
+        let key_firmplandemand = [];
+        let key_firmdemands = [];
+        let key_firmplansupply = [];
+        let key_firmsupply = [];
+
+        for (let i = 0;i < relys[0].length;i++){
+            rely_firmname[i] = relys[0][i].firmname;
+            rely_relyfirmname[i] = relys[0][i].relyfirmname;
+            rely_relydegree[i] = relys[0][i].relydegree;
+        }
+        for (let i = 0;i < keychains[0].length;i++){
+            key_firmname[i] = keychains[0][i].firmname;
+            key_firmplandemand[i] = keychains[0][i].firmplandemand;
+            key_firmdemands[i] = keychains[0][i].firmdemands;
+            key_firmplansupply[i] = keychains[0][i].firmplansupply;
+            key_firmsupply[i] = keychains[0][i].firmsupply;
+        }
+
+        // var decline1 = [];
+        let decline = new Array(keychains[0].length).fill(0).map(arr => new Array(1).fill(0));
+        for (let i = 0;i < keychains[0].length;i++){
+            decline[i][0] = Math.min(Math.abs(key_firmplandemand[i] - key_firmdemands[i])/key_firmplandemand[i] + Math.abs(key_firmplansupply[i] - key_firmsupply[i])/key_firmplansupply[i],1) ;
+
+        }
+
+        // 根据keyChains中的企业顺序计算
+        // var inverse = [keychains[0].length][keychains[0].length];
+        let inverse = new Array(keychains[0].length).fill(0).map(arr => new Array(keychains[0].length).fill(0));
+
+        for (let i = 0;i < keychains[0].length;i++){
+            inverse[i][i] = 1.0;
+            for (let j = 0;j < relys[0].length;j++){
+                if (key_firmname[i] === rely_firmname[j]){
+                    //识别出依赖企业节点的序号
+                    for (let k = 0;k < keychains[0].length;k++){
+                        if (rely_relyfirmname[j] === key_firmname[k]){
+                            inverse[i][k] = -rely_relydegree[j];
+                        }
+                    }
+                }
+            }
+        }
+        const matrix1 = math.matrix(inverse);
+        // 不可操作性向量
+        const inoperability = math.multiply(math.inv(matrix1),decline);
+        console.log(inoperability)
+        //转为二维数组
+        const resultArray = inoperability._data;
+        console.log(decline)
+        console.log(resultArray)
+        // 筛选出关键链条
+        var keyFirmId = [];
+        var keySuppliersID = [];
+        var keySuppliersInoperability = [];
+
+
+
+        function keySearch(i){
+            keySuppliersInoperability[0] = 0;
+            for(let j = 0;j < firmInfos[0].length;j++){
+                if (targetfirm[j] === firmname[i]){
+                    for (let k = 0;k < keychains[0].length;k++){
+                        if (firmname[j] === key_firmname[k]){
+                            // if (keySuppliersID.length === 0){
+                            //     alert(keySuppliersID.length)
+                            //     keySuppliersInoperability[0] = inoperability[k][0];
+                            //     keySuppliersID[0] = k;
+                            //     alert(k + 'if')
+                            //     alert(keySuppliersID.length)
+                            // }
+                            console.log("gree全部一级供应商" + k)
+                                if (keySuppliersInoperability[0] < resultArray[k][0]){
+                                    keySuppliersID[0] = k;
+                                    keySuppliersInoperability[0] = resultArray[k][0];
+                                    console.log("格力目标一级供应商" + k + "不可操作性值为：" + resultArray[k][0])
+                                }
+
+                        }
+                    }
+
+                }
+            }
+            for (let l = 0;l < firmInfos[0].length;l++){
+                if (key_firmname[keySuppliersID[0]] === firmname[l]){
+                    keyFirmId.push(l);
+                    console.log(keyFirmId.length)
+                    console.log(keyFirmId[0])
+                }
+            }
+
+
+        }
+
+        for(let i = 0;i < firmInfos[0].length;i++){
+            //找核心企业
+            if (targetfirm[i] == null){
+                keyFirmId.push(i);
+                console.log(i)
+                // keySearch(i);
+            }
+        }
+
+        // alert(keyFirmId[keyFirmId.length - 1]);
+        // keySearch(keyFirmId[keyFirmId.length - 1]);
+        //
+        while (1){
+            var ifBorder = true;
+            for(let i = 0;i < firmInfos[0].length;i++){
+                //最后找到的关键节点是否有上游企业,该企业对应企业信息表的第i个（i从0开始）
+                if (firmname[keyFirmId[keyFirmId.length - 1]] === targetfirm[i]){
+                    ifBorder = false;
+                }
+            }
+            if (!ifBorder){
+                keySearch(keyFirmId[keyFirmId.length - 1]);
+            }else {
+                break;
+            }
+            // if (layerType[keyFirmId[keyFirmId.length - 1]] !== productlayer[productlayer.length - 1]){
+            //     keySearch(keyFirmId[keyFirmId.length - 1]);
+            // }else {
+            //     break;
+            // }
+        }
+
+
+        //节点json格式字符串
+        var nodes = '[';
+        for (let i = 0;i < keyFirmId.length;i++){
+            nodes += '{"id":' + '"' + firmId[keyFirmId[i]] + '"'  + ',"name":' + '"' + firmname[keyFirmId[i]] + '"'  + ',"symbolSize":30,"category":' + '"' + layerType[keyFirmId[i]] + '"' + '}';
+            if (i+1 < keyFirmId.length){
+                nodes += ',';
+            }else {
+                nodes += ']';
+            }
+        }
+        //节点关联json格式字符串
+        var links = '[';
+        for (let i = 0;i < keyFirmId.length;i++){
+
+            var targetFirmId = '';
+            if (targetfirm[keyFirmId[i]] != null){
+                //找目标企业的id
+                for (let j = 0;j < targetfirm.length;j++){
+                    if (targetfirm[keyFirmId[i]] === firmname[j]){
+                        targetFirmId = firmId[j];
+                    }
+                }
+                links += '{"source":' + '"' + firmId[keyFirmId[i]] + '"'  + ',"target":' + '"' + targetFirmId + '"' + '}';
+                if (i+1 < keyFirmId.length){
+                    links += ',';
+                }else {
+                    links += ']';
+                }
+            }
+
+        }
+
+        //节点分配接送格式字符串
+        var categories = '[';
+        for (let i = 0;i < keyFirmId.length;i++){
+            categories += '{"name":' + '"' + layerType[keyFirmId[i]] + '"' + '}';
+            if (i+1 < keyFirmId.length){
+                categories += ',';
+            }else {
+                categories += ']';
+            }
+
+        }
+
+        let nodes1 = JSON.parse(nodes);
+        let links1 = JSON.parse(links);
+        let categories1 = JSON.parse(categories);
+        console.log(nodes1)
+        console.log(links1)
+        console.log(categories1)
+
+        var option = {
+            title: {
+                text: "关键链条",           // 标题文本
+                left : '3%',                    // 标题距离左侧边距
+                top : '3%',                     // 标题距顶部边距
+                textStyle : {                       // 标题样式
+                    color : '#000',                     // 标题字体颜色
+                    fontSize : '30',                    // 标题字体大小
+                }
+            },
+            tooltip: {},
+            // legend: [
+            //   {
+            //     // selectedMode: 'single',
+            //     data: graph.categories.map(function (a) {
+            //       return a.name;
+            //     })
+            //   }
+            // ],
+            series: [
+                {
+                    name: '企业节点',
+                    type: 'graph',
+                    layout: 'force',
+                    data: nodes1,
+                    links: links1,
+                    categories: categories1,
+                    roam: true,
+                    label: {
+                        show: true,
+                        position: 'right'
+                    },
+                    force: {
+                        repulsion: 100
+                    }
+                }
+            ]
+        };
+        myChart.setOption(option);
+
+    })
+
+</script>
+
+<!--关键节点-->
+    <script type="text/javascript">
+    //矩阵相乘
+    function multiply(a, b) {
+        // 相乘约束
+        if (a[0].length !== b.length) {
+            throw new Error();
+        }
+        let m = a.length;
+        let p = a[0].length;
+        let n = b[0].length;
+
+        // 初始化 m*n 全 0 二维数组
+        let c = new Array(m).fill(0).map(arr => new Array(n).fill(0));
+
+        for (let i = 0; i < m; i++) {
+            for (let j = 0; j < n; j++) {
+                for (let k = 0; k < p; k++) {
+                    c[i][j] += a[i][k] * b[k][j];
+                }
+            }
+        }
+
+        return c;
+    }
+
+    //行列式
+    function det(square) {
+        // 方阵约束
+        if (square.length !== square[0].length) {
+            throw new Error();
+        }
+        // 方阵阶数
+        let n = square.length;
+
+        let result = 0;
+        if (n > 3) {
+            // n 阶
+            for (let column = 0; column < n; column++) {
+                // 去掉第 0 行第 column 列的矩阵
+                let matrix = new Array(n - 1).fill(0).map(arr => new Array(n - 1).fill(0));
+                for (let i = 0; i < n - 1; i++) {
+                    for (let j = 0; j < n - 1; j++) {
+                        if (j < column) {
+                            matrix[i][j] = square[i + 1][j];
+                        } else {
+                            matrix[i][j] = square[i + 1][j + 1];
+                        }
+                    }
+                }
+                result += square[0][column] * Math.pow(-1, 0 + column) * det(matrix);
+            }
+        } else if (n === 3) {
+            // 3 阶
+            result = square[0][0] * square[1][1] * square[2][2] +
+                square[0][1] * square[1][2] * square[2][0] +
+                square[0][2] * square[1][0] * square[2][1] -
+                square[0][2] * square[1][1] * square[2][0] -
+                square[0][1] * square[1][0] * square[2][2] -
+                square[0][0] * square[1][2] * square[2][1];
+        } else if (n === 2) {
+            // 2 阶
+            result = square[0][0] * square[1][1] - square[0][1] * square[1][0];
+        } else if (n === 1) {
+            // 1 阶
+            result = square[0][0];
+        }
+        return result;
+    }
+    //转置矩阵
+    function transpose(matrix) {
+        let result = new Array(matrix.length).fill(0).map(arr => new Array(matrix[0].length).fill(0));
+        for (let i = 0; i < result.length; i++) {
+            for (let j = 0; j < result[0].length; j++) {
+                result[i][j] = matrix[j][i];
+            }
+        }
+        return result;
+    }
+
+    //伴随矩阵
+    function adjoint(square) {
+        // 方阵约束
+        if (square[0].length !== square.length) {
+            throw new Error();
+        }
+
+        let n = square.length;
+
+        let result = new Array(n).fill(0).map(arr => new Array(n).fill(0));
+        for (let row = 0; row < n; row++) {
+            for (let column = 0; column < n; column++) {
+                // 去掉第 row 行第 column 列的矩阵
+                let matrix = [];
+                for (let i = 0; i < square.length; i++) {
+                    if (i !== row) {
+                        let arr = [];
+                        for (let j = 0; j < square.length; j++) {
+                            if (j !== column) {
+                                arr.push(square[i][j]);
+                            }
+                        }
+                        matrix.push(arr);
+                    }
+                }
+                result[row][column] = Math.pow(-1, row + column) * det(matrix);
+            }
+        }
+        return transpose(result);
+    }
+
+    //逆矩阵
+    function inv(square) {
+        if (square[0].length !== square.length) {
+            throw new Error();
+        }
+        let detValue = det(square);
+        let result = adjoint(square);
+
+        for (let i = 0; i < result.length; i++) {
+            for (let j = 0; j < result.length; j++) {
+                result[i][j] /= detValue;
+            }
+        }
+        return result;
+    }
+
+
+    $.when(
+        $.getJSON('/system/firminfo/getFirmInfos'),
+        $.getJSON('/system/firminfo/getLayers'),
+        $.getJSON('/system/firmrelystates/getRelyState'),
+        $.getJSON('/system/firmkeychainparameter/getKeyChainParameter'),
+        // $.getJSON('/system/firmacceptable/getAcceptable')
+    ).done(function (firmInfos,layers,relys,keychains){
+
+        var myChart = echarts.init(document.getElementById('needControlEcharts'));
+        let firmId = [];
+        let firmname = [];
+        let targetfirm = [];
+        let layerType = [];
+        //默认从小到大
+        let productlayer = [];
+        for (let i = 0;i < firmInfos[0].length;i++){
+            firmId[i] = firmInfos[0][i].firmId;
+            firmname[i] = firmInfos[0][i].firmname;
+            targetfirm[i] = firmInfos[0][i].targetfirm;
+            layerType[i] = firmInfos[0][i].productlayer;
+
+        }
+        for (let i = 0;i < layers[0].length;i++){
+            productlayer[i] = layers[0][i].productlayer;
+        }
+
+        let rely_firmname = [];
+        let rely_relyfirmname = [];
+        let rely_relydegree = [];
+
+        let key_firmname = [];
+        let key_firmplandemand = [];
+        let key_firmdemands = [];
+        let key_firmplansupply = [];
+        let key_firmsupply = [];
+
+        for (let i = 0;i < relys[0].length;i++){
+            rely_firmname[i] = relys[0][i].firmname;
+            rely_relyfirmname[i] = relys[0][i].relyfirmname;
+            rely_relydegree[i] = relys[0][i].relydegree;
+        }
+        for (let i = 0;i < keychains[0].length;i++){
+            key_firmname[i] = keychains[0][i].firmname;
+            key_firmplandemand[i] = keychains[0][i].firmplandemand;
+            key_firmdemands[i] = keychains[0][i].firmdemands;
+            key_firmplansupply[i] = keychains[0][i].firmplansupply;
+            key_firmsupply[i] = keychains[0][i].firmsupply;
+        }
+
+        // var decline1 = [];
+        let decline = new Array(keychains[0].length).fill(0).map(arr => new Array(1).fill(0));
+        for (let i = 0;i < keychains[0].length;i++){
+            decline[i][0] = Math.min(Math.abs(key_firmplandemand[i] - key_firmdemands[i])/key_firmplandemand[i] + Math.abs(key_firmplansupply[i] - key_firmsupply[i])/key_firmplansupply[i],1) ;
+
+        }
+
+        // 根据keyChains中的企业顺序计算
+        // var inverse = [keychains[0].length][keychains[0].length];
+        let inverse = new Array(keychains[0].length).fill(0).map(arr => new Array(keychains[0].length).fill(0));
+
+        for (let i = 0;i < keychains[0].length;i++){
+            inverse[i][i] = 1.0;
+            for (let j = 0;j < relys[0].length;j++){
+                if (key_firmname[i] === rely_firmname[j]){
+                    //识别出依赖企业节点的序号
+                    for (let k = 0;k < keychains[0].length;k++){
+                        if (rely_relyfirmname[j] === key_firmname[k]){
+                            inverse[i][k] = -rely_relydegree[j];
+                        }
+                    }
+                }
+            }
+        }
+        const matrix1 = math.matrix(inverse);
+        // 不可操作性向量
+        const inoperability = math.multiply(math.inv(matrix1),decline);
+        console.log(inoperability)
+        //转为二维数组
+        const resultArray = inoperability._data;
+        console.log(decline)
+        console.log(resultArray)
+        // 筛选出关键链条
+        var keyFirmId = [];
+        var keySuppliersID = [];
+        var keySuppliersInoperability = [];
+
+
+
+        function keySearch(i){
+            keySuppliersInoperability[0] = 0;
+            for(let j = 0;j < firmInfos[0].length;j++){
+                if (targetfirm[j] === firmname[i]){
+                    for (let k = 0;k < keychains[0].length;k++){
+                        if (firmname[j] === key_firmname[k]){
+                            // if (keySuppliersID.length === 0){
+                            //     alert(keySuppliersID.length)
+                            //     keySuppliersInoperability[0] = inoperability[k][0];
+                            //     keySuppliersID[0] = k;
+                            //     alert(k + 'if')
+                            //     alert(keySuppliersID.length)
+                            // }
+                            console.log("gree全部一级供应商" + k)
+                            if (keySuppliersInoperability[0] < resultArray[k][0]){
+                                keySuppliersID[0] = k;
+                                keySuppliersInoperability[0] = resultArray[k][0];
+                                console.log("格力目标一级供应商" + k + "不可操作性值为：" + resultArray[k][0])
+                            }
+
+                        }
+                    }
+
+                }
+            }
+            for (let l = 0;l < firmInfos[0].length;l++){
+                if (key_firmname[keySuppliersID[0]] === firmname[l]){
+                    keyFirmId.push(l);
+                    console.log(keyFirmId.length)
+                    console.log(keyFirmId[0])
+                }
+            }
+
+
+        }
+
+        for(let i = 0;i < firmInfos[0].length;i++){
+            //找核心企业
+            if (targetfirm[i] == null){
+                keyFirmId.push(i);
+                console.log(i)
+                // keySearch(i);
+            }
+        }
+
+        // alert(keyFirmId[keyFirmId.length - 1]);
+        // keySearch(keyFirmId[keyFirmId.length - 1]);
+        //
+        while (1){
+            var ifBorder = true;
+            for(let i = 0;i < firmInfos[0].length;i++){
+                //最后找到的关键节点是否有上游企业,该企业对应企业信息表的第i个（i从0开始）
+                if (firmname[keyFirmId[keyFirmId.length - 1]] === targetfirm[i]){
+                    ifBorder = false;
+                }
+            }
+            if (!ifBorder){
+                keySearch(keyFirmId[keyFirmId.length - 1]);
+            }else {
+                break;
+            }
+            // if (layerType[keyFirmId[keyFirmId.length - 1]] !== productlayer[productlayer.length - 1]){
+            //     keySearch(keyFirmId[keyFirmId.length - 1]);
+            // }else {
+            //     break;
+            // }
+        }
+
+
+        //节点json格式字符串
+        var nodesWarn = '[';
+        for (let i = 0;i < keyFirmId.length;i++){
+            if (i !== 2){
+                nodesWarn += '{"id":' + '"' + firmId[keyFirmId[i]] + '"'  + ',"name":' + '"' + firmname[keyFirmId[i]] + '"'  + ',"symbolSize":35,"category":';
+                nodesWarn += '"' + layerType[keyFirmId[i]] + '"' + ',"itemStyle": {"color": "#ff0000"' + '}}';
+            }else {
+                nodesWarn += '{"id":' + '"' + firmId[keyFirmId[i]] + '"'  + ',"name":' + '"' + firmname[keyFirmId[i]] + '"'  + ',"symbolSize":30,"category":' + '"' + layerType[keyFirmId[i]] + '"' + '}';
+            }
+            if (i+1 < keyFirmId.length){
+                nodesWarn += ',';
+            }else {
+                nodesWarn += ']';
+            }
+        }
+        //节点关联json格式字符串
+        var links = '[';
+        for (let i = 0;i < keyFirmId.length;i++){
+
+            var targetFirmId = '';
+            if (targetfirm[keyFirmId[i]] != null){
+                //找目标企业的id
+                for (let j = 0;j < targetfirm.length;j++){
+                    if (targetfirm[keyFirmId[i]] === firmname[j]){
+                        targetFirmId = firmId[j];
+                    }
+                }
+                links += '{"source":' + '"' + firmId[keyFirmId[i]] + '"'  + ',"target":' + '"' + targetFirmId + '"' + '}';
+                if (i+1 < keyFirmId.length){
+                    links += ',';
+                }else {
+                    links += ']';
+                }
+            }
+
+        }
+
+        //节点分配接送格式字符串
+        var categories = '[';
+        for (let i = 0;i < keyFirmId.length;i++){
+            categories += '{"name":' + '"' + layerType[keyFirmId[i]] + '"' + '}';
+            if (i+1 < keyFirmId.length){
+                categories += ',';
+            }else {
+                categories += ']';
+            }
+
+        }
+
+        let nodes1 = JSON.parse(nodesWarn);
+        let links1 = JSON.parse(links);
+        let categories1 = JSON.parse(categories);
+        console.log(nodes1)
+        console.log(links1)
+        console.log(categories1)
+
+        var option = {
+            tooltip: {},
+            // legend: [
+            //   {
+            //     // selectedMode: 'single',
+            //     data: graph.categories.map(function (a) {
+            //       return a.name;
+            //     })
+            //   }
+            // ],
+            series: [
+                {
+                    name: '企业节点',
+                    type: 'graph',
+                    layout: 'force',
+                    data: nodes1,
+                    links: links1,
+                    categories: categories1,
+                    roam: true,
+                    label: {
+                        show: true,
+                        position: 'right'
+                    },
+                    force: {
+                        repulsion: 100
+                    }
+                }
+            ]
+        };
+        myChart.setOption(option);
+
+    })
+</script>
+
+    <script>
+        document.getElementById("needControlEcharts").style.visibility="hidden";
+        document.getElementById("keyChainEchartsShow").style.visibility="hidden";
+    </script>
+
+    <script>
+        function getKeyChains(){
+            document.getElementById("keyChainEchartsShow").style.visibility="visible";
+        }
+    </script>
+    <script>
+        function getKeyNodes(){
+            if (document.getElementById("keyChainEchartsShow").style.visibility==="visible")
+            document.getElementById("needControlEcharts").style.visibility="visible";
+        }
+    </script>
+<!--测试后端数据传入到前端-->
+    <script>
+        var ar1 = [];
+        ar1[0] = 1;
+        ar1[1] = 2;
+
+        window.onload =function() {  //一加载界面就调用
+            var array=[1,2,3];
+            $.ajax({
+                url: "http://localhost:8080/system/firminfo/backToFront",
+                data: {
+                    "ar": ar1,
+                    "ar2": ar1
+                },
+                type: "post",
+                dataType: "json",
+                success: function (data) {
+                    alert(data)
+                },
+            })
+        }
+    </script>
+
+</html>

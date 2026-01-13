@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.tool.swagger.firstInterface.mapper.DistributestaffDomainMapper">
+
+    <resultMap type="DistributestaffsTable" id="DistributestaffsTableResult">
+        <result property="carriername"    column="carrierName"    />
+        <result property="telephone"    column="telephone"    />
+        <result property="drivername"    column="driverName"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+
+    <insert id="insertDistributestaffsDomain" parameterType="distributestaffsDomain" useGeneratedKeys="true" keyProperty="id">
+        insert into distributestaffs_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="carriername != null  and carriername != ''">carrierName,</if>
+            <if test="telephone != null  and telephone != ''">telephone,</if>
+            <if test="drivername != null  and drivername != ''">driverName,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="carriername != null  and carriername != ''">#{carriername},</if>
+            <if test="telephone != null  and telephone != ''">#{telephone},</if>
+            <if test="drivername != null  and drivername != ''">#{drivername},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteCarriersDomainByCondition" parameterType="distributestaffsDomain">
+        delete from distributestaffs_table where carriername = #{carriername} and telephone = #{telephone} and drivername = #{drivername}
+    </delete>
+
+</mapper>

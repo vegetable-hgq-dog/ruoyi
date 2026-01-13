@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.processinfo.mapper.ProcessinfoMapper">
+    
+    <resultMap type="Processinfo" id="ProcessinfoResult">
+        <result property="processid"    column="processID"    />
+        <result property="processname"    column="processName"    />
+        <result property="processtype"    column="processType"    />
+    </resultMap>
+
+    <sql id="selectProcessinfoVo">
+        select processID, processName, processType from processinfo
+    </sql>
+
+    <select id="selectProcessinfoList" parameterType="Processinfo" resultMap="ProcessinfoResult">
+        <include refid="selectProcessinfoVo"/>
+        <where>  
+            <if test="processname != null  and processname != ''"> and processName like concat('%', #{processname}, '%')</if>
+            <if test="processtype != null  and processtype != ''"> and processType = #{processtype}</if>
+        </where>
+    </select>
+    
+    <select id="selectProcessinfoById" parameterType="Long" resultMap="ProcessinfoResult">
+        <include refid="selectProcessinfoVo"/>
+        where processID = #{processid}
+    </select>
+        
+    <insert id="insertProcessinfo" parameterType="Processinfo" useGeneratedKeys="true" keyProperty="processid">
+        insert into processinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="processname != null  and processname != ''">processName,</if>
+            <if test="processtype != null  and processtype != ''">processType,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="processname != null  and processname != ''">#{processname},</if>
+            <if test="processtype != null  and processtype != ''">#{processtype},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProcessinfo" parameterType="Processinfo">
+        update processinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="processname != null  and processname != ''">processName = #{processname},</if>
+            <if test="processtype != null  and processtype != ''">processType = #{processtype},</if>
+        </trim>
+        where processID = #{processid}
+    </update>
+
+    <delete id="deleteProcessinfoById" parameterType="Long">
+        delete from processinfo where processID = #{processid}
+    </delete>
+
+    <delete id="deleteProcessinfoByIds" parameterType="String">
+        delete from processinfo where processID in 
+        <foreach item="processid" collection="array" open="(" separator="," close=")">
+            #{processid}
+        </foreach>
+    </delete>
+
+
+    <select id="selectProcessName"  resultMap="ProcessinfoResult">
+        select processName from ProcessInfo
+    </select>
+
+</mapper>

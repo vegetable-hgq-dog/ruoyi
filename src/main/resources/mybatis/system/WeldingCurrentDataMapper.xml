@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.dataInfo.mapper.WeldingCurrentDataMapper">
+    
+    <resultMap type="WeldingCurrentData" id="WeldingCurrentDataResult">
+        <result property="id"    column="ID"    />
+        <result property="weldingspotid"    column="weldingSpotID"    />
+        <result property="datatime"    column="datatime"    />
+        <result property="current"    column="current"    />
+        <result property="voltage"    column="voltage"    />
+        <result property="resistance"    column="resistance"    />
+        <result property="currentvalue"    column="currentValue"    />
+        <result property="energyvalue"    column="energyValue"    />
+        <result property="powervalue"    column="powerValue"    />
+        <result property="weldingquality"    column="weldingQuality"    />
+    </resultMap>
+
+    <sql id="selectWeldingCurrentDataVo">
+        select ID, weldingSpotID, datatime, current, voltage, resistance, currentValue, energyValue, powerValue, weldingQuality from welding_current_data
+    </sql>
+
+    <select id="selectWeldingCurrentDataList" parameterType="WeldingCurrentData" resultMap="WeldingCurrentDataResult">
+        <include refid="selectWeldingCurrentDataVo"/>
+        <where>  
+            <if test="weldingspotid != null  and weldingspotid != ''"> and weldingSpotID = #{weldingspotid}</if>
+            <if test="datatime != null "> and datatime = #{datatime}</if>
+            <if test="current != null  and current != ''"> and current = #{current}</if>
+            <if test="voltage != null  and voltage != ''"> and voltage = #{voltage}</if>
+            <if test="resistance != null  and resistance != ''"> and resistance = #{resistance}</if>
+            <if test="currentvalue != null "> and currentValue = #{currentvalue}</if>
+            <if test="energyvalue != null "> and energyValue = #{energyvalue}</if>
+            <if test="powervalue != null "> and powerValue = #{powervalue}</if>
+            <if test="weldingquality != null  and weldingquality != ''"> and weldingQuality = #{weldingquality}</if>
+        </where>
+    </select>
+    
+    <select id="selectWeldingCurrentDataById" parameterType="Long" resultMap="WeldingCurrentDataResult">
+        <include refid="selectWeldingCurrentDataVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertWeldingCurrentData" parameterType="WeldingCurrentData" useGeneratedKeys="true" keyProperty="id">
+        insert into welding_current_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="weldingspotid != null  and weldingspotid != ''">weldingSpotID,</if>
+            <if test="datatime != null ">datatime,</if>
+            <if test="current != null  and current != ''">current,</if>
+            <if test="voltage != null  and voltage != ''">voltage,</if>
+            <if test="resistance != null  and resistance != ''">resistance,</if>
+            <if test="currentvalue != null ">currentValue,</if>
+            <if test="energyvalue != null ">energyValue,</if>
+            <if test="powervalue != null ">powerValue,</if>
+            <if test="weldingquality != null  and weldingquality != ''">weldingQuality,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="weldingspotid != null  and weldingspotid != ''">#{weldingspotid},</if>
+            <if test="datatime != null ">#{datatime},</if>
+            <if test="current != null  and current != ''">#{current},</if>
+            <if test="voltage != null  and voltage != ''">#{voltage},</if>
+            <if test="resistance != null  and resistance != ''">#{resistance},</if>
+            <if test="currentvalue != null ">#{currentvalue},</if>
+            <if test="energyvalue != null ">#{energyvalue},</if>
+            <if test="powervalue != null ">#{powervalue},</if>
+            <if test="weldingquality != null  and weldingquality != ''">#{weldingquality},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWeldingCurrentData" parameterType="WeldingCurrentData">
+        update welding_current_data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="weldingspotid != null  and weldingspotid != ''">weldingSpotID = #{weldingspotid},</if>
+            <if test="datatime != null ">datatime = #{datatime},</if>
+            <if test="current != null  and current != ''">current = #{current},</if>
+            <if test="voltage != null  and voltage != ''">voltage = #{voltage},</if>
+            <if test="resistance != null  and resistance != ''">resistance = #{resistance},</if>
+            <if test="currentvalue != null ">currentValue = #{currentvalue},</if>
+            <if test="energyvalue != null ">energyValue = #{energyvalue},</if>
+            <if test="powervalue != null ">powerValue = #{powervalue},</if>
+            <if test="weldingquality != null  and weldingquality != ''">weldingQuality = #{weldingquality},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteWeldingCurrentDataById" parameterType="Long">
+        delete from welding_current_data where ID = #{id}
+    </delete>
+
+    <delete id="deleteWeldingCurrentDataByIds" parameterType="String">
+        delete from welding_current_data where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="getAllCurrentData" resultMap="WeldingCurrentDataResult">
+        select weldingSpotID, datatime, current, voltage, resistance, currentValue, energyValue, powerValue, weldingQuality from welding_current_data
+    </select>
+
+
+    <select id="getWeldingQualityNum" statementType="CALLABLE" resultMap="WeldingCurrentDataResult" useCache="false">
+        {
+call getWeldingQualityNum()
+        }
+    </select>
+
+
+    <select id="getHistoryQuality" statementType="CALLABLE" resultMap="WeldingCurrentDataResult" useCache="false">
+        {
+            call getHistoryQuality()
+            }
+    </select>
+
+</mapper>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.firmalgorithmparameter.mapper.FirmalgorithmparameterMapper">
+    
+    <resultMap type="Firmalgorithmparameter" id="FirmalgorithmparameterResult">
+        <result property="transportdate"    column="transportDate"    />
+        <result property="tp"    column="tp"    />
+        <result property="de"    column="de"    />
+        <result property="dq"    column="dq"    />
+        <result property="upper"    column="upper"    />
+        <result property="lower"    column="lower"    />
+        <result property="firmname"    column="firmName"    />
+        <result property="id"    column="ID"    />
+    </resultMap>
+
+    <sql id="selectFirmalgorithmparameterVo">
+        select transportDate, tp, de, dq, upper, lower, firmName, ID from firmalgorithmparameter
+    </sql>
+
+    <select id="selectFirmalgorithmparameterList" parameterType="Firmalgorithmparameter" resultMap="FirmalgorithmparameterResult">
+        <include refid="selectFirmalgorithmparameterVo"/>
+        <where>  
+            <if test="transportdate != null "> and transportDate = #{transportdate}</if>
+            <if test="tp != null "> and tp = #{tp}</if>
+            <if test="de != null "> and de = #{de}</if>
+            <if test="dq != null "> and dq = #{dq}</if>
+            <if test="upper != null "> and upper = #{upper}</if>
+            <if test="lower != null "> and lower = #{lower}</if>
+            <if test="firmname != null  and firmname != ''"> and firmName like concat('%', #{firmname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectFirmalgorithmparameterById" parameterType="Long" resultMap="FirmalgorithmparameterResult">
+        <include refid="selectFirmalgorithmparameterVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertFirmalgorithmparameter" parameterType="Firmalgorithmparameter" useGeneratedKeys="true" keyProperty="id">
+        insert into firmalgorithmparameter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="transportdate != null ">transportDate,</if>
+            <if test="tp != null ">tp,</if>
+            <if test="de != null ">de,</if>
+            <if test="dq != null ">dq,</if>
+            <if test="upper != null ">upper,</if>
+            <if test="lower != null ">lower,</if>
+            <if test="firmname != null  and firmname != ''">firmName,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="transportdate != null ">#{transportdate},</if>
+            <if test="tp != null ">#{tp},</if>
+            <if test="de != null ">#{de},</if>
+            <if test="dq != null ">#{dq},</if>
+            <if test="upper != null ">#{upper},</if>
+            <if test="lower != null ">#{lower},</if>
+            <if test="firmname != null  and firmname != ''">#{firmname},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFirmalgorithmparameter" parameterType="Firmalgorithmparameter">
+        update firmalgorithmparameter
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="transportdate != null ">transportDate = #{transportdate},</if>
+            <if test="tp != null ">tp = #{tp},</if>
+            <if test="de != null ">de = #{de},</if>
+            <if test="dq != null ">dq = #{dq},</if>
+            <if test="upper != null ">upper = #{upper},</if>
+            <if test="lower != null ">lower = #{lower},</if>
+            <if test="firmname != null  and firmname != ''">firmName = #{firmname},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteFirmalgorithmparameterById" parameterType="Long">
+        delete from firmalgorithmparameter where ID = #{id}
+    </delete>
+
+    <delete id="deleteFirmalgorithmparameterByIds" parameterType="String">
+        delete from firmalgorithmparameter where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

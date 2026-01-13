@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/statsKnowledgeHTML.css">
+</head>
+<body>
+<header class="design_interface_title">
+    <h1 class="interface_title">协同设计数据可视化</h1>
+<!--    <div class="interface_title">协同设计数据可视化</div>-->
+</header>
+<div class="manufactureKnowledge">
+    <div class="historymanufactureKnowledge">
+    <div class="title">历史交互制造数据</div>
+    <div class="historyData">
+        <table class="historytable">
+            <tr >
+                <th>序号</th>
+                <th>标题</th>
+                <th>交互次数</th>
+            </tr>
+            <tr class="manucontent" th:each="designermki : ${designermki}">
+                <td th:text="${designermki.mkiid}"></td>
+                <td th:each="mki : ${mki}" th:if="${designermki.mkiid} eq ${mki.mkiid}" th:text="${mki.mkiname}"></td>
+                <td class="interactionNum" th:text="${designermki.interactionnum}"></td>
+<!--                <td class="" th:classappend="${designermki.interactionnum} eq 2  ? 'interactionNum1': (${designermki.interactionnum} eq 1 ? 'interactionNum':'interactionNum2')" th:text="${designermki.interactionnum}"></td>-->
+            </tr>
+        </table>
+    </div>
+
+    </div>
+
+    <div class="newmanufactureKnowledge">
+        <div class="title">最新制造知识</div>
+        <div class="newestData">
+            <table class="historytable">
+                <tr >
+                    <th>序号</th>
+                    <th>标题</th>
+                    <th>更新时间</th>
+                </tr>
+                <tr class="manucontent" th:each="mki : ${mki}">
+                    <td th:text="${mki.mkiid}"></td>
+                    <td th:text="${mki.mkiname}"></td>
+                    <td th:text="|${mki.edittime.getYear()+1900}-${mki.edittime.getMonth()+1}-${mki.edittime.getDate()}|"></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+<div class="knowledgeMapping">
+    <div class="title2">知识图谱</div>
+    <div class="record">
+
+        <div id="entitynum">实体总数：
+            <span class="totalNum">1105</span>
+        </div>
+        <div id="triplenum">三元组总数：
+            <span class="totalNum">9566</span>
+        </div>
+        <div id="mapVessel">
+            <img class="datamapping" src="/img/map1.png"></img>
+        </div>
+        <div id="describeTableTitle">知识图谱构建本体</div>
+    </div>
+    <div id="describeTable">
+        <table id="describe">
+            <tr>
+                <td>实体</td>
+                <td>关系</td>
+                <td>实体</td>
+            </tr>
+            <tr>
+                <td id="firstRow" rowspan="5">制造知识</td>
+                <td>hasMaterial</td>
+                <td>材料</td>
+            </tr>
+            <tr>
+
+                <td>hasProcess</td>
+                <td>工艺</td>
+            </tr>
+            <tr>
+
+                <td>hasManufacturingFeature</td>
+                <td>制造特征</td>
+            </tr>
+            <tr>
+
+                <td>hasShapeFeature</td>
+                <td>设计特征</td>
+            </tr>
+            <tr>
+
+                <td>hasComponent</td>
+                <td>产品部件</td>
+            </tr>
+        </table>
+    </div>
+
+
+</div>
+<div class="statisticalGraph" >
+    <div class="statisticalGraphTitle">制造知识统计</div>
+    <div id="processnum" class="processnum"></div>
+    <div class="symbol_3">
+
+    </div>
+    <div id="ktypenum" class="ktypenum"></div>
+<!--<button id="inputbut">111111111</button>-->
+</div>
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script th:src="@{/echarts/echarts.min.js}"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function (){
+        $('#inputbut').click(function (){
+            $.getJSON('/system/mkiinfo/processnum',function (pro1){
+                var table = $("#inputbut");
+                var bianliang = pro1[0].processname;
+                var numbl = 'a';
+                 numbl += pro1[0].processnum;
+                var resultHtml = '';
+                    resultHtml += ["<div",
+                        "class='",
+                        numbl,
+                        "'>",
+                        bianliang,
+                        '</div>'].join("\n");
+
+
+                table.html(resultHtml);
+                alert(numbl)
+                return false;
+                // alert(pro1[0].processname)
+                // $("#ktypenum").append("<div onclick='eoq()'>",pro1[0].processname,"</div>");
+            })
+
+
+        })
+    })
+
+    $.when(
+        $.getJSON('/system/mkiinfo/processnum')
+    ).done(function (pro){
+        var myChart = echarts.init(document.getElementById('processnum'));
+        var tagName=[];
+        var tagNum=[];
+        for (let i = 0;i < pro.length;i++){
+            tagName[i] = pro[i].processname;
+            tagNum[i] = pro[i].processnum;
+        }
+
+
+
+
+        var option = {
+            title: {
+                text: '工艺',
+                left:'center',
+                textStyle:{
+                    color: '#ffffff'
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    // Use axis to trigger tooltip
+                    type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
+                }
+            },
+            legend: {
+                y:'bottom',
+                verticalAlign: 'middle',
+                layout: 'vertical',
+                textStyle:{
+                    color: '#ffffff'
+                }
+            },
+
+            grid:{
+              left:'3%',
+              top:'20%',
+              bottom:'25%',
+              containLabel: true
+            },
+
+            yAxis: {
+                axisLine:{
+                    lineStyle:{
+                        //修改y坐标轴颜色
+                        color:'#ffffff'
+                    }
+                },
+                type: 'category',
+                data: tagName
+            },
+            xAxis: {
+                axisLine:{
+                    lineStyle:{
+                        //修改x坐标轴颜色
+                        color:'#ffffff'
+                    }
+                },
+                type: 'value'
+            },
+            series: [
+                {
+                    name:'知识数量',
+                    data: tagNum,
+                    type: 'bar'
+                }
+            ]
+        };
+        myChart.setOption(option);
+    });
+
+    $.when(
+        $.getJSON('/system/mkiinfo/ktypenum')
+    ).done(function (ktype){
+        var myChart = echarts.init(document.getElementById('ktypenum'));
+        var tagName=[];
+        var tagNum=[];
+        for (let i = 0;i < ktype.length;i++){
+            tagName[i] = ktype[i].ktypename;
+            tagNum[i] = ktype[i].ktypenum;
+        }
+
+        var option = {
+            color: ['#F781BE'],
+            title: {
+                text: '知识类型',
+                left:'center',
+                textStyle:{
+                    color: '#ffffff'
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    // Use axis to trigger tooltip
+                    type: 'shadow' // 'shadow' as default; can also be 'line' or 'shadow'
+                }
+            },
+            legend: {
+                y:'bottom',
+                verticalAlign: 'middle',
+                layout: 'vertical',
+                textStyle:{
+                    color: '#ffffff'
+                }
+            },
+
+            grid: {
+              left:'3%',
+              top:'20%',
+              bottom:'25%',
+              containLabel: true
+            },
+            yAxis: {
+                axisLine:{
+                    lineStyle:{
+                        //修改y坐标轴颜色
+                        color:'#ffffff'
+                    }
+                },
+                type: 'category',
+                data: tagName
+            },
+            xAxis: {
+                axisLine:{
+                    lineStyle:{
+                        //修改x坐标轴颜色
+                        color:'#ffffff'
+                    }
+                },
+                type: 'value'
+            },
+            series: [
+                {
+                    name:'知识数量',
+                    data: tagNum,
+                    type: 'bar'
+                }
+            ]
+        };
+        myChart.setOption(option);
+    });
+</script>
+</body>
+</html>

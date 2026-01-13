@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/perceptionRecommendHTML.css">
+</head>
+<body>
+
+    <div class="recommendKnowledge">
+        <div class="design_task">
+            设计任务&ensp;<input id="task" type="text" placeholder="输入字符串" value="B柱定位孔设计"></input>
+        </div>
+        <div class="keywordNum">
+            感知关键词个数&ensp;<input id="keynum" type="text" placeholder="输入整数" value="7"></input>
+        </div>
+        <div class="recommend_button">
+            <button id="knowledgeRecommendButton" type="button">知识推荐</button>
+        </div>
+    </div>
+
+
+    <div class="visual_result">
+        <div class="visual">
+            <div class="visualTitle">情景感知可视化</div>
+            <div class="visualContent">
+                <div class="visualPic">
+                    <div class="visualPicTitle">设计情景图</div>
+                    <div class="designVisualImg">
+                        <img id="designImg" src="/img/visualPic.png"></img>
+                    </div>
+                </div>
+                <div class="visualKeyword">
+                    <div class="keywordShow" th:utext="'感知关键词:' + '<br>' + '金属，侧围，焊接，B柱，尺寸要求，孔，定位孔'"></div>
+                </div>
+            </div>
+        </div>
+        <div class="recommend_result">
+            <table class="recommend_result_table">
+                <caption class="resultTitle">知识推荐结果</caption>
+                <tr id="tableTitle" class="tableTitle">
+                    <th>序号</th>
+                    <th>标题</th>
+                    <th>详情</th>
+                </tr>
+                <tr class="contentTitle" th:each="mki : ${mki}">
+                    <td th:text="${mki.mkiid}"></td>
+                    <td th:text="${mki.mkiname}"></td>
+                    <td><button  class="detailInfo" type="button">查看</button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="recommend_visual">
+        <div class="resultVisualTitle">知识推荐结果可视化</div>
+
+        <div class="resultVisualContent">
+
+            <div class="part1">
+                <div class="partResultMapTitle">局部知识图谱</div>
+                <div class="partResultMap">
+                    <img id="partResultMapImg" src="/img/partKnowledgeMap.png"></img>
+                </div>
+            </div>
+
+            <div class="part2">
+                <div class="part2Content" th:utext="'金属：0.1534<br>侧围：0.1342<br>焊接：0.1325<br>尺寸要求：0.1453<br>孔：0.1328<br>定位孔：0.1534'">
+
+                </div>
+            </div>
+
+            <div class="part3">
+                <div class="part3Text">
+                    <div class="part3Title">详细知识文本</div>
+                    <div class="part3TextContent">
+                        <img id="knowledgeText" src="/img/text.png">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script th:src="@{/js/jquery.min.js}"></script>
+
+    <script type="text/javascript">
+        $('#knowledgeRecommendButton').click(function (){
+            if ($('.visualContent').is(':hidden')){
+                $('.visualContent').show();
+            }else {
+                $('.visualContent').hide();
+            }
+        })
+
+        $('#knowledgeRecommendButton').click(function (){
+            if ($('tr').is(':hidden')){
+                $('tr').show();
+            }else {
+                $('tr').hide();
+            }
+        })
+
+        // $('#knowledgeRecommendButton').click(function (){
+        //     var table = $(".recommend_result_table");
+        //     var rowNum = parseInt($("#keynum").val(), 10);
+        //     var resultHtml = '';
+        //
+        //     for(var i = 0 ; i < rowNum ; i++) {
+        //         resultHtml += ["<tr class='contentTitle'>",
+        //             '<td>1</td>',
+        //             '<td>2</td>',
+        //             '<td><button id="detailInfo" type="button">查看</button></td>',
+        //             '</tr>'].join("\n");
+        //     }
+        //
+        //     table.html(resultHtml);
+        //     return false;
+        // })
+
+
+    </script>
+
+</body>
+</html>

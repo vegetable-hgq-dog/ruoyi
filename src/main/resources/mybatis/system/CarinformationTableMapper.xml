@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.carInformation.mapper.CarinformationTableMapper">
+    
+    <resultMap type="CarinformationTable" id="CarinformationTableResult">
+        <result property="cartype"    column="carType"    />
+        <result property="licenseplate"    column="licensePlate"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectCarinformationTableVo">
+        select carType, licensePlate, id from carinformation_table
+    </sql>
+
+    <select id="selectCarinformationTableList" parameterType="CarinformationTable" resultMap="CarinformationTableResult">
+        <include refid="selectCarinformationTableVo"/>
+        <where>  
+            <if test="cartype != null  and cartype != ''"> and carType = #{cartype}</if>
+            <if test="licenseplate != null  and licenseplate != ''"> and licensePlate = #{licenseplate}</if>
+        </where>
+    </select>
+    
+    <select id="selectCarinformationTableById" parameterType="Long" resultMap="CarinformationTableResult">
+        <include refid="selectCarinformationTableVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCarinformationTable" parameterType="CarinformationTable" useGeneratedKeys="true" keyProperty="id">
+        insert into carinformation_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cartype != null  and cartype != ''">carType,</if>
+            <if test="licenseplate != null  and licenseplate != ''">licensePlate,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cartype != null  and cartype != ''">#{cartype},</if>
+            <if test="licenseplate != null  and licenseplate != ''">#{licenseplate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCarinformationTable" parameterType="CarinformationTable">
+        update carinformation_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cartype != null  and cartype != ''">carType = #{cartype},</if>
+            <if test="licenseplate != null  and licenseplate != ''">licensePlate = #{licenseplate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCarinformationTableById" parameterType="Long">
+        delete from carinformation_table where id = #{id}
+    </delete>
+
+    <delete id="deleteCarinformationTableByIds" parameterType="String">
+        delete from carinformation_table where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="selectByLicenseplate" parameterType="String" resultMap="CarinformationTableResult">
+        <include refid="selectCarinformationTableVo"/>
+        where licenseplate = #{licenseplate}
+    </select>
+
+
+    <update id="updateCarinformation" parameterType="CarinformationTable">
+        update carinformation_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cartype != null  and cartype != ''">carType = #{cartype},</if>
+        </trim>
+        where licenseplate = #{licenseplate}
+    </update>
+    
+</mapper>

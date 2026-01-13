@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.serviceorder.mapper.DsServiceorderMapper">
+    
+    <resultMap type="DsServiceorder" id="DsServiceorderResult">
+        <result property="centerid"    column="centerID"    />
+        <result property="customerphone"    column="customerPhone"    />
+        <result property="customername"    column="customerName"    />
+        <result property="vehicleid"    column="vehicleID"    />
+        <result property="serviceorderdate"    column="serviceorderDate"    />
+        <result property="faultreason"    column="faultReason"    />
+        <result property="faultlocation"    column="faultLocation"    />
+        <result property="faulttype"    column="faultType"    />
+        <result property="serviceorderid"    column="serviceorderID"    />
+    </resultMap>
+
+    <sql id="selectDsServiceorderVo">
+        select centerID, customerPhone, customerName, vehicleID, serviceorderDate, faultReason, faultLocation, faultType, serviceorderID from ds_serviceorder
+    </sql>
+
+    <select id="selectDsServiceorderList" parameterType="DsServiceorder" resultMap="DsServiceorderResult">
+        <include refid="selectDsServiceorderVo"/>
+        <where>  
+            <if test="centerid != null "> and centerID = #{centerid}</if>
+            <if test="customerphone != null "> and customerPhone = #{customerphone}</if>
+            <if test="customername != null  and customername != ''"> and customerName like concat('%', #{customername}, '%')</if>
+            <if test="vehicleid != null "> and vehicleID = #{vehicleid}</if>
+            <if test="serviceorderdate != null "> and serviceorderDate = #{serviceorderdate}</if>
+            <if test="faultreason != null  and faultreason != ''"> and faultReason = #{faultreason}</if>
+            <if test="faultlocation != null  and faultlocation != ''"> and faultLocation = #{faultlocation}</if>
+            <if test="faulttype != null  and faulttype != ''"> and faultType = #{faulttype}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsServiceorderById" parameterType="Long" resultMap="DsServiceorderResult">
+        <include refid="selectDsServiceorderVo"/>
+        where serviceorderID = #{serviceorderid}
+    </select>
+        
+    <insert id="insertDsServiceorder" parameterType="DsServiceorder" useGeneratedKeys="true" keyProperty="serviceorderid">
+        insert into ds_serviceorder
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="centerid != null ">centerID,</if>
+            <if test="customerphone != null ">customerPhone,</if>
+            <if test="customername != null  and customername != ''">customerName,</if>
+            <if test="vehicleid != null ">vehicleID,</if>
+            <if test="serviceorderdate != null ">serviceorderDate,</if>
+            <if test="faultreason != null  and faultreason != ''">faultReason,</if>
+            <if test="faultlocation != null  and faultlocation != ''">faultLocation,</if>
+            <if test="faulttype != null  and faulttype != ''">faultType,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="centerid != null ">#{centerid},</if>
+            <if test="customerphone != null ">#{customerphone},</if>
+            <if test="customername != null  and customername != ''">#{customername},</if>
+            <if test="vehicleid != null ">#{vehicleid},</if>
+            <if test="serviceorderdate != null ">#{serviceorderdate},</if>
+            <if test="faultreason != null  and faultreason != ''">#{faultreason},</if>
+            <if test="faultlocation != null  and faultlocation != ''">#{faultlocation},</if>
+            <if test="faulttype != null  and faulttype != ''">#{faulttype},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsServiceorder" parameterType="DsServiceorder">
+        update ds_serviceorder
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="centerid != null ">centerID = #{centerid},</if>
+            <if test="customerphone != null ">customerPhone = #{customerphone},</if>
+            <if test="customername != null  and customername != ''">customerName = #{customername},</if>
+            <if test="vehicleid != null ">vehicleID = #{vehicleid},</if>
+            <if test="serviceorderdate != null ">serviceorderDate = #{serviceorderdate},</if>
+            <if test="faultreason != null  and faultreason != ''">faultReason = #{faultreason},</if>
+            <if test="faultlocation != null  and faultlocation != ''">faultLocation = #{faultlocation},</if>
+            <if test="faulttype != null  and faulttype != ''">faultType = #{faulttype},</if>
+        </trim>
+        where serviceorderID = #{serviceorderid}
+    </update>
+
+    <delete id="deleteDsServiceorderById" parameterType="Long">
+        delete from ds_serviceorder where serviceorderID = #{serviceorderid}
+    </delete>
+
+    <delete id="deleteDsServiceorderByIds" parameterType="String">
+        delete from ds_serviceorder where serviceorderID in 
+        <foreach item="serviceorderid" collection="array" open="(" separator="," close=")">
+            #{serviceorderid}
+        </foreach>
+    </delete>
+    
+</mapper>

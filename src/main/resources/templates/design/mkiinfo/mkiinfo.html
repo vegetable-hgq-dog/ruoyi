@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('制造知识信息列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>设计要求：</p>
+                                <input type="text" name="mkiname"/>
+                            </li>
+                            <li>
+                                <p>工艺：</p>
+                                <select name="processname" th:with="type=${@dict.getType('ds_design_processType')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>材料：</p>
+                                <select name="materialname" th:with="type=${@dict.getType('ds_design_materialType')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>零部件：</p>
+                                <input type="text" name="partname"/>
+                            </li>
+                            <li>
+                                <p>制造特征：</p>
+                                <select name="manufacturingfeaturename" th:with="type=${@dict.getType('ds_design_featureType')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>设计特征：</p>
+                                <select name="shapefeaturename" th:with="type=${@dict.getType('')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>类型：</p>
+                                <select name="ktypename" th:with="type=${@dict.getType('ds_design_mrType')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="design:mkiinfo:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="design:mkiinfo:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="design:mkiinfo:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="design:mkiinfo:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('design:mkiinfo:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('design:mkiinfo:remove')}]];
+        var processnameDatas = [[${@dict.getType('ds_design_processType')}]];
+        var materialnameDatas = [[${@dict.getType('ds_design_materialType')}]];
+        var partnameDatas = [[${@dict.getType('ds_design_componentLevel')}]];
+        var manufacturingfeaturenameDatas = [[${@dict.getType('ds_design_featureType')}]];
+        var ktypenameDatas = [[${@dict.getType('ds_design_mrType')}]];
+        var prefix = ctx + "design/mkiinfo";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "制造知识信息",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'mkiid', 
+                    title : '制造知识ID',
+                    visible: false
+                },
+                {
+                    field : 'mkiname', 
+                    title : '设计要求'
+                },
+                {
+                    field : 'processname', 
+                    title : '工艺',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(processnameDatas, value);
+                    }
+                },
+                {
+                    field : 'materialname', 
+                    title : '材料',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(materialnameDatas, value);
+                    }
+                },
+                {
+                    field : 'partname', 
+                    title : '零部件',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(partnameDatas, value);
+                    }
+                },
+                {
+                    field : 'manufacturingfeaturename', 
+                    title : '制造特征',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(manufacturingfeaturenameDatas, value);
+                    }
+                },
+                {
+                    field : 'shapefeaturename', 
+                    title : '设计特征'
+                },
+                {
+                    field : 'ktypename', 
+                    title : '类型',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(ktypenameDatas, value);
+                    }
+                },
+                {
+                    field : 'details', 
+                    title : '知识文本'
+                },
+                {
+                    field : 'edittime', 
+                    title : '时间'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.mkiid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.mkiid + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

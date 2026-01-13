@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.designermkiinfo.mapper.DesignermkiinfoMapper">
+    
+    <resultMap type="Designermkiinfo" id="DesignermkiinfoResult">
+        <result property="mkiid"    column="mkiID"    />
+        <result property="designerid"    column="designerID"    />
+        <result property="interactionnum"    column="interactionNum"    />
+    </resultMap>
+
+    <sql id="selectDesignermkiinfoVo">
+        select mkiID, designerID, interactionNum from designermkiinfo
+    </sql>
+
+    <select id="selectDesignermkiinfoList" parameterType="Designermkiinfo" resultMap="DesignermkiinfoResult">
+        <include refid="selectDesignermkiinfoVo"/>
+        <where>  
+            <if test="mkiid != null "> and mkiID = #{mkiid}</if>
+            <if test="designerid != null "> and designerID = #{designerid}</if>
+            <if test="interactionnum != null "> and interactionNum = #{interactionnum}</if>
+        </where>
+    </select>
+    
+    <select id="selectDesignermkiinfoById" parameterType="Long" resultMap="DesignermkiinfoResult">
+        <include refid="selectDesignermkiinfoVo"/>
+        where mkiID = #{mkiid}
+    </select>
+        
+    <insert id="insertDesignermkiinfo" parameterType="Designermkiinfo">
+        insert into designermkiinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mkiid != null ">mkiID,</if>
+            <if test="designerid != null ">designerID,</if>
+            <if test="interactionnum != null ">interactionNum,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mkiid != null ">#{mkiid},</if>
+            <if test="designerid != null ">#{designerid},</if>
+            <if test="interactionnum != null ">#{interactionnum},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDesignermkiinfo" parameterType="Designermkiinfo">
+        update designermkiinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mkiid != null ">mkiID = #{mkiid},</if>
+            <if test="designerid != null ">designerID = #{designerid},</if>
+            <if test="interactionnum != null ">interactionNum = #{interactionnum},</if>
+        </trim>
+        where mkiID = #{mkiid}
+    </update>
+
+    <delete id="deleteDesignermkiinfoById" parameterType="Long">
+        delete from designermkiinfo where mkiID = #{mkiid}
+    </delete>
+
+    <delete id="deleteDesignermkiinfoByIds" parameterType="String">
+        delete from designermkiinfo where mkiID in 
+        <foreach item="mkiid" collection="array" open="(" separator="," close=")">
+            #{mkiid}
+        </foreach>
+    </delete>
+
+    <select id="selectDesignermkiinfo"  resultMap="DesignermkiinfoResult">
+        select * from designermkiinfo
+    </select>
+    
+</mapper>

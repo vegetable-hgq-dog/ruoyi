@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.pickupPlanInf.mapper.PickupplanTableMapper">
+    
+    <resultMap type="PickupplanTable" id="PickupplanTableResult">
+        <result property="planroute"    column="planRoute"    />
+        <result property="unloadlocation"    column="unloadLocation"    />
+        <result property="plantimeofdelivery"    column="planTimeOfDelivery"    />
+        <result property="estimateddeliverytime"    column="estimatedDeliveryTime"    />
+        <result property="plantakegoodstime"    column="planTakeGoodsTime"    />
+        <result property="warningstate"    column="warningState"    />
+        <result property="pickuptype"    column="pickupType"    />
+        <result property="pickupplanid"    column="pickupPlanID"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectPickupplanTableVo">
+        select planRoute, unloadLocation, planTimeOfDelivery, estimatedDeliveryTime, planTakeGoodsTime, warningState, pickupType, pickupPlanID, id from pickupplan_table
+    </sql>
+
+    <select id="selectPickupplanTableList" parameterType="PickupplanTable" resultMap="PickupplanTableResult">
+        <include refid="selectPickupplanTableVo"/>
+        <where>  
+            <if test="planroute != null  and planroute != ''"> and planRoute = #{planroute}</if>
+            <if test="unloadlocation != null  and unloadlocation != ''"> and unloadLocation = #{unloadlocation}</if>
+            <if test="plantimeofdelivery != null "> and planTimeOfDelivery = #{plantimeofdelivery}</if>
+            <if test="estimateddeliverytime != null "> and estimatedDeliveryTime = #{estimateddeliverytime}</if>
+            <if test="plantakegoodstime != null "> and planTakeGoodsTime = #{plantakegoodstime}</if>
+            <if test="warningstate != null  and warningstate != ''"> and warningState = #{warningstate}</if>
+            <if test="pickuptype != null  and pickuptype != ''"> and pickupType = #{pickuptype}</if>
+            <if test="pickupplanid != null  and pickupplanid != ''"> and pickupPlanID = #{pickupplanid}</if>
+        </where>
+    </select>
+    
+    <select id="selectPickupplanTableById" parameterType="Long" resultMap="PickupplanTableResult">
+        <include refid="selectPickupplanTableVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPickupplanTable" parameterType="PickupplanTable" useGeneratedKeys="true" keyProperty="id">
+        insert into pickupplan_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="planroute != null  and planroute != ''">planRoute,</if>
+            <if test="unloadlocation != null  and unloadlocation != ''">unloadLocation,</if>
+            <if test="plantimeofdelivery != null ">planTimeOfDelivery,</if>
+            <if test="estimateddeliverytime != null ">estimatedDeliveryTime,</if>
+            <if test="plantakegoodstime != null ">planTakeGoodsTime,</if>
+            <if test="warningstate != null  and warningstate != ''">warningState,</if>
+            <if test="pickuptype != null  and pickuptype != ''">pickupType,</if>
+            <if test="pickupplanid != null  and pickupplanid != ''">pickupPlanID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="planroute != null  and planroute != ''">#{planroute},</if>
+            <if test="unloadlocation != null  and unloadlocation != ''">#{unloadlocation},</if>
+            <if test="plantimeofdelivery != null ">#{plantimeofdelivery},</if>
+            <if test="estimateddeliverytime != null ">#{estimateddeliverytime},</if>
+            <if test="plantakegoodstime != null ">#{plantakegoodstime},</if>
+            <if test="warningstate != null  and warningstate != ''">#{warningstate},</if>
+            <if test="pickuptype != null  and pickuptype != ''">#{pickuptype},</if>
+            <if test="pickupplanid != null  and pickupplanid != ''">#{pickupplanid},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePickupplanTable" parameterType="PickupplanTable">
+        update pickupplan_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="planroute != null  and planroute != ''">planRoute = #{planroute},</if>
+            <if test="unloadlocation != null  and unloadlocation != ''">unloadLocation = #{unloadlocation},</if>
+            <if test="plantimeofdelivery != null ">planTimeOfDelivery = #{plantimeofdelivery},</if>
+            <if test="estimateddeliverytime != null ">estimatedDeliveryTime = #{estimateddeliverytime},</if>
+            <if test="plantakegoodstime != null ">planTakeGoodsTime = #{plantakegoodstime},</if>
+            <if test="warningstate != null  and warningstate != ''">warningState = #{warningstate},</if>
+            <if test="pickuptype != null  and pickuptype != ''">pickupType = #{pickuptype},</if>
+            <if test="pickupplanid != null  and pickupplanid != ''">pickupPlanID = #{pickupplanid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePickupplanTableById" parameterType="Long">
+        delete from pickupplan_table where id = #{id}
+    </delete>
+
+    <delete id="deletePickupplanTableByIds" parameterType="String">
+        delete from pickupplan_table where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="selectByPickupplanid" parameterType="String" resultMap="PickupplanTableResult">
+        <include refid="selectPickupplanTableVo"/>
+        where pickupplanid = #{pickupplanid}
+    </select>
+
+
+    <update id="updatePickupplanid" parameterType="PickupplanTable">
+        update pickupplan_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="planroute != null  and planroute != ''">planRoute = #{planroute},</if>
+            <if test="unloadlocation != null  and unloadlocation != ''">unloadLocation = #{unloadlocation},</if>
+            <if test="plantimeofdelivery != null ">planTimeOfDelivery = #{plantimeofdelivery},</if>
+            <if test="estimateddeliverytime != null ">estimatedDeliveryTime = #{estimateddeliverytime},</if>
+            <if test="plantakegoodstime != null ">planTakeGoodsTime = #{plantakegoodstime},</if>
+            <if test="warningstate != null  and warningstate != ''">warningState = #{warningstate},</if>
+            <if test="pickuptype != null  and pickuptype != ''">pickupType = #{pickuptype},</if>
+        </trim>
+        where pickupplanid = #{pickupplanid}
+    </update>
+
+
+    <select id="getAllPickupplanData" resultMap="PickupplanTableResult">
+        select planRoute, unloadLocation, planTimeOfDelivery, estimatedDeliveryTime, planTakeGoodsTime, warningState, pickupType, pickupPlanID, id from pickupplan_table
+    </select>
+
+</mapper>

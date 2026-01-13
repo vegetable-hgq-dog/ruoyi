@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.factoryInf.mapper.FactoryTableMapper">
+    
+    <resultMap type="FactoryTable" id="FactoryTableResult">
+        <result property="deliverystation"    column="deliveryStation"    />
+        <result property="projectaddress"    column="projectAddress"    />
+        <result property="factoryname"    column="factoryName"    />
+        <result property="factoryid"    column="factoryID"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectFactoryTableVo">
+        select deliveryStation, projectAddress, factoryName, factoryID, id from factory_table
+    </sql>
+
+    <select id="selectFactoryTableList" parameterType="FactoryTable" resultMap="FactoryTableResult">
+        <include refid="selectFactoryTableVo"/>
+        <where>  
+            <if test="deliverystation != null  and deliverystation != ''"> and deliveryStation = #{deliverystation}</if>
+            <if test="projectaddress != null  and projectaddress != ''"> and projectAddress = #{projectaddress}</if>
+            <if test="factoryname != null  and factoryname != ''"> and factoryName like concat('%', #{factoryname}, '%')</if>
+            <if test="factoryid != null  and factoryid != ''"> and factoryID = #{factoryid}</if>
+        </where>
+    </select>
+    
+    <select id="selectFactoryTableById" parameterType="Long" resultMap="FactoryTableResult">
+        <include refid="selectFactoryTableVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFactoryTable" parameterType="FactoryTable" useGeneratedKeys="true" keyProperty="id">
+        insert into factory_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deliverystation != null  and deliverystation != ''">deliveryStation,</if>
+            <if test="projectaddress != null  and projectaddress != ''">projectAddress,</if>
+            <if test="factoryname != null  and factoryname != ''">factoryName,</if>
+            <if test="factoryid != null  and factoryid != ''">factoryID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deliverystation != null  and deliverystation != ''">#{deliverystation},</if>
+            <if test="projectaddress != null  and projectaddress != ''">#{projectaddress},</if>
+            <if test="factoryname != null  and factoryname != ''">#{factoryname},</if>
+            <if test="factoryid != null  and factoryid != ''">#{factoryid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFactoryTable" parameterType="FactoryTable">
+        update factory_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deliverystation != null  and deliverystation != ''">deliveryStation = #{deliverystation},</if>
+            <if test="projectaddress != null  and projectaddress != ''">projectAddress = #{projectaddress},</if>
+            <if test="factoryname != null  and factoryname != ''">factoryName = #{factoryname},</if>
+            <if test="factoryid != null  and factoryid != ''">factoryID = #{factoryid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFactoryTableById" parameterType="Long">
+        delete from factory_table where id = #{id}
+    </delete>
+
+    <delete id="deleteFactoryTableByIds" parameterType="String">
+        delete from factory_table where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+
+    <select id="selectByFactoryid" parameterType="String" resultMap="FactoryTableResult">
+        <include refid="selectFactoryTableVo"/>
+        where factoryid = #{factoryid}
+    </select>
+
+
+    <update id="updateFactoryid" parameterType="FactoryTable">
+        update factory_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deliverystation != null  and deliverystation != ''">deliveryStation = #{deliverystation},</if>
+            <if test="projectaddress != null  and projectaddress != ''">projectAddress = #{projectaddress},</if>
+            <if test="factoryname != null  and factoryname != ''">factoryName = #{factoryname},</if>
+        </trim>
+        where factoryid = #{factoryid}
+    </update>
+
+
+    <select id="selectFactoryInfo"  resultMap="FactoryTableResult">
+        select * from factory_table
+    </select>
+
+
+
+</mapper>

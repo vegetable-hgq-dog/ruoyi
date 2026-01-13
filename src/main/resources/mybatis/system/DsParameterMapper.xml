@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.parameter.mapper.DsParameterMapper">
+    
+    <resultMap type="DsParameter" id="DsParameterResult">
+        <result property="parameterid"    column="parameterID"    />
+        <result property="parametername"    column="parameterName"    />
+        <result property="parameterdescription"    column="parameterDescription"    />
+        <result property="parameterunit"    column="parameterUnit"    />
+    </resultMap>
+
+    <sql id="selectDsParameterVo">
+        select parameterID, parameterName, parameterDescription, parameterUnit from ds_parameter
+    </sql>
+
+    <select id="selectDsParameterList" parameterType="DsParameter" resultMap="DsParameterResult">
+        <include refid="selectDsParameterVo"/>
+        <where>  
+            <if test="parametername != null  and parametername != ''"> and parameterName like concat('%', #{parametername}, '%')</if>
+            <if test="parameterdescription != null  and parameterdescription != ''"> and parameterDescription = #{parameterdescription}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsParameterById" parameterType="Long" resultMap="DsParameterResult">
+        <include refid="selectDsParameterVo"/>
+        where parameterID = #{parameterid}
+    </select>
+        
+    <insert id="insertDsParameter" parameterType="DsParameter" useGeneratedKeys="true" keyProperty="parameterid">
+        insert into ds_parameter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parametername != null  and parametername != ''">parameterName,</if>
+            <if test="parameterdescription != null  and parameterdescription != ''">parameterDescription,</if>
+            <if test="parameterunit != null  and parameterunit != ''">parameterUnit,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parametername != null  and parametername != ''">#{parametername},</if>
+            <if test="parameterdescription != null  and parameterdescription != ''">#{parameterdescription},</if>
+            <if test="parameterunit != null  and parameterunit != ''">#{parameterunit},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsParameter" parameterType="DsParameter">
+        update ds_parameter
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parametername != null  and parametername != ''">parameterName = #{parametername},</if>
+            <if test="parameterdescription != null  and parameterdescription != ''">parameterDescription = #{parameterdescription},</if>
+            <if test="parameterunit != null  and parameterunit != ''">parameterUnit = #{parameterunit},</if>
+        </trim>
+        where parameterID = #{parameterid}
+    </update>
+
+    <delete id="deleteDsParameterById" parameterType="Long">
+        delete from ds_parameter where parameterID = #{parameterid}
+    </delete>
+
+    <delete id="deleteDsParameterByIds" parameterType="String">
+        delete from ds_parameter where parameterID in 
+        <foreach item="parameterid" collection="array" open="(" separator="," close=")">
+            #{parameterid}
+        </foreach>
+    </delete>
+    
+</mapper>

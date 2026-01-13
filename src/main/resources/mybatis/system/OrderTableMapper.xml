@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.orderInf.mapper.OrderTableMapper">
+    
+    <resultMap type="OrderTable" id="OrderTableResult">
+        <result property="factoryid"    column="factoryID"    />
+        <result property="materialid"    column="materialID"    />
+        <result property="supplierid"    column="supplierID"    />
+        <result property="settlementstatus"    column="settlementStatus"    />
+        <result property="orderdeliverystate"    column="orderDeliveryState"    />
+        <result property="deliverydate"    column="deliveryDate"    />
+        <result property="dateofordermake"    column="dateOfOrderMake"    />
+        <result property="leftuseamount"    column="leftUseAmount"    />
+        <result property="hasusedamount"    column="hasUsedAmount"    />
+        <result property="planuseamount"    column="planUseAmount"    />
+        <result property="ordertype"    column="orderType"    />
+        <result property="orderid"    column="orderID"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectOrderTableVo">
+        select factoryID, materialID, supplierID, settlementStatus, orderDeliveryState, deliveryDate, dateOfOrderMake, leftUseAmount, hasUsedAmount, planUseAmount, orderType, orderID, id from order_table
+    </sql>
+
+    <select id="selectOrderTableList" parameterType="OrderTable" resultMap="OrderTableResult">
+        <include refid="selectOrderTableVo"/>
+        <where>  
+            <if test="factoryid != null  and factoryid != ''"> and factoryID = #{factoryid}</if>
+            <if test="materialid != null  and materialid != ''"> and materialID = #{materialid}</if>
+            <if test="supplierid != null  and supplierid != ''"> and supplierID = #{supplierid}</if>
+            <if test="settlementstatus != null  and settlementstatus != ''"> and settlementStatus = #{settlementstatus}</if>
+            <if test="orderdeliverystate != null  and orderdeliverystate != ''"> and orderDeliveryState = #{orderdeliverystate}</if>
+            <if test="deliverydate != null "> and deliveryDate = #{deliverydate}</if>
+            <if test="dateofordermake != null "> and dateOfOrderMake = #{dateofordermake}</if>
+            <if test="leftuseamount != null  and leftuseamount != ''"> and leftUseAmount = #{leftuseamount}</if>
+            <if test="hasusedamount != null  and hasusedamount != ''"> and hasUsedAmount = #{hasusedamount}</if>
+            <if test="planuseamount != null  and planuseamount != ''"> and planUseAmount = #{planuseamount}</if>
+            <if test="ordertype != null  and ordertype != ''"> and orderType = #{ordertype}</if>
+            <if test="orderid != null  and orderid != ''"> and orderID = #{orderid}</if>
+        </where>
+    </select>
+    
+    <select id="selectOrderTableById" parameterType="Long" resultMap="OrderTableResult">
+        <include refid="selectOrderTableVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOrderTable" parameterType="OrderTable" useGeneratedKeys="true" keyProperty="id">
+        insert into order_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="factoryid != null  and factoryid != ''">factoryID,</if>
+            <if test="materialid != null  and materialid != ''">materialID,</if>
+            <if test="supplierid != null  and supplierid != ''">supplierID,</if>
+            <if test="settlementstatus != null  and settlementstatus != ''">settlementStatus,</if>
+            <if test="orderdeliverystate != null  and orderdeliverystate != ''">orderDeliveryState,</if>
+            <if test="deliverydate != null ">deliveryDate,</if>
+            <if test="dateofordermake != null ">dateOfOrderMake,</if>
+            <if test="leftuseamount != null  and leftuseamount != ''">leftUseAmount,</if>
+            <if test="hasusedamount != null  and hasusedamount != ''">hasUsedAmount,</if>
+            <if test="planuseamount != null  and planuseamount != ''">planUseAmount,</if>
+            <if test="ordertype != null  and ordertype != ''">orderType,</if>
+            <if test="orderid != null  and orderid != ''">orderID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="factoryid != null  and factoryid != ''">#{factoryid},</if>
+            <if test="materialid != null  and materialid != ''">#{materialid},</if>
+            <if test="supplierid != null  and supplierid != ''">#{supplierid},</if>
+            <if test="settlementstatus != null  and settlementstatus != ''">#{settlementstatus},</if>
+            <if test="orderdeliverystate != null  and orderdeliverystate != ''">#{orderdeliverystate},</if>
+            <if test="deliverydate != null ">#{deliverydate},</if>
+            <if test="dateofordermake != null ">#{dateofordermake},</if>
+            <if test="leftuseamount != null  and leftuseamount != ''">#{leftuseamount},</if>
+            <if test="hasusedamount != null  and hasusedamount != ''">#{hasusedamount},</if>
+            <if test="planuseamount != null  and planuseamount != ''">#{planuseamount},</if>
+            <if test="ordertype != null  and ordertype != ''">#{ordertype},</if>
+            <if test="orderid != null  and orderid != ''">#{orderid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOrderTable" parameterType="OrderTable">
+        update order_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="factoryid != null  and factoryid != ''">factoryID = #{factoryid},</if>
+            <if test="materialid != null  and materialid != ''">materialID = #{materialid},</if>
+            <if test="supplierid != null  and supplierid != ''">supplierID = #{supplierid},</if>
+            <if test="settlementstatus != null  and settlementstatus != ''">settlementStatus = #{settlementstatus},</if>
+            <if test="orderdeliverystate != null  and orderdeliverystate != ''">orderDeliveryState = #{orderdeliverystate},</if>
+            <if test="deliverydate != null ">deliveryDate = #{deliverydate},</if>
+            <if test="dateofordermake != null ">dateOfOrderMake = #{dateofordermake},</if>
+            <if test="leftuseamount != null  and leftuseamount != ''">leftUseAmount = #{leftuseamount},</if>
+            <if test="hasusedamount != null  and hasusedamount != ''">hasUsedAmount = #{hasusedamount},</if>
+            <if test="planuseamount != null  and planuseamount != ''">planUseAmount = #{planuseamount},</if>
+            <if test="ordertype != null  and ordertype != ''">orderType = #{ordertype},</if>
+            <if test="orderid != null  and orderid != ''">orderID = #{orderid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOrderTableById" parameterType="Long">
+        delete from order_table where id = #{id}
+    </delete>
+
+    <delete id="deleteOrderTableByIds" parameterType="String">
+        delete from order_table where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="selectByOrderid" parameterType="String" resultMap="OrderTableResult">
+        <include refid="selectOrderTableVo"/>
+        where orderid = #{orderid}
+    </select>
+
+
+    <update id="updateOrderid" parameterType="OrderTable">
+        update order_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="factoryid != null  and factoryid != ''">factoryID = #{factoryid},</if>
+            <if test="materialid != null  and materialid != ''">materialID = #{materialid},</if>
+            <if test="supplierid != null  and supplierid != ''">supplierID = #{supplierid},</if>
+            <if test="settlementstatus != null  and settlementstatus != ''">settlementStatus = #{settlementstatus},</if>
+            <if test="orderdeliverystate != null  and orderdeliverystate != ''">orderDeliveryState = #{orderdeliverystate},</if>
+            <if test="deliverydate != null ">deliveryDate = #{deliverydate},</if>
+            <if test="dateofordermake != null ">dateOfOrderMake = #{dateofordermake},</if>
+            <if test="leftuseamount != null  and leftuseamount != ''">leftUseAmount = #{leftuseamount},</if>
+            <if test="hasusedamount != null  and hasusedamount != ''">hasUsedAmount = #{hasusedamount},</if>
+            <if test="planuseamount != null  and planuseamount != ''">planUseAmount = #{planuseamount},</if>
+            <if test="ordertype != null  and ordertype != ''">orderType = #{ordertype},</if>
+        </trim>
+        where orderid = #{orderid}
+    </update>
+
+    <select id="getData" statementType="CALLABLE" resultMap="OrderTableResult" useCache="false">
+        {
+            call order_test()
+        }
+    </select>
+
+    <select id="getMaterialAmount" statementType="CALLABLE" resultMap="OrderTableResult" useCache="false">
+        {
+            call materialPlan()
+            }
+    </select>
+
+    <select id="getSupplierAmount" statementType="CALLABLE" resultMap="OrderTableResult" useCache="false">
+        {
+            call supplierPlan()
+            }
+    </select>
+
+
+
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.vechicleproduction.mapper.DsVechicleproductionMapper">
+    
+    <resultMap type="DsVechicleproduction" id="DsVechicleproductionResult">
+        <result property="vechicleproductionid"    column="vechicleProductionID"    />
+        <result property="productlineid"    column="productlineID"    />
+        <result property="vechicletypeid"    column="vechicletypeID"    />
+        <result property="productionplantime"    column="productionPlanTime"    />
+        <result property="productionplannum"    column="productionPlanNum"    />
+        <result property="productionstarttime"    column="productionStartTime"    />
+        <result property="productionnum"    column="productionNum"    />
+        <result property="currentstatus"    column="currentstatus"    />
+    </resultMap>
+
+    <sql id="selectDsVechicleproductionVo">
+        select vechicleProductionID, productlineID, vechicletypeID, productionPlanTime, productionPlanNum, productionStartTime, productionNum, currentstatus from ds_vechicleproduction
+    </sql>
+
+    <select id="selectDsVechicleproductionList" parameterType="DsVechicleproduction" resultMap="DsVechicleproductionResult">
+        <include refid="selectDsVechicleproductionVo"/>
+        <where>  
+            <if test="productlineid != null "> and productlineID = #{productlineid}</if>
+            <if test="vechicletypeid != null "> and vechicletypeID = #{vechicletypeid}</if>
+            <if test="productionplantime != null "> and productionPlanTime = #{productionplantime}</if>
+            <if test="currentstatus != null  and currentstatus != ''"> and currentstatus = #{currentstatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsVechicleproductionById" parameterType="Long" resultMap="DsVechicleproductionResult">
+        <include refid="selectDsVechicleproductionVo"/>
+        where vechicleProductionID = #{vechicleproductionid}
+    </select>
+        
+    <insert id="insertDsVechicleproduction" parameterType="DsVechicleproduction">
+        insert into ds_vechicleproduction
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vechicleproductionid != null ">vechicleProductionID,</if>
+            <if test="productlineid != null ">productlineID,</if>
+            <if test="vechicletypeid != null ">vechicletypeID,</if>
+            <if test="productionplantime != null ">productionPlanTime,</if>
+            <if test="productionplannum != null ">productionPlanNum,</if>
+            <if test="productionstarttime != null ">productionStartTime,</if>
+            <if test="productionnum != null ">productionNum,</if>
+            <if test="currentstatus != null  and currentstatus != ''">currentstatus,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vechicleproductionid != null ">#{vechicleproductionid},</if>
+            <if test="productlineid != null ">#{productlineid},</if>
+            <if test="vechicletypeid != null ">#{vechicletypeid},</if>
+            <if test="productionplantime != null ">#{productionplantime},</if>
+            <if test="productionplannum != null ">#{productionplannum},</if>
+            <if test="productionstarttime != null ">#{productionstarttime},</if>
+            <if test="productionnum != null ">#{productionnum},</if>
+            <if test="currentstatus != null  and currentstatus != ''">#{currentstatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsVechicleproduction" parameterType="DsVechicleproduction">
+        update ds_vechicleproduction
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productlineid != null ">productlineID = #{productlineid},</if>
+            <if test="vechicletypeid != null ">vechicletypeID = #{vechicletypeid},</if>
+            <if test="productionplantime != null ">productionPlanTime = #{productionplantime},</if>
+            <if test="productionplannum != null ">productionPlanNum = #{productionplannum},</if>
+            <if test="productionstarttime != null ">productionStartTime = #{productionstarttime},</if>
+            <if test="productionnum != null ">productionNum = #{productionnum},</if>
+            <if test="currentstatus != null  and currentstatus != ''">currentstatus = #{currentstatus},</if>
+        </trim>
+        where vechicleProductionID = #{vechicleproductionid}
+    </update>
+
+    <delete id="deleteDsVechicleproductionById" parameterType="Long">
+        delete from ds_vechicleproduction where vechicleProductionID = #{vechicleproductionid}
+    </delete>
+
+    <delete id="deleteDsVechicleproductionByIds" parameterType="String">
+        delete from ds_vechicleproduction where vechicleProductionID in 
+        <foreach item="vechicleproductionid" collection="array" open="(" separator="," close=")">
+            #{vechicleproductionid}
+        </foreach>
+    </delete>
+    
+</mapper>

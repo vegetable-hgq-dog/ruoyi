@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/materialOrderAllocationHTML.css">
+</head>
+<body>
+    <section>
+        <div class="allocationQuery">
+            <div class="allocationQueryPart afactoryID">工厂编号
+                <select id="factoryIDChoose">
+                    <option th:value="0"></option>
+                    <option th:each="fti : ${factoryTableInfo}" th:value="${fti.factoryid}" th:text="${fti.factoryid}"></option>
+                </select>
+            </div>
+            <div class="allocationQueryPart aorderID">订单编号
+                <select id="orderIDChoose">
+                    <option th:value="0"></option>
+                    <option th:each="oti : ${orderTableInfo}" th:value="${oti.orderid}" th:text="${oti.orderid}"></option>
+                </select>
+            </div>
+            <div class="allocationQueryPart amaterialName">物料名称
+                <select id="materialNameChoose">
+                    <option th:value="0"></option>
+                    <option th:each="mti : ${materialsTableInfo}" th:value="${mti.materialname}" th:text="${mti.materialname}"></option>
+                </select>
+            </div>
+            <div class="allocationQueryPart astartDate">开始日期<input id="astartDate" type="datetime-local"></div>
+            <div class="allocationQueryPart afinishDate">结束<input id="aendDate" type="datetime-local"></div>
+            <div class="allocationQueryPart aqueryButton">
+                <button id="aqueryButton" type="button">查询</button>
+            </div>
+
+        </div>
+        <div class="materialAllocationTable">
+            <div class="materialAllocationTableTitle">物料订单分配</div>
+            <div class="materialAllocationTableContent" id="materialAllocationTableContent">
+<!--                <table class="allocation_table">-->
+<!--                    <tr>-->
+<!--                        <th class="xuhao">序号</th>-->
+<!--                        <th>工厂编号</th>-->
+<!--                        <th>订单编号</th>-->
+<!--                        <th>物料编号</th>-->
+<!--                        <th>物料名称</th>-->
+<!--                        <th class="supplierNum">供应商数量</th>-->
+<!--                        <th>计划用量</th>-->
+<!--                        <th>物料缺口</th>-->
+<!--                        <th>更新时间</th>-->
+<!--                        <th>详情</th>-->
+<!--                    </tr>-->
+<!--                    <tr class="allocation_table_detail">-->
+<!--                        <td class="xuhao">1</td>-->
+<!--                        <td>D355</td>-->
+<!--                        <td>8891389963G51</td>-->
+<!--                        <td>LH8891389963G51</td>-->
+<!--                        <td>短距离超声波传感器（星辰蓝）</td>-->
+<!--                        <td class="supplierNum">2</td>-->
+<!--                        <td>1050</td>-->
+<!--                        <td>500</td>-->
+<!--                        <td>2022-02-12 12:00:00</td>-->
+<!--                        <td><button class="allocationDetailsButton" type="button">查看</button></td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+            </div>
+        </div>
+        <div class="allocationFuncBox">
+            <div class="allocationFuncPart">
+                <div class="allocationInputPart">
+                    <div class="allocationInputPart1">
+                        <div class="allocationInputPart1Title">订单分配输入</div>
+                        <div class="allocationInputPart1Content">
+                            <div class="allocationInputPart1ContentDetails">物料名称&emsp;&emsp;&ensp;
+                                <select class="allocationInputPart1Size">
+                                    <option>短距超声波传感器（星尘蓝）</option>
+                                    <option>短距超声波传感器（星尘紫）</option>
+                                </select>
+                            </div>
+                            <div class="allocationInputPart1ContentDetails">物料编号&emsp;&emsp;&ensp;
+                                <select class="allocationInputPart1Size">
+                                    <option>8891389963G51</option>
+                                    <option>8891389963K50</option>
+                                </select>
+                            </div>
+                            <div class="allocationInputPart1ContentDetails">分配优先级&emsp;&ensp;
+                                <select class="allocationInputPart1Size">
+                                    <option>时间优先</option>
+                                    <option>距离优先</option>
+                                </select>
+                            </div>
+                            <div class="allocationInputPart1ContentDetails">最大供应商数&ensp;
+                                <select class="allocationInputPart1Size">
+                                    <option>1</option>
+                                    <option>2</option>
+                                </select>
+                            </div>
+                            <div class="allocationInputPart1ContentDetails">计划数量&emsp;&emsp;&ensp;<input class="allocationInputPart1Size" type="text"></div>
+                        </div>
+                        <div class="allocationInputPart1Button">
+                            <button class="doReset1 allocationPart1Button" type="button">重置</button>
+                            <button class="allocationPart1Button" type="button">确定</button>
+                        </div>
+                    </div>
+                    <div class="allocationInputPart2">
+                        <div class="allocationInputPart2Title">算法参数设置</div>
+                        <div class="allocationInputPart2Content">
+                            <div class="allocationInputPart2ContentDetails">时间权重&emsp;&emsp;
+                                <select class="allocationInputPart2Size">
+                                    <option>0.7</option>
+                                    <option>0.8</option>
+                                </select>
+                            </div>
+                            <div class="allocationInputPart2ContentDetails">距离权重&emsp;&emsp;
+                                <select class="allocationInputPart2Size">
+                                    <option>0.1</option>
+                                    <option>0.2</option>
+                                </select>
+                            </div>
+                            <div class="allocationInputPart2ContentDetails">价格权重&emsp;&emsp;
+                                <select class="allocationInputPart2Size">
+                                    <option>0.1</option>
+                                    <option>0.2</option>
+                                </select>
+                            </div>
+                            <div class="allocationInputPart2ContentDetails">质量权重&emsp;&emsp;
+                                <select class="allocationInputPart2Size">
+                                    <option>0.1</option>
+                                    <option>0.2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="allocationInputPart2Button">
+                            <button class="doReset2 allocationPart2Button" type="button">重置</button>
+                            <button class="allocationPart2Button" type="button">确定</button>
+                        </div>
+                    </div>
+                    <div class="allocationInputPart3"><div class="allocationInputPart3Val">订单分配</div></div>
+                </div>
+                <div class="allocationResultPart">
+                    <div class="allocationResultPartTitle">订单分配结果</div>
+                    <div class="allocationResultPartTable">
+                        <table class="allocationResultPartTableContent">
+                            <tr>
+                                <th>物料编号</th>
+                                <th>物料名称</th>
+                                <th>供应商编号</th>
+                                <th>供应商名称</th>
+                                <th>预测产能</th>
+                                <th>采购数量</th>
+                            </tr>
+                            <tr class="allocationResultPartTable_detail">
+                                <td>8897389963G51</td>
+                                <td>短距离超声波传感器（星尘蓝）</td>
+                                <td>57110</td>
+                                <td>杭州海康</td>
+                                <td>1050</td>
+                                <td>950</td>
+                            </tr>
+                            <tr class="allocationResultPartTable_detail">
+                                <td>8897389963G51</td>
+                                <td>短距离超声波传感器（星尘蓝）</td>
+                                <td>57110</td>
+                                <td>杭州海康</td>
+                                <td>1050</td>
+                                <td>950</td>
+                            </tr>
+
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script th:src="@{/echarts/echarts.min.js}"></script>
+
+    <script type="text/javascript">
+        $.when(
+            $.getJSON('/system/orderInf/allData'),
+            $.getJSON('/system/materialInf/getAllMaterialData'),
+        ).done(function (orderinfo,materialinfo) {
+
+            var eachTr = '';
+            var materialName = '';
+
+            for (let i = 0;i < orderinfo[0].length;i++){
+
+                for (let j = 0;j < materialinfo[0].length;j++){
+                    if (materialinfo[0][j].materialid == orderinfo[0][i].materialid ){
+                        materialName = materialinfo[0][j].materialname;
+                    }
+                }
+
+
+                eachTr += '<tr class="allocation_table_detail">\n' +
+                    '                        <td class="xuhao">' + (i+1) + '</td>\n' +
+                    '                        <td>' + orderinfo[0][i].factoryid + '</td>\n' +
+                    '                        <td>' + orderinfo[0][i].orderid + '</td>\n' +
+                    '                        <td>' + orderinfo[0][i].materialid + '</td>\n' +
+                    '                        <td>' + materialName + '</td>\n' +
+                    '                        <td>1</td>\n' +
+                    '                        <td class="proPredict">' + orderinfo[0][i].planuseamount + '</td>\n' +
+                    '                        <td class="predict_time">' + orderinfo[0][i].leftuseamount + '</td>\n' +
+                    '                        <td class="predict_time">' + orderinfo[0][i].dateofordermake + '</td>\n' +
+                    '                        <td><button class="allocationDetailsButton" type="button">查看</button></td>\n' +
+                    '                    </tr>';
+
+            }
+            var tableInfo = '<table class="allocation_table">\n' +
+                '                    <tr>\n' +
+                '                        <th class="xuhao">序号</th>\n' +
+                '                        <th>工厂编号</th>\n' +
+                '                        <th>订单编号</th>\n' +
+                '                        <th>物料编号</th>\n' +
+                '                        <th>物料名称</th>\n' +
+                '                        <th class="supplierNum">供应商数量</th>\n' +
+                '                        <th>计划用量</th>\n' +
+                '                        <th>物料缺口</th>\n' +
+                '                        <th>更新时间</th>\n' +
+                '                        <th>详情</th>\n' +
+                '                    </tr>' +
+                eachTr +
+                '            </table>'
+            document.getElementById('materialAllocationTableContent').innerHTML = tableInfo;
+
+
+            $("#aqueryButton").click(function () {
+                var factoryIDChoose = $('#factoryIDChoose').find("option:selected").val();
+                var materialNameChoose = $('#materialNameChoose').val();
+                var orderIDChoose = $('#orderIDChoose').val();
+                var astartDate = $('#astartDate').val();
+                var aendDate = $('#aendDate').val();
+                var xu = 0;
+                tableInfo = '';
+                eachTr = '';
+
+
+                // if (factoryNum == 0 && materialNam == '' && supplierNam == '' && startDate == '' && endDate == ''){
+                //     $('#form_table').remove();
+                //     document.getElementById('production_prediction_form_content').innerHTML = wholeData;
+                // }
+
+                for (let i = 0;i < orderinfo[0].length;i++){
+
+                    for (let j = 0;j < materialinfo[0].length;j++){
+                        if (materialinfo[0][j].materialid == orderinfo[0][i].materialid ){
+                            materialName = materialinfo[0][j].materialname;
+                        }
+                    }
+
+
+                    if ((orderinfo[0][i].factoryid == factoryIDChoose || factoryIDChoose == 0) && (materialName == materialNameChoose || materialNameChoose == 0) && (orderinfo[0][i].orderid == orderIDChoose || orderIDChoose == 0) && (orderinfo[0][i].dateofordermake >= astartDate.replace("T"," ") || astartDate == '') && (orderinfo[0][i].dateofordermake <= aendDate.replace("T"," ") || aendDate == '')){
+                        eachTr += '<tr class="allocation_table_detail">\n' +
+                            '                        <td class="xuhao">' + (xu+1) + '</td>\n' +
+                            '                        <td>' + orderinfo[0][i].factoryid + '</td>\n' +
+                            '                        <td>' + orderinfo[0][i].orderid + '</td>\n' +
+                            '                        <td>' + orderinfo[0][i].materialid + '</td>\n' +
+                            '                        <td>' + materialName + '</td>\n' +
+                            '                        <td>1</td>\n' +
+                            '                        <td class="proPredict">' + orderinfo[0][i].planuseamount + '</td>\n' +
+                            '                        <td class="predict_time">' + orderinfo[0][i].leftuseamount + '</td>\n' +
+                            '                        <td class="predict_time">' + orderinfo[0][i].dateofordermake + '</td>\n' +
+                            '                        <td><button class="allocationDetailsButton" type="button">查看</button></td>\n' +
+                            '                    </tr>';
+                        xu = xu + 1;
+                    }
+
+                }
+
+                tableInfo = '<table class="allocation_table">\n' +
+                    '                    <tr>\n' +
+                    '                        <th class="xuhao">序号</th>\n' +
+                    '                        <th>工厂编号</th>\n' +
+                    '                        <th>订单编号</th>\n' +
+                    '                        <th>物料编号</th>\n' +
+                    '                        <th>物料名称</th>\n' +
+                    '                        <th class="supplierNum">供应商数量</th>\n' +
+                    '                        <th>计划用量</th>\n' +
+                    '                        <th>物料缺口</th>\n' +
+                    '                        <th>更新时间</th>\n' +
+                    '                        <th>详情</th>\n' +
+                    '                    </tr>' +
+                    eachTr +
+                    '            </table>'
+                console.log(tableInfo)
+                $('.production_prediction_form_content').children().remove();
+                document.getElementById('materialAllocationTableContent').innerHTML = tableInfo;
+
+            })
+
+        })
+
+
+    </script>
+</body>
+</html>

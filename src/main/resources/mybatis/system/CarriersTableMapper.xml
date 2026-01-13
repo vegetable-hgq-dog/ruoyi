@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.carrierInf.mapper.CarriersTableMapper">
+    
+    <resultMap type="CarriersTable" id="CarriersTableResult">
+        <result property="contactinformation"    column="contactInformation"    />
+        <result property="carriercontacts"    column="carrierContacts"    />
+        <result property="carriername"    column="carrierName"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectCarriersTableVo">
+        select contactInformation, carrierContacts, carrierName, id from carriers_table
+    </sql>
+
+    <select id="selectCarriersTableList" parameterType="CarriersTable" resultMap="CarriersTableResult">
+        <include refid="selectCarriersTableVo"/>
+        <where>  
+            <if test="contactinformation != null  and contactinformation != ''"> and contactInformation = #{contactinformation}</if>
+            <if test="carriercontacts != null  and carriercontacts != ''"> and carrierContacts = #{carriercontacts}</if>
+            <if test="carriername != null  and carriername != ''"> and carrierName like concat('%', #{carriername}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectCarriersTableById" parameterType="Long" resultMap="CarriersTableResult">
+        <include refid="selectCarriersTableVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCarriersTable" parameterType="CarriersTable" useGeneratedKeys="true" keyProperty="id">
+        insert into carriers_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="contactinformation != null  and contactinformation != ''">contactInformation,</if>
+            <if test="carriercontacts != null  and carriercontacts != ''">carrierContacts,</if>
+            <if test="carriername != null  and carriername != ''">carrierName,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="contactinformation != null  and contactinformation != ''">#{contactinformation},</if>
+            <if test="carriercontacts != null  and carriercontacts != ''">#{carriercontacts},</if>
+            <if test="carriername != null  and carriername != ''">#{carriername},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCarriersTable" parameterType="CarriersTable">
+        update carriers_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="contactinformation != null  and contactinformation != ''">contactInformation = #{contactinformation},</if>
+            <if test="carriercontacts != null  and carriercontacts != ''">carrierContacts = #{carriercontacts},</if>
+            <if test="carriername != null  and carriername != ''">carrierName = #{carriername},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCarriersTableById" parameterType="Long">
+        delete from carriers_table where id = #{id}
+    </delete>
+
+    <delete id="deleteCarriersTableByIds" parameterType="String">
+        delete from carriers_table where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
+    </delete>
+
+
+    <select id="selectByCarriername" parameterType="String" resultMap="CarriersTableResult">
+        <include refid="selectCarriersTableVo"/>
+        where carriername = #{carriername}
+    </select>
+
+
+    <update id="updateCarriers" parameterType="CarriersTable">
+        update carriers_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="contactinformation != null  and contactinformation != ''">contactInformation = #{contactinformation},</if>
+            <if test="carriercontacts != null  and carriercontacts != ''">carrierContacts = #{carriercontacts},</if>
+        </trim>
+        where carriername = #{carriername}
+    </update>
+
+</mapper>

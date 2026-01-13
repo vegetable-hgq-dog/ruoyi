@@ -1,0 +1,14 @@
+{
+  "RECORDS": [
+    {
+      "orderID": "LH20220924000033",
+      "planUseAmount": "800",
+      "hasUsedAmount": "800"
+    },
+    {
+      "orderID": "LH20220925000023",
+      "planUseAmount": "1200",
+      "hasUsedAmount": "700"
+    }
+  ]
+}

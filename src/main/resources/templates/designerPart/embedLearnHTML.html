@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/embedLearnHTML.css">
+</head>
+<body>
+    <div class="embedmodel">
+        <div class="title_model">嵌入学习模型架构</div>
+        <div class="model_content">
+            <img class="modelimg" src="/img/model1.jpg" ></img>
+        </div>
+    </div>
+    <div class="traintotal">
+        <div class="trainfactor">
+            <div class="title_factory">训练参数设置</div>
+            <div class="inputfactor">
+                <div class="inputcontent">嵌入维度&ensp;<input type="text" placeholder="输入数字" value="500"></div>
+                <div class="inputcontent">迭代次数&ensp;<input type="text" placeholder="输入数字" value="300"></div>
+                <div class="inputcontent">&ensp;负采样&ensp;&ensp;<input type="text" placeholder="输入数字" value="5"></div>
+                <div class="inputcontent">&ensp;学习率&ensp;&ensp;<input type="text" placeholder="输入数字" value="0.001"></div>
+                <div class="inputcontent"><button id="inputbut" type="button">开始训练</button></div>
+            </div>
+        </div>
+        <div class="trainresult">
+            <div class="title_result">训练结果</div>
+            <div id="resultpic">
+                <div class="pic">
+                    <div id="dict1" class="pic_content">5折交叉验证训练集损失函数收敛图</div>
+                    <div class="pic_content">
+                        <img id="result1png" src="/img/result1.png"></img>
+                    </div>
+                </div>
+                <div class="pic">
+                    <div id="dict2" class="pic_content">5折交叉验证验证集MRR计算结果收敛图</div>
+                    <div class="pic_content">
+                        <img id="MRR" src="/img/MRR.png"></img>
+                    </div>
+                </div>
+
+            </div>
+            <div class="inputcontent">验证集平均MRR&ensp;<input type="text" value="0.8796"></input></div>
+
+        </div>
+    </div>
+    <script th:src="@{/js/jquery.min.js}"></script>
+<!--    <script th:src="@{/js/bootstrap.min.js}"></script>-->
+<!--    <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>-->
+<!--    <script th:src="@{/echarts/echarts.min.js}"></script>-->
+    <script type="text/javascript">
+
+        $('#inputbut').click(function (){
+            if ($('.trainresult').is(':hidden')){
+                $('.trainresult').show();
+            }else {
+                $('.trainresult').hide();
+            }
+        })
+
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.factory.mapper.DsFactoryMapper">
+    
+    <resultMap type="DsFactory" id="DsFactoryResult">
+        <result property="factoryid"    column="factoryID"    />
+        <result property="factoryname"    column="factoryName"    />
+    </resultMap>
+
+    <sql id="selectDsFactoryVo">
+        select factoryID, factoryName from ds_factory
+    </sql>
+
+    <select id="selectDsFactoryList" parameterType="DsFactory" resultMap="DsFactoryResult">
+        <include refid="selectDsFactoryVo"/>
+        <where>  
+            <if test="factoryid != null "> and factoryID = #{factoryid}</if>
+            <if test="factoryname != null  and factoryname != ''"> and factoryName like concat('%', #{factoryname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDsFactoryById" parameterType="Long" resultMap="DsFactoryResult">
+        <include refid="selectDsFactoryVo"/>
+        where factoryID = #{factoryid}
+    </select>
+        
+    <insert id="insertDsFactory" parameterType="DsFactory" useGeneratedKeys="true" keyProperty="factoryid">
+        insert into ds_factory
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="factoryname != null  and factoryname != ''">factoryName,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="factoryname != null  and factoryname != ''">#{factoryname},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsFactory" parameterType="DsFactory">
+        update ds_factory
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="factoryname != null  and factoryname != ''">factoryName = #{factoryname},</if>
+        </trim>
+        where factoryID = #{factoryid}
+    </update>
+
+    <delete id="deleteDsFactoryById" parameterType="Long">
+        delete from ds_factory where factoryID = #{factoryid}
+    </delete>
+
+    <delete id="deleteDsFactoryByIds" parameterType="String">
+        delete from ds_factory where factoryID in 
+        <foreach item="factoryid" collection="array" open="(" separator="," close=")">
+            #{factoryid}
+        </foreach>
+    </delete>
+    
+</mapper>

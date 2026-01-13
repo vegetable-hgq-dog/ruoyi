@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.stationsInfo.mapper.DsStationsMapper">
+    
+    <resultMap type="DsStations" id="DsStationsResult">
+        <result property="stationid"    column="stationID"    />
+        <result property="stationname"    column="stationName"    />
+        <result property="stationtype"    column="stationType"    />
+    </resultMap>
+
+    <sql id="selectDsStationsVo">
+        select stationID, stationName, stationType from ds_stations
+    </sql>
+
+    <select id="selectDsStationsList" parameterType="DsStations" resultMap="DsStationsResult">
+        <include refid="selectDsStationsVo"/>
+        <where>  
+            <if test="stationname != null  and stationname != ''"> and stationName like concat('%', #{stationname}, '%')</if>
+            <if test="stationtype != null  and stationtype != ''"> and stationType = #{stationtype}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsStationsById" parameterType="Long" resultMap="DsStationsResult">
+        <include refid="selectDsStationsVo"/>
+        where stationID = #{stationid}
+    </select>
+        
+    <insert id="insertDsStations" parameterType="DsStations" useGeneratedKeys="true" keyProperty="stationid">
+        insert into ds_stations
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stationname != null  and stationname != ''">stationName,</if>
+            <if test="stationtype != null  and stationtype != ''">stationType,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stationname != null  and stationname != ''">#{stationname},</if>
+            <if test="stationtype != null  and stationtype != ''">#{stationtype},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsStations" parameterType="DsStations">
+        update ds_stations
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stationname != null  and stationname != ''">stationName = #{stationname},</if>
+            <if test="stationtype != null  and stationtype != ''">stationType = #{stationtype},</if>
+        </trim>
+        where stationID = #{stationid}
+    </update>
+
+    <delete id="deleteDsStationsById" parameterType="Long">
+        delete from ds_stations where stationID = #{stationid}
+    </delete>
+
+    <delete id="deleteDsStationsByIds" parameterType="String">
+        delete from ds_stations where stationID in 
+        <foreach item="stationid" collection="array" open="(" separator="," close=")">
+            #{stationid}
+        </foreach>
+    </delete>
+
+
+    <select id="selectStationID" resultMap="DsStationsResult">
+        select stationID from ds_stations
+    </select>
+
+</mapper>

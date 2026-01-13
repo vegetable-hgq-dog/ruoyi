@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.partpurchase.mapper.DsPartpurchaseMapper">
+    
+    <resultMap type="DsPartpurchase" id="DsPartpurchaseResult">
+        <result property="purchasedate"    column="purchaseDate"    />
+        <result property="purchasenumer"    column="purchaseNumer"    />
+        <result property="purchasesize"    column="purchaseSize"    />
+        <result property="purchasetype"    column="purchaseType"    />
+        <result property="purchasename"    column="purchaseName"    />
+        <result property="serviceorderid"    column="serviceorderID"    />
+        <result property="supplierid"    column="supplierID"    />
+        <result property="centerid"    column="centerID"    />
+        <result property="purchaseid"    column="purchaseID"    />
+    </resultMap>
+
+    <sql id="selectDsPartpurchaseVo">
+        select purchaseDate, purchaseNumer, purchaseSize, purchaseType, purchaseName, serviceorderID, supplierID, centerID, purchaseID from ds_partpurchase
+    </sql>
+
+    <select id="selectDsPartpurchaseList" parameterType="DsPartpurchase" resultMap="DsPartpurchaseResult">
+        <include refid="selectDsPartpurchaseVo"/>
+        <where>  
+            <if test="purchasedate != null "> and purchaseDate = #{purchasedate}</if>
+            <if test="purchasenumer != null "> and purchaseNumer = #{purchasenumer}</if>
+            <if test="purchasesize != null  and purchasesize != ''"> and purchaseSize = #{purchasesize}</if>
+            <if test="purchasetype != null  and purchasetype != ''"> and purchaseType = #{purchasetype}</if>
+            <if test="purchasename != null  and purchasename != ''"> and purchaseName like concat('%', #{purchasename}, '%')</if>
+            <if test="serviceorderid != null "> and serviceorderID = #{serviceorderid}</if>
+            <if test="supplierid != null "> and supplierID = #{supplierid}</if>
+            <if test="centerid != null "> and centerID = #{centerid}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsPartpurchaseById" parameterType="Integer" resultMap="DsPartpurchaseResult">
+        <include refid="selectDsPartpurchaseVo"/>
+        where purchaseID = #{purchaseid}
+    </select>
+        
+    <insert id="insertDsPartpurchase" parameterType="DsPartpurchase">
+        insert into ds_partpurchase
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="purchasedate != null ">purchaseDate,</if>
+            <if test="purchasenumer != null ">purchaseNumer,</if>
+            <if test="purchasesize != null  and purchasesize != ''">purchaseSize,</if>
+            <if test="purchasetype != null  and purchasetype != ''">purchaseType,</if>
+            <if test="purchasename != null  and purchasename != ''">purchaseName,</if>
+            <if test="serviceorderid != null ">serviceorderID,</if>
+            <if test="supplierid != null ">supplierID,</if>
+            <if test="centerid != null ">centerID,</if>
+            <if test="purchaseid != null ">purchaseID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="purchasedate != null ">#{purchasedate},</if>
+            <if test="purchasenumer != null ">#{purchasenumer},</if>
+            <if test="purchasesize != null  and purchasesize != ''">#{purchasesize},</if>
+            <if test="purchasetype != null  and purchasetype != ''">#{purchasetype},</if>
+            <if test="purchasename != null  and purchasename != ''">#{purchasename},</if>
+            <if test="serviceorderid != null ">#{serviceorderid},</if>
+            <if test="supplierid != null ">#{supplierid},</if>
+            <if test="centerid != null ">#{centerid},</if>
+            <if test="purchaseid != null ">#{purchaseid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsPartpurchase" parameterType="DsPartpurchase">
+        update ds_partpurchase
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="purchasedate != null ">purchaseDate = #{purchasedate},</if>
+            <if test="purchasenumer != null ">purchaseNumer = #{purchasenumer},</if>
+            <if test="purchasesize != null  and purchasesize != ''">purchaseSize = #{purchasesize},</if>
+            <if test="purchasetype != null  and purchasetype != ''">purchaseType = #{purchasetype},</if>
+            <if test="purchasename != null  and purchasename != ''">purchaseName = #{purchasename},</if>
+            <if test="serviceorderid != null ">serviceorderID = #{serviceorderid},</if>
+            <if test="supplierid != null ">supplierID = #{supplierid},</if>
+            <if test="centerid != null ">centerID = #{centerid},</if>
+        </trim>
+        where purchaseID = #{purchaseid}
+    </update>
+
+    <delete id="deleteDsPartpurchaseById" parameterType="Integer">
+        delete from ds_partpurchase where purchaseID = #{purchaseid}
+    </delete>
+
+    <delete id="deleteDsPartpurchaseByIds" parameterType="String">
+        delete from ds_partpurchase where purchaseID in 
+        <foreach item="purchaseid" collection="array" open="(" separator="," close=")">
+            #{purchaseid}
+        </foreach>
+    </delete>
+    
+</mapper>

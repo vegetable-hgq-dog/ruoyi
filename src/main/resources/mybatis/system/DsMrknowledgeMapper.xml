@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mrknowledge.mapper.DsMrknowledgeMapper">
+    
+    <resultMap type="DsMrknowledge" id="DsMrknowledgeResult">
+        <result property="mritemid"    column="MRitemID"    />
+        <result property="mritemtype"    column="MRitemType"    />
+        <result property="mritemcontent"    column="MRitemContent"    />
+        <result property="featureid"    column="featureID"    />
+    </resultMap>
+
+    <sql id="selectDsMrknowledgeVo">
+        select MRitemID, MRitemType, MRitemContent, featureID from ds_mrknowledge
+    </sql>
+
+    <select id="selectDsMrknowledgeList" parameterType="DsMrknowledge" resultMap="DsMrknowledgeResult">
+        <include refid="selectDsMrknowledgeVo"/>
+        <where>  
+            <if test="mritemtype != null  and mritemtype != ''"> and MRitemType = #{mritemtype}</if>
+            <if test="mritemcontent != null  and mritemcontent != ''"> and MRitemContent = #{mritemcontent}</if>
+            <if test="featureid != null "> and featureID = #{featureid}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsMrknowledgeById" parameterType="Long" resultMap="DsMrknowledgeResult">
+        <include refid="selectDsMrknowledgeVo"/>
+        where MRitemID = #{mritemid}
+    </select>
+        
+    <insert id="insertDsMrknowledge" parameterType="DsMrknowledge" useGeneratedKeys="true" keyProperty="mritemid">
+        insert into ds_mrknowledge
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mritemtype != null  and mritemtype != ''">MRitemType,</if>
+            <if test="mritemcontent != null  and mritemcontent != ''">MRitemContent,</if>
+            <if test="featureid != null ">featureID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mritemtype != null  and mritemtype != ''">#{mritemtype},</if>
+            <if test="mritemcontent != null  and mritemcontent != ''">#{mritemcontent},</if>
+            <if test="featureid != null ">#{featureid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsMrknowledge" parameterType="DsMrknowledge">
+        update ds_mrknowledge
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mritemtype != null  and mritemtype != ''">MRitemType = #{mritemtype},</if>
+            <if test="mritemcontent != null  and mritemcontent != ''">MRitemContent = #{mritemcontent},</if>
+            <if test="featureid != null ">featureID = #{featureid},</if>
+        </trim>
+        where MRitemID = #{mritemid}
+    </update>
+
+    <delete id="deleteDsMrknowledgeById" parameterType="Long">
+        delete from ds_mrknowledge where MRitemID = #{mritemid}
+    </delete>
+
+    <delete id="deleteDsMrknowledgeByIds" parameterType="String">
+        delete from ds_mrknowledge where MRitemID in 
+        <foreach item="mritemid" collection="array" open="(" separator="," close=")">
+            #{mritemid}
+        </foreach>
+    </delete>
+    
+</mapper>

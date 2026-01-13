@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改robot_info')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-robotinfo-edit" th:object="${odsAbbRobotInfoDi}">
+            <input name="autoid" th:field="*{autoid}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">控制器ID：</label>
+                <div class="col-sm-8">
+                    <input name="controllerId" th:field="*{controllerId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">控制器名：</label>
+                <div class="col-sm-8">
+                    <input name="controllerName" th:field="*{controllerName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">采集时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="writtenTime" th:value="${#dates.format(odsAbbRobotInfoDi.writtenTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">机器人：</label>
+                <div class="col-sm-8">
+                    <input name="systemName" th:field="*{systemName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">机器人ID：</label>
+                <div class="col-sm-8">
+                    <input name="systemId" th:field="*{systemId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">状态：</label>
+                <div class="col-sm-8">
+                    <select name="state" class="form-control m-b" th:with="type=${@dict.getType('robot_condition')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">焊枪：</label>
+                <div class="col-sm-8">
+                    <select name="curToolName" class="form-control m-b" th:with="type=${@dict.getType('gun_tool_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 代码生成请选择字典属性</span>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">负载：</label>
+                <div class="col-sm-8">
+                    <input name="toolLoad" th:field="*{toolLoad}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "manufacture/robotinfo";
+        $("#form-robotinfo-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-robotinfo-edit').serialize());
+            }
+        }
+
+        $("input[name='writtenTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

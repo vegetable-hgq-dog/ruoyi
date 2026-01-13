@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.manufacture.robotinfo.mapper.OdsAbbRobotInfoDiMapper">
+    
+    <resultMap type="OdsAbbRobotInfoDi" id="OdsAbbRobotInfoDiResult">
+        <result property="etltime"    column="etltime"    />
+        <result property="elapsedProductionTime"    column="elapsed_production_time"    />
+        <result property="isMaster"    column="is_master"    />
+        <result property="versionId"    column="version_id"    />
+        <result property="versionName"    column="version_name"    />
+        <result property="operatingMode"    column="operating_mode"    />
+        <result property="payload"    column="payload"    />
+        <result property="loadName"    column="load_name"    />
+        <result property="toolLoad"    column="tool_load"    />
+        <result property="curToolName"    column="cur_tool_name"    />
+        <result property="state"    column="state"    />
+        <result property="systemId"    column="system_id"    />
+        <result property="systemName"    column="system_name"    />
+        <result property="writtenTime"    column="written_time"    />
+        <result property="controllerName"    column="controller_name"    />
+        <result property="controllerId"    column="controller_id"    />
+        <result property="autoid"    column="autoid"    />
+    </resultMap>
+
+    <sql id="selectOdsAbbRobotInfoDiVo">
+        select etltime, elapsed_production_time, is_master, version_id, version_name, operating_mode, payload, load_name, tool_load, cur_tool_name, state, system_id, system_name, written_time, controller_name, controller_id, autoid from ods_abb_robot_info_di
+    </sql>
+
+    <select id="selectOdsAbbRobotInfoDiList" parameterType="OdsAbbRobotInfoDi" resultMap="OdsAbbRobotInfoDiResult">
+        <include refid="selectOdsAbbRobotInfoDiVo"/>
+        <where>  
+            <if test="curToolName != null  and curToolName != ''"> and cur_tool_name = #{curToolName}</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+            <if test="systemId != null  and systemId != ''"> and system_id = #{systemId}</if>
+            <if test="systemName != null  and systemName != ''"> and system_name like concat('%', #{systemName}, '%')</if>
+            <if test="controllerName != null  and controllerName != ''"> and controller_name like concat('%', #{controllerName}, '%')</if>
+            <if test="controllerId != null  and controllerId != ''"> and controller_id = #{controllerId}</if>
+        </where>
+    </select>
+    
+    <select id="selectOdsAbbRobotInfoDiById" parameterType="Long" resultMap="OdsAbbRobotInfoDiResult">
+        <include refid="selectOdsAbbRobotInfoDiVo"/>
+        where autoid = #{autoid}
+    </select>
+        
+    <insert id="insertOdsAbbRobotInfoDi" parameterType="OdsAbbRobotInfoDi" useGeneratedKeys="true" keyProperty="autoid">
+        insert into ods_abb_robot_info_di
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="etltime != null ">etltime,</if>
+            <if test="elapsedProductionTime != null  and elapsedProductionTime != ''">elapsed_production_time,</if>
+            <if test="isMaster != null  and isMaster != ''">is_master,</if>
+            <if test="versionId != null  and versionId != ''">version_id,</if>
+            <if test="versionName != null  and versionName != ''">version_name,</if>
+            <if test="operatingMode != null  and operatingMode != ''">operating_mode,</if>
+            <if test="payload != null  and payload != ''">payload,</if>
+            <if test="loadName != null  and loadName != ''">load_name,</if>
+            <if test="toolLoad != null ">tool_load,</if>
+            <if test="curToolName != null  and curToolName != ''">cur_tool_name,</if>
+            <if test="state != null  and state != ''">state,</if>
+            <if test="systemId != null  and systemId != ''">system_id,</if>
+            <if test="systemName != null  and systemName != ''">system_name,</if>
+            <if test="writtenTime != null ">written_time,</if>
+            <if test="controllerName != null  and controllerName != ''">controller_name,</if>
+            <if test="controllerId != null  and controllerId != ''">controller_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="etltime != null ">#{etltime},</if>
+            <if test="elapsedProductionTime != null  and elapsedProductionTime != ''">#{elapsedProductionTime},</if>
+            <if test="isMaster != null  and isMaster != ''">#{isMaster},</if>
+            <if test="versionId != null  and versionId != ''">#{versionId},</if>
+            <if test="versionName != null  and versionName != ''">#{versionName},</if>
+            <if test="operatingMode != null  and operatingMode != ''">#{operatingMode},</if>
+            <if test="payload != null  and payload != ''">#{payload},</if>
+            <if test="loadName != null  and loadName != ''">#{loadName},</if>
+            <if test="toolLoad != null ">#{toolLoad},</if>
+            <if test="curToolName != null  and curToolName != ''">#{curToolName},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="systemId != null  and systemId != ''">#{systemId},</if>
+            <if test="systemName != null  and systemName != ''">#{systemName},</if>
+            <if test="writtenTime != null ">#{writtenTime},</if>
+            <if test="controllerName != null  and controllerName != ''">#{controllerName},</if>
+            <if test="controllerId != null  and controllerId != ''">#{controllerId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOdsAbbRobotInfoDi" parameterType="OdsAbbRobotInfoDi">
+        update ods_abb_robot_info_di
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="etltime != null ">etltime = #{etltime},</if>
+            <if test="elapsedProductionTime != null  and elapsedProductionTime != ''">elapsed_production_time = #{elapsedProductionTime},</if>
+            <if test="isMaster != null  and isMaster != ''">is_master = #{isMaster},</if>
+            <if test="versionId != null  and versionId != ''">version_id = #{versionId},</if>
+            <if test="versionName != null  and versionName != ''">version_name = #{versionName},</if>
+            <if test="operatingMode != null  and operatingMode != ''">operating_mode = #{operatingMode},</if>
+            <if test="payload != null  and payload != ''">payload = #{payload},</if>
+            <if test="loadName != null  and loadName != ''">load_name = #{loadName},</if>
+            <if test="toolLoad != null ">tool_load = #{toolLoad},</if>
+            <if test="curToolName != null  and curToolName != ''">cur_tool_name = #{curToolName},</if>
+            <if test="state != null  and state != ''">state = #{state},</if>
+            <if test="systemId != null  and systemId != ''">system_id = #{systemId},</if>
+            <if test="systemName != null  and systemName != ''">system_name = #{systemName},</if>
+            <if test="writtenTime != null ">written_time = #{writtenTime},</if>
+            <if test="controllerName != null  and controllerName != ''">controller_name = #{controllerName},</if>
+            <if test="controllerId != null  and controllerId != ''">controller_id = #{controllerId},</if>
+        </trim>
+        where autoid = #{autoid}
+    </update>
+
+    <delete id="deleteOdsAbbRobotInfoDiById" parameterType="Long">
+        delete from ods_abb_robot_info_di where autoid = #{autoid}
+    </delete>
+
+    <delete id="deleteOdsAbbRobotInfoDiByIds" parameterType="String">
+        delete from ods_abb_robot_info_di where autoid in 
+        <foreach item="autoid" collection="array" open="(" separator="," close=")">
+            #{autoid}
+        </foreach>
+    </delete>
+    
+</mapper>

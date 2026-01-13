@@ -1,0 +1,84 @@
+# [ 100 800 484 1118 533 1320 145 33 575 292 ]
+>> Objective values: [ 813273.0 366.0 ] | Rank: 1 | Crowding Distance: 1.7976931348623157E308
+
+# [ 100 800 340 1200 659 1082 319 33 575 292 ]
+>> Objective values: [ 817121.0 360.0 ] | Rank: 1 | Crowding Distance: 0.1133
+
+# [ 100 800 864 105 1338 974 319 33 575 292 ]
+>> Objective values: [ 818537.0 358.0 ] | Rank: 1 | Crowding Distance: 0.0426
+
+# [ 100 800 990 784 354 1153 319 42 565 293 ]
+>> Objective values: [ 821832.0 357.0 ] | Rank: 1 | Crowding Distance: 0.0525
+
+# [ 100 800 990 253 1072 844 441 31 575 294 ]
+>> Objective values: [ 823161.0 351.0 ] | Rank: 1 | Crowding Distance: 0.0625
+
+# [ 100 800 541 299 806 974 980 33 575 292 ]
+>> Objective values: [ 825660.0 350.0 ] | Rank: 1 | Crowding Distance: 0.0631
+
+# [ 100 800 980 1200 344 804 272 54 575 271 ]
+>> Objective values: [ 826158.0 348.0 ] | Rank: 1 | Crowding Distance: 0.089
+
+# [ 100 800 990 1013 1369 77 151 0 575 325 ]
+>> Objective values: [ 828106.0 337.0 ] | Rank: 1 | Crowding Distance: 0.0702
+
+# [ 100 800 848 1118 1340 77 217 31 575 294 ]
+>> Objective values: [ 829877.0 336.0 ] | Rank: 1 | Crowding Distance: 0.0746
+
+# [ 100 800 990 1160 974 91 385 42 575 283 ]
+>> Objective values: [ 834140.0 333.0 ] | Rank: 1 | Crowding Distance: 0.0631
+
+# [ 100 800 990 608 1156 77 769 0 575 325 ]
+>> Objective values: [ 835138.0 330.0 ] | Rank: 1 | Crowding Distance: 0.0639
+
+# [ 100 800 990 1190 343 77 1000 54 575 271 ]
+>> Objective values: [ 843670.0 322.0 ] | Rank: 1 | Crowding Distance: 0.0638
+
+# [ 116 784 990 1181 359 77 993 37 352 511 ]
+>> Objective values: [ 854333.0 321.0 ] | Rank: 1 | Crowding Distance: 0.0959
+
+# [ 144 756 981 1200 353 66 1000 138 434 328 ]
+>> Objective values: [ 859843.0 319.0 ] | Rank: 1 | Crowding Distance: 0.136
+
+# [ 163 737 980 1200 354 66 1000 90 284 526 ]
+>> Objective values: [ 865774.0 318.0 ] | Rank: 1 | Crowding Distance: 0.1226
+
+# [ 100 800 990 1195 359 56 1000 285 287 328 ]
+>> Objective values: [ 869277.0 317.0 ] | Rank: 1 | Crowding Distance: 0.0666
+
+# [ 236 664 990 1200 344 66 1000 146 460 294 ]
+>> Objective values: [ 869660.0 316.0 ] | Rank: 1 | Crowding Distance: 0.0789
+
+# [ 100 800 990 1200 354 66 990 420 152 328 ]
+>> Objective values: [ 882422.0 315.0 ] | Rank: 1 | Crowding Distance: 0.1376
+
+# [ 463 437 990 1200 349 91 995 52 575 273 ]
+>> Objective values: [ 888350.0 313.0 ] | Rank: 1 | Crowding Distance: 0.0906
+
+# [ 463 437 990 1200 354 66 990 52 520 328 ]
+>> Objective values: [ 889550.0 312.0 ] | Rank: 1 | Crowding Distance: 0.0736
+
+# [ 566 334 971 1200 359 70 1000 54 575 271 ]
+>> Objective values: [ 899529.0 309.0 ] | Rank: 1 | Crowding Distance: 0.0785
+
+# [ 600 300 990 1200 344 66 1000 33 573 294 ]
+>> Objective values: [ 902753.0 307.0 ] | Rank: 1 | Crowding Distance: 0.0475
+
+# [ 508 392 985 1200 365 56 1000 232 216 452 ]
+>> Objective values: [ 917185.0 306.0 ] | Rank: 1 | Crowding Distance: 0.0942
+
+# [ 508 392 990 1200 333 77 1000 377 277 246 ]
+>> Objective values: [ 922047.0 305.0 ] | Rank: 1 | Crowding Distance: 0.1137
+
+# [ 404 496 990 1200 319 91 1000 500 63 337 ]
+>> Objective values: [ 924708.0 304.0 ] | Rank: 1 | Crowding Distance: 1.7976931348623157E308
+
+# [ 600 300 980 1200 344 77 1000 283 346 271 ]
+>> Objective values: [ 924835.0 303.0 ] | Rank: 1 | Crowding Distance: 1.7976931348623157E308
+
+# [ 600 300 990 1200 305 105 1000 424 142 334 ]
+>> Objective values: [ 940732.0 300.0 ] | Rank: 1 | Crowding Distance: 1.7976931348623157E308
+
+# [ 600 300 990 1200 319 96 995 500 63 337 ]
+>> Objective values: [ 947808.0 299.0 ] | Rank: 1 | Crowding Distance: 1.7976931348623157E308
+

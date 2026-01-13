@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.firmkeychainparameter.mapper.FirmkeychainparameterMapper">
+    
+    <resultMap type="Firmkeychainparameter" id="FirmkeychainparameterResult">
+        <result property="firmsupply"    column="firmSupply"    />
+        <result property="firmplansupply"    column="firmPlanSupply"    />
+        <result property="firmdemands"    column="firmDemands"    />
+        <result property="firmplandemand"    column="firmPlanDemand"    />
+        <result property="firmname"    column="firmName"    />
+        <result property="id"    column="ID"    />
+    </resultMap>
+
+    <sql id="selectFirmkeychainparameterVo">
+        select firmSupply, firmPlanSupply, firmDemands, firmPlanDemand, firmName, ID from firmkeychainparameter
+    </sql>
+
+    <select id="selectFirmkeychainparameterList" parameterType="Firmkeychainparameter" resultMap="FirmkeychainparameterResult">
+        <include refid="selectFirmkeychainparameterVo"/>
+        <where>  
+            <if test="firmsupply != null "> and firmSupply = #{firmsupply}</if>
+            <if test="firmplansupply != null "> and firmPlanSupply = #{firmplansupply}</if>
+            <if test="firmdemands != null "> and firmDemands = #{firmdemands}</if>
+            <if test="firmplandemand != null "> and firmPlanDemand = #{firmplandemand}</if>
+            <if test="firmname != null  and firmname != ''"> and firmName like concat('%', #{firmname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectFirmkeychainparameterById" parameterType="Long" resultMap="FirmkeychainparameterResult">
+        <include refid="selectFirmkeychainparameterVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertFirmkeychainparameter" parameterType="Firmkeychainparameter" useGeneratedKeys="true" keyProperty="id">
+        insert into firmkeychainparameter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="firmsupply != null ">firmSupply,</if>
+            <if test="firmplansupply != null ">firmPlanSupply,</if>
+            <if test="firmdemands != null ">firmDemands,</if>
+            <if test="firmplandemand != null ">firmPlanDemand,</if>
+            <if test="firmname != null  and firmname != ''">firmName,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="firmsupply != null ">#{firmsupply},</if>
+            <if test="firmplansupply != null ">#{firmplansupply},</if>
+            <if test="firmdemands != null ">#{firmdemands},</if>
+            <if test="firmplandemand != null ">#{firmplandemand},</if>
+            <if test="firmname != null  and firmname != ''">#{firmname},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFirmkeychainparameter" parameterType="Firmkeychainparameter">
+        update firmkeychainparameter
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="firmsupply != null ">firmSupply = #{firmsupply},</if>
+            <if test="firmplansupply != null ">firmPlanSupply = #{firmplansupply},</if>
+            <if test="firmdemands != null ">firmDemands = #{firmdemands},</if>
+            <if test="firmplandemand != null ">firmPlanDemand = #{firmplandemand},</if>
+            <if test="firmname != null  and firmname != ''">firmName = #{firmname},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteFirmkeychainparameterById" parameterType="Long">
+        delete from firmkeychainparameter where ID = #{id}
+    </delete>
+
+    <delete id="deleteFirmkeychainparameterByIds" parameterType="String">
+        delete from firmkeychainparameter where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getKeyChainParameter"  resultMap="FirmkeychainparameterResult">
+        select * from firmkeychainparameter
+    </select>
+
+</mapper>

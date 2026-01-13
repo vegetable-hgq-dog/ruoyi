@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.productline.mapper.DsProductlineMapper">
+    
+    <resultMap type="DsProductline" id="DsProductlineResult">
+        <result property="productlineid"    column="productlineID"    />
+        <result property="productlinename"    column="productlineName"    />
+        <result property="productlinetype"    column="productlineType"    />
+        <result property="workshopid"    column="workshopID"    />
+    </resultMap>
+
+    <sql id="selectDsProductlineVo">
+        select productlineID, productlineName, productlineType, workshopID from ds_productline
+    </sql>
+
+    <select id="selectDsProductlineList" parameterType="DsProductline" resultMap="DsProductlineResult">
+        <include refid="selectDsProductlineVo"/>
+        <where>  
+            <if test="productlinename != null  and productlinename != ''"> and productlineName like concat('%', #{productlinename}, '%')</if>
+            <if test="productlinetype != null  and productlinetype != ''"> and productlineType = #{productlinetype}</if>
+            <if test="workshopid != null "> and workshopID = #{workshopid}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsProductlineById" parameterType="Long" resultMap="DsProductlineResult">
+        <include refid="selectDsProductlineVo"/>
+        where productlineID = #{productlineid}
+    </select>
+        
+    <insert id="insertDsProductline" parameterType="DsProductline">
+        insert into ds_productline
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productlineid != null ">productlineID,</if>
+            <if test="productlinename != null  and productlinename != ''">productlineName,</if>
+            <if test="productlinetype != null  and productlinetype != ''">productlineType,</if>
+            <if test="workshopid != null ">workshopID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productlineid != null ">#{productlineid},</if>
+            <if test="productlinename != null  and productlinename != ''">#{productlinename},</if>
+            <if test="productlinetype != null  and productlinetype != ''">#{productlinetype},</if>
+            <if test="workshopid != null ">#{workshopid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsProductline" parameterType="DsProductline">
+        update ds_productline
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productlinename != null  and productlinename != ''">productlineName = #{productlinename},</if>
+            <if test="productlinetype != null  and productlinetype != ''">productlineType = #{productlinetype},</if>
+            <if test="workshopid != null ">workshopID = #{workshopid},</if>
+        </trim>
+        where productlineID = #{productlineid}
+    </update>
+
+    <delete id="deleteDsProductlineById" parameterType="Long">
+        delete from ds_productline where productlineID = #{productlineid}
+    </delete>
+
+    <delete id="deleteDsProductlineByIds" parameterType="String">
+        delete from ds_productline where productlineID in 
+        <foreach item="productlineid" collection="array" open="(" separator="," close=")">
+            #{productlineid}
+        </foreach>
+    </delete>
+    
+</mapper>

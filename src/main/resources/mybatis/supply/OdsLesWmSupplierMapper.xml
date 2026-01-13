@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.supply.supplierinfo.mapper.OdsLesWmSupplierMapper">
+    
+    <resultMap type="OdsLesWmSupplier" id="OdsLesWmSupplierResult">
+        <result property="xngys"    column="xngys"    />
+        <result property="modifyDateTime"    column="modify_date_time"    />
+        <result property="modifyUser"    column="modify_user"    />
+        <result property="createDateTime"    column="create_date_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="processNo"    column="process_no"    />
+        <result property="smtpAddr"    column="smtp_addr"    />
+        <result property="zsutype"    column="zsutype"    />
+        <result property="telf"    column="telf"    />
+        <result property="opt00"    column="opt00"    />
+        <result property="name"    column="name"    />
+        <result property="name1"    column="name1"    />
+        <result property="regio"    column="regio"    />
+        <result property="identification"    column="identification"    />
+        <result property="lockFlag"    column="lock_flag"    />
+        <result property="email"    column="email"    />
+        <result property="telephone"    column="telephone"    />
+        <result property="contact"    column="contact"    />
+        <result property="address"    column="address"    />
+        <result property="supplierText"    column="supplier_text"    />
+        <result property="supplierCode"    column="supplier_code"    />
+        <result property="warehouseCode"    column="warehouse_code"    />
+        <result property="id"    column="id"    />
+        <result property="autoid"    column="autoid"    />
+    </resultMap>
+
+    <sql id="selectOdsLesWmSupplierVo">
+        select xngys, modify_date_time, modify_user, create_date_time, create_user, process_no, smtp_addr, zsutype, telf, opt00, name, name1, regio, identification, lock_flag, email, telephone, contact, address, supplier_text, supplier_code, warehouse_code, id, autoid from ods_les_wm_supplier
+    </sql>
+
+    <select id="selectOdsLesWmSupplierList" parameterType="OdsLesWmSupplier" resultMap="OdsLesWmSupplierResult">
+        <include refid="selectOdsLesWmSupplierVo"/>
+        <where>  
+            <if test="modifyDateTime != null "> and modify_date_time = #{modifyDateTime}</if>
+            <if test="regio != null  and regio != ''"> and regio like concat('%', #{regio}, '%')</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="supplierText != null  and supplierText != ''"> and supplier_text like concat('%', #{supplierText}, '%')</if>
+            <if test="supplierCode != null  and supplierCode != ''"> and supplier_code = #{supplierCode}</if>
+            <if test="warehouseCode != null  and warehouseCode != ''"> and warehouse_code = #{warehouseCode}</if>
+        </where>
+    </select>
+    
+    <select id="selectOdsLesWmSupplierById" parameterType="Long" resultMap="OdsLesWmSupplierResult">
+        <include refid="selectOdsLesWmSupplierVo"/>
+        where autoid = #{autoid}
+    </select>
+        
+    <insert id="insertOdsLesWmSupplier" parameterType="OdsLesWmSupplier" useGeneratedKeys="true" keyProperty="autoid">
+        insert into ods_les_wm_supplier
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="xngys != null  and xngys != ''">xngys,</if>
+            <if test="modifyDateTime != null ">modify_date_time,</if>
+            <if test="modifyUser != null  and modifyUser != ''">modify_user,</if>
+            <if test="createDateTime != null ">create_date_time,</if>
+            <if test="createUser != null  and createUser != ''">create_user,</if>
+            <if test="processNo != null  and processNo != ''">process_no,</if>
+            <if test="smtpAddr != null  and smtpAddr != ''">smtp_addr,</if>
+            <if test="zsutype != null  and zsutype != ''">zsutype,</if>
+            <if test="telf != null  and telf != ''">telf,</if>
+            <if test="opt00 != null  and opt00 != ''">opt00,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="name1 != null  and name1 != ''">name1,</if>
+            <if test="regio != null  and regio != ''">regio,</if>
+            <if test="identification != null  and identification != ''">identification,</if>
+            <if test="lockFlag != null  and lockFlag != ''">lock_flag,</if>
+            <if test="email != null  and email != ''">email,</if>
+            <if test="telephone != null  and telephone != ''">telephone,</if>
+            <if test="contact != null  and contact != ''">contact,</if>
+            <if test="address != null  and address != ''">address,</if>
+            <if test="supplierText != null  and supplierText != ''">supplier_text,</if>
+            <if test="supplierCode != null  and supplierCode != ''">supplier_code,</if>
+            <if test="warehouseCode != null  and warehouseCode != ''">warehouse_code,</if>
+            <if test="id != null ">id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="xngys != null  and xngys != ''">#{xngys},</if>
+            <if test="modifyDateTime != null ">#{modifyDateTime},</if>
+            <if test="modifyUser != null  and modifyUser != ''">#{modifyUser},</if>
+            <if test="createDateTime != null ">#{createDateTime},</if>
+            <if test="createUser != null  and createUser != ''">#{createUser},</if>
+            <if test="processNo != null  and processNo != ''">#{processNo},</if>
+            <if test="smtpAddr != null  and smtpAddr != ''">#{smtpAddr},</if>
+            <if test="zsutype != null  and zsutype != ''">#{zsutype},</if>
+            <if test="telf != null  and telf != ''">#{telf},</if>
+            <if test="opt00 != null  and opt00 != ''">#{opt00},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="name1 != null  and name1 != ''">#{name1},</if>
+            <if test="regio != null  and regio != ''">#{regio},</if>
+            <if test="identification != null  and identification != ''">#{identification},</if>
+            <if test="lockFlag != null  and lockFlag != ''">#{lockFlag},</if>
+            <if test="email != null  and email != ''">#{email},</if>
+            <if test="telephone != null  and telephone != ''">#{telephone},</if>
+            <if test="contact != null  and contact != ''">#{contact},</if>
+            <if test="address != null  and address != ''">#{address},</if>
+            <if test="supplierText != null  and supplierText != ''">#{supplierText},</if>
+            <if test="supplierCode != null  and supplierCode != ''">#{supplierCode},</if>
+            <if test="warehouseCode != null  and warehouseCode != ''">#{warehouseCode},</if>
+            <if test="id != null ">#{id},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOdsLesWmSupplier" parameterType="OdsLesWmSupplier">
+        update ods_les_wm_supplier
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="xngys != null  and xngys != ''">xngys = #{xngys},</if>
+            <if test="modifyDateTime != null ">modify_date_time = #{modifyDateTime},</if>
+            <if test="modifyUser != null  and modifyUser != ''">modify_user = #{modifyUser},</if>
+            <if test="createDateTime != null ">create_date_time = #{createDateTime},</if>
+            <if test="createUser != null  and createUser != ''">create_user = #{createUser},</if>
+            <if test="processNo != null  and processNo != ''">process_no = #{processNo},</if>
+            <if test="smtpAddr != null  and smtpAddr != ''">smtp_addr = #{smtpAddr},</if>
+            <if test="zsutype != null  and zsutype != ''">zsutype = #{zsutype},</if>
+            <if test="telf != null  and telf != ''">telf = #{telf},</if>
+            <if test="opt00 != null  and opt00 != ''">opt00 = #{opt00},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="name1 != null  and name1 != ''">name1 = #{name1},</if>
+            <if test="regio != null  and regio != ''">regio = #{regio},</if>
+            <if test="identification != null  and identification != ''">identification = #{identification},</if>
+            <if test="lockFlag != null  and lockFlag != ''">lock_flag = #{lockFlag},</if>
+            <if test="email != null  and email != ''">email = #{email},</if>
+            <if test="telephone != null  and telephone != ''">telephone = #{telephone},</if>
+            <if test="contact != null  and contact != ''">contact = #{contact},</if>
+            <if test="address != null  and address != ''">address = #{address},</if>
+            <if test="supplierText != null  and supplierText != ''">supplier_text = #{supplierText},</if>
+            <if test="supplierCode != null  and supplierCode != ''">supplier_code = #{supplierCode},</if>
+            <if test="warehouseCode != null  and warehouseCode != ''">warehouse_code = #{warehouseCode},</if>
+            <if test="id != null ">id = #{id},</if>
+        </trim>
+        where autoid = #{autoid}
+    </update>
+
+    <delete id="deleteOdsLesWmSupplierById" parameterType="Long">
+        delete from ods_les_wm_supplier where autoid = #{autoid}
+    </delete>
+
+    <delete id="deleteOdsLesWmSupplierByIds" parameterType="String">
+        delete from ods_les_wm_supplier where autoid in 
+        <foreach item="autoid" collection="array" open="(" separator="," close=")">
+            #{autoid}
+        </foreach>
+    </delete>
+    
+</mapper>

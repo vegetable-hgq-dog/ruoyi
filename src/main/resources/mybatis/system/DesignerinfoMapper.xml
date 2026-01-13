@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.designerinfo.mapper.DesignerinfoMapper">
+    
+    <resultMap type="Designerinfo" id="DesignerinfoResult">
+        <result property="designerid"    column="designerID"    />
+        <result property="designername"    column="designerName"    />
+        <result property="designerpassword"    column="designerPassword"    />
+    </resultMap>
+
+    <sql id="selectDesignerinfoVo">
+        select designerID, designerName, designerPassword from designerinfo
+    </sql>
+
+    <select id="selectDesignerinfoList" parameterType="Designerinfo" resultMap="DesignerinfoResult">
+        <include refid="selectDesignerinfoVo"/>
+        <where>  
+            <if test="designername != null  and designername != ''"> and designerName like concat('%', #{designername}, '%')</if>
+            <if test="designerpassword != null  and designerpassword != ''"> and designerPassword = #{designerpassword}</if>
+        </where>
+    </select>
+    
+    <select id="selectDesignerinfoById" parameterType="Long" resultMap="DesignerinfoResult">
+        <include refid="selectDesignerinfoVo"/>
+        where designerID = #{designerid}
+    </select>
+        
+    <insert id="insertDesignerinfo" parameterType="Designerinfo" useGeneratedKeys="true" keyProperty="designerid">
+        insert into designerinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="designername != null  and designername != ''">designerName,</if>
+            <if test="designerpassword != null  and designerpassword != ''">designerPassword,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="designername != null  and designername != ''">#{designername},</if>
+            <if test="designerpassword != null  and designerpassword != ''">#{designerpassword},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDesignerinfo" parameterType="Designerinfo">
+        update designerinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="designername != null  and designername != ''">designerName = #{designername},</if>
+            <if test="designerpassword != null  and designerpassword != ''">designerPassword = #{designerpassword},</if>
+        </trim>
+        where designerID = #{designerid}
+    </update>
+
+    <delete id="deleteDesignerinfoById" parameterType="Long">
+        delete from designerinfo where designerID = #{designerid}
+    </delete>
+
+    <delete id="deleteDesignerinfoByIds" parameterType="String">
+        delete from designerinfo where designerID in 
+        <foreach item="designerid" collection="array" open="(" separator="," close=")">
+            #{designerid}
+        </foreach>
+    </delete>
+
+    <select id="selectDesignerinfo"  resultMap="DesignerinfoResult">
+        select * from designerinfo
+    </select>
+
+</mapper>

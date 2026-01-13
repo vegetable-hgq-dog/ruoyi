@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.partinfo.mapper.PartinfoMapper">
+    
+    <resultMap type="Partinfo" id="PartinfoResult">
+        <result property="partid"    column="partID"    />
+        <result property="partname"    column="partName"    />
+        <result property="parttype"    column="partType"    />
+    </resultMap>
+
+    <sql id="selectPartinfoVo">
+        select partID, partName, partType from partinfo
+    </sql>
+
+    <select id="selectPartinfoList" parameterType="Partinfo" resultMap="PartinfoResult">
+        <include refid="selectPartinfoVo"/>
+        <where>  
+            <if test="partname != null  and partname != ''"> and partName like concat('%', #{partname}, '%')</if>
+            <if test="parttype != null  and parttype != ''"> and partType = #{parttype}</if>
+        </where>
+    </select>
+    
+    <select id="selectPartinfoById" parameterType="Long" resultMap="PartinfoResult">
+        <include refid="selectPartinfoVo"/>
+        where partID = #{partid}
+    </select>
+        
+    <insert id="insertPartinfo" parameterType="Partinfo" useGeneratedKeys="true" keyProperty="partid">
+        insert into partinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="partname != null  and partname != ''">partName,</if>
+            <if test="parttype != null  and parttype != ''">partType,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="partname != null  and partname != ''">#{partname},</if>
+            <if test="parttype != null  and parttype != ''">#{parttype},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePartinfo" parameterType="Partinfo">
+        update partinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="partname != null  and partname != ''">partName = #{partname},</if>
+            <if test="parttype != null  and parttype != ''">partType = #{parttype},</if>
+        </trim>
+        where partID = #{partid}
+    </update>
+
+    <delete id="deletePartinfoById" parameterType="Long">
+        delete from partinfo where partID = #{partid}
+    </delete>
+
+    <delete id="deletePartinfoByIds" parameterType="String">
+        delete from partinfo where partID in 
+        <foreach item="partid" collection="array" open="(" separator="," close=")">
+            #{partid}
+        </foreach>
+    </delete>
+
+    <select id="selectPartName"  resultMap="PartinfoResult">
+        select partName from PartInfo
+    </select>
+
+</mapper>

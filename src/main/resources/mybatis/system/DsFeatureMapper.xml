@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.feature.mapper.DsFeatureMapper">
+    
+    <resultMap type="DsFeature" id="DsFeatureResult">
+        <result property="featureid"    column="featureID"    />
+        <result property="featurename"    column="featureName"    />
+        <result property="featuretype"    column="featureType"    />
+        <result property="featuremanufacturing"    column="featureManufacturing"    />
+        <result property="componentid"    column="componentID"    />
+    </resultMap>
+
+    <sql id="selectDsFeatureVo">
+        select featureID, featureName, featureType, featureManufacturing, componentID from ds_feature
+    </sql>
+
+    <select id="selectDsFeatureList" parameterType="DsFeature" resultMap="DsFeatureResult">
+        <include refid="selectDsFeatureVo"/>
+        <where>  
+            <if test="featurename != null  and featurename != ''"> and featureName like concat('%', #{featurename}, '%')</if>
+            <if test="featuretype != null  and featuretype != ''"> and featureType = #{featuretype}</if>
+            <if test="featuremanufacturing != null  and featuremanufacturing != ''"> and featureManufacturing = #{featuremanufacturing}</if>
+            <if test="componentid != null "> and componentID = #{componentid}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsFeatureById" parameterType="Long" resultMap="DsFeatureResult">
+        <include refid="selectDsFeatureVo"/>
+        where featureID = #{featureid}
+    </select>
+        
+    <insert id="insertDsFeature" parameterType="DsFeature" useGeneratedKeys="true" keyProperty="featureid">
+        insert into ds_feature
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="featurename != null  and featurename != ''">featureName,</if>
+            <if test="featuretype != null  and featuretype != ''">featureType,</if>
+            <if test="featuremanufacturing != null  and featuremanufacturing != ''">featureManufacturing,</if>
+            <if test="componentid != null ">componentID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="featurename != null  and featurename != ''">#{featurename},</if>
+            <if test="featuretype != null  and featuretype != ''">#{featuretype},</if>
+            <if test="featuremanufacturing != null  and featuremanufacturing != ''">#{featuremanufacturing},</if>
+            <if test="componentid != null ">#{componentid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsFeature" parameterType="DsFeature">
+        update ds_feature
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="featurename != null  and featurename != ''">featureName = #{featurename},</if>
+            <if test="featuretype != null  and featuretype != ''">featureType = #{featuretype},</if>
+            <if test="featuremanufacturing != null  and featuremanufacturing != ''">featureManufacturing = #{featuremanufacturing},</if>
+            <if test="componentid != null ">componentID = #{componentid},</if>
+        </trim>
+        where featureID = #{featureid}
+    </update>
+
+    <delete id="deleteDsFeatureById" parameterType="Long">
+        delete from ds_feature where featureID = #{featureid}
+    </delete>
+
+    <delete id="deleteDsFeatureByIds" parameterType="String">
+        delete from ds_feature where featureID in 
+        <foreach item="featureid" collection="array" open="(" separator="," close=")">
+            #{featureid}
+        </foreach>
+    </delete>
+    
+</mapper>

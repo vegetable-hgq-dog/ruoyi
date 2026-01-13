@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.aftersalecenter.mapper.DsAftersalecenterMapper">
+    
+    <resultMap type="DsAftersalecenter" id="DsAftersalecenterResult">
+        <result property="centerleader"    column="centerleader"    />
+        <result property="centerphone"    column="centerPhone"    />
+        <result property="centerlocation"    column="centerLocation"    />
+        <result property="centerid"    column="centerID"    />
+    </resultMap>
+
+    <sql id="selectDsAftersalecenterVo">
+        select centerleader, centerPhone, centerLocation, centerID from ds_aftersalecenter
+    </sql>
+
+    <select id="selectDsAftersalecenterList" parameterType="DsAftersalecenter" resultMap="DsAftersalecenterResult">
+        <include refid="selectDsAftersalecenterVo"/>
+        <where>  
+            <if test="centerleader != null  and centerleader != ''"> and centerleader = #{centerleader}</if>
+            <if test="centerphone != null "> and centerPhone = #{centerphone}</if>
+            <if test="centerlocation != null  and centerlocation != ''"> and centerLocation = #{centerlocation}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsAftersalecenterById" parameterType="Long" resultMap="DsAftersalecenterResult">
+        <include refid="selectDsAftersalecenterVo"/>
+        where centerID = #{centerid}
+    </select>
+        
+    <insert id="insertDsAftersalecenter" parameterType="DsAftersalecenter" useGeneratedKeys="true" keyProperty="centerid">
+        insert into ds_aftersalecenter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="centerleader != null  and centerleader != ''">centerleader,</if>
+            <if test="centerphone != null ">centerPhone,</if>
+            <if test="centerlocation != null  and centerlocation != ''">centerLocation,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="centerleader != null  and centerleader != ''">#{centerleader},</if>
+            <if test="centerphone != null ">#{centerphone},</if>
+            <if test="centerlocation != null  and centerlocation != ''">#{centerlocation},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsAftersalecenter" parameterType="DsAftersalecenter">
+        update ds_aftersalecenter
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="centerleader != null  and centerleader != ''">centerleader = #{centerleader},</if>
+            <if test="centerphone != null ">centerPhone = #{centerphone},</if>
+            <if test="centerlocation != null  and centerlocation != ''">centerLocation = #{centerlocation},</if>
+        </trim>
+        where centerID = #{centerid}
+    </update>
+
+    <delete id="deleteDsAftersalecenterById" parameterType="Long">
+        delete from ds_aftersalecenter where centerID = #{centerid}
+    </delete>
+
+    <delete id="deleteDsAftersalecenterByIds" parameterType="String">
+        delete from ds_aftersalecenter where centerID in 
+        <foreach item="centerid" collection="array" open="(" separator="," close=")">
+            #{centerid}
+        </foreach>
+    </delete>
+
+
+
+    <select id="selectCenterID" resultMap="DsAftersalecenterResult">
+        select centerid from ds_aftersalecenter
+    </select>
+
+    
+</mapper>

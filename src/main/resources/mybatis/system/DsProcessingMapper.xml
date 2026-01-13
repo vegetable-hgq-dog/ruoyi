@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.processing.mapper.DsProcessingMapper">
+    
+    <resultMap type="DsProcessing" id="DsProcessingResult">
+        <result property="processingid"    column="processingID"    />
+        <result property="processingname"    column="processingName"    />
+        <result property="processingtype"    column="processingType"    />
+        <result property="processingdevice"    column="processingDevice"    />
+        <result property="processingcontent"    column="processingContent"    />
+        <result property="featureid"    column="featureID"    />
+    </resultMap>
+
+    <sql id="selectDsProcessingVo">
+        select processingID, processingName, processingType, processingDevice, processingContent, featureID from ds_processing
+    </sql>
+
+    <select id="selectDsProcessingList" parameterType="DsProcessing" resultMap="DsProcessingResult">
+        <include refid="selectDsProcessingVo"/>
+        <where>  
+            <if test="processingname != null  and processingname != ''"> and processingName like concat('%', #{processingname}, '%')</if>
+            <if test="processingtype != null  and processingtype != ''"> and processingType = #{processingtype}</if>
+            <if test="processingdevice != null  and processingdevice != ''"> and processingDevice = #{processingdevice}</if>
+            <if test="processingcontent != null  and processingcontent != ''"> and processingContent = #{processingcontent}</if>
+            <if test="featureid != null "> and featureID = #{featureid}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsProcessingById" parameterType="Long" resultMap="DsProcessingResult">
+        <include refid="selectDsProcessingVo"/>
+        where processingID = #{processingid}
+    </select>
+        
+    <insert id="insertDsProcessing" parameterType="DsProcessing">
+        insert into ds_processing
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="processingid != null ">processingID,</if>
+            <if test="processingname != null  and processingname != ''">processingName,</if>
+            <if test="processingtype != null  and processingtype != ''">processingType,</if>
+            <if test="processingdevice != null  and processingdevice != ''">processingDevice,</if>
+            <if test="processingcontent != null  and processingcontent != ''">processingContent,</if>
+            <if test="featureid != null ">featureID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="processingid != null ">#{processingid},</if>
+            <if test="processingname != null  and processingname != ''">#{processingname},</if>
+            <if test="processingtype != null  and processingtype != ''">#{processingtype},</if>
+            <if test="processingdevice != null  and processingdevice != ''">#{processingdevice},</if>
+            <if test="processingcontent != null  and processingcontent != ''">#{processingcontent},</if>
+            <if test="featureid != null ">#{featureid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsProcessing" parameterType="DsProcessing">
+        update ds_processing
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="processingname != null  and processingname != ''">processingName = #{processingname},</if>
+            <if test="processingtype != null  and processingtype != ''">processingType = #{processingtype},</if>
+            <if test="processingdevice != null  and processingdevice != ''">processingDevice = #{processingdevice},</if>
+            <if test="processingcontent != null  and processingcontent != ''">processingContent = #{processingcontent},</if>
+            <if test="featureid != null ">featureID = #{featureid},</if>
+        </trim>
+        where processingID = #{processingid}
+    </update>
+
+    <delete id="deleteDsProcessingById" parameterType="Long">
+        delete from ds_processing where processingID = #{processingid}
+    </delete>
+
+    <delete id="deleteDsProcessingByIds" parameterType="String">
+        delete from ds_processing where processingID in 
+        <foreach item="processingid" collection="array" open="(" separator="," close=")">
+            #{processingid}
+        </foreach>
+    </delete>
+    
+</mapper>

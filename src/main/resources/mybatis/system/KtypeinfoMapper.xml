@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.ktypeinfo.mapper.KtypeinfoMapper">
+    
+    <resultMap type="Ktypeinfo" id="KtypeinfoResult">
+        <result property="ktypeid"    column="KTypeID"    />
+        <result property="ktypename"    column="KTypeName"    />
+        <result property="ktypetype"    column="KTypeType"    />
+    </resultMap>
+
+    <sql id="selectKtypeinfoVo">
+        select KTypeID, KTypeName, KTypeType from ktypeinfo
+    </sql>
+
+    <select id="selectKtypeinfoList" parameterType="Ktypeinfo" resultMap="KtypeinfoResult">
+        <include refid="selectKtypeinfoVo"/>
+        <where>  
+            <if test="ktypename != null  and ktypename != ''"> and KTypeName like concat('%', #{ktypename}, '%')</if>
+            <if test="ktypetype != null  and ktypetype != ''"> and KTypeType = #{ktypetype}</if>
+        </where>
+    </select>
+    
+    <select id="selectKtypeinfoById" parameterType="Long" resultMap="KtypeinfoResult">
+        <include refid="selectKtypeinfoVo"/>
+        where KTypeID = #{ktypeid}
+    </select>
+        
+    <insert id="insertKtypeinfo" parameterType="Ktypeinfo" useGeneratedKeys="true" keyProperty="ktypeid">
+        insert into ktypeinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ktypename != null  and ktypename != ''">KTypeName,</if>
+            <if test="ktypetype != null  and ktypetype != ''">KTypeType,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ktypename != null  and ktypename != ''">#{ktypename},</if>
+            <if test="ktypetype != null  and ktypetype != ''">#{ktypetype},</if>
+         </trim>
+    </insert>
+
+    <update id="updateKtypeinfo" parameterType="Ktypeinfo">
+        update ktypeinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ktypename != null  and ktypename != ''">KTypeName = #{ktypename},</if>
+            <if test="ktypetype != null  and ktypetype != ''">KTypeType = #{ktypetype},</if>
+        </trim>
+        where KTypeID = #{ktypeid}
+    </update>
+
+    <delete id="deleteKtypeinfoById" parameterType="Long">
+        delete from ktypeinfo where KTypeID = #{ktypeid}
+    </delete>
+
+    <delete id="deleteKtypeinfoByIds" parameterType="String">
+        delete from ktypeinfo where KTypeID in 
+        <foreach item="ktypeid" collection="array" open="(" separator="," close=")">
+            #{ktypeid}
+        </foreach>
+    </delete>
+
+    <select id="selectKTypeName"  resultMap="KtypeinfoResult">
+        select KTypeName from KTypeInfo
+    </select>
+
+</mapper>

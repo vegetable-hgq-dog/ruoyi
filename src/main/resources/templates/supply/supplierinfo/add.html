@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增supplier_info')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-supplierinfo-add">
+<!--            <div class="form-group">    -->
+<!--                <label class="col-sm-3 control-label">供应商序号：</label>-->
+<!--                <div class="col-sm-8">-->
+<!--                    <input name="id" class="form-control" type="text">-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">工厂：</label>
+                <div class="col-sm-8">
+                    <input name="warehouseCode" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">供应商编码：</label>
+                <div class="col-sm-8">
+                    <input name="supplierCode" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">名称：</label>
+                <div class="col-sm-8">
+                    <input name="supplierText" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">地址：</label>
+                <div class="col-sm-8">
+                    <input name="address" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">联系人：</label>
+                <div class="col-sm-8">
+                    <input name="contact" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">电话：</label>
+                <div class="col-sm-8">
+                    <input name="telephone" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">邮箱：</label>
+                <div class="col-sm-8">
+                    <input name="email" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">城市：</label>
+                <div class="col-sm-8">
+                    <input name="regio" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">更新时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="modifyDateTime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "supply/supplierinfo"
+        $("#form-supplierinfo-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-supplierinfo-add').serialize());
+            }
+        }
+
+        $("input[name='modifyDateTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

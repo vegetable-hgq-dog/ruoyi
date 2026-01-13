@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.factoryInventoryInf.mapper.FactoryInventoryTableMapper">
+    
+    <resultMap type="FactoryInventoryTable" id="FactoryInventoryTableResult">
+        <result property="factoryid"    column="factoryID"    />
+        <result property="materialid"    column="materialID"    />
+        <result property="alertstatus"    column="alertStatus"    />
+        <result property="storagelocationdec"    column="storageLocationDec"    />
+        <result property="inventoryamount"    column="inventoryAmount"    />
+        <result property="inventoryid"    column="inventoryID"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectFactoryInventoryTableVo">
+        select factoryID, materialID, alertStatus, storageLocationDec, inventoryAmount, inventoryID, id from factory_inventory_table
+    </sql>
+
+    <select id="selectFactoryInventoryTableList" parameterType="FactoryInventoryTable" resultMap="FactoryInventoryTableResult">
+        <include refid="selectFactoryInventoryTableVo"/>
+        <where>  
+            <if test="factoryid != null  and factoryid != ''"> and factoryID = #{factoryid}</if>
+            <if test="materialid != null  and materialid != ''"> and materialID = #{materialid}</if>
+            <if test="alertstatus != null  and alertstatus != ''"> and alertStatus = #{alertstatus}</if>
+            <if test="storagelocationdec != null  and storagelocationdec != ''"> and storageLocationDec = #{storagelocationdec}</if>
+            <if test="inventoryamount != null  and inventoryamount != ''"> and inventoryAmount = #{inventoryamount}</if>
+            <if test="inventoryid != null  and inventoryid != ''"> and inventoryID = #{inventoryid}</if>
+        </where>
+    </select>
+    
+    <select id="selectFactoryInventoryTableById" parameterType="Long" resultMap="FactoryInventoryTableResult">
+        <include refid="selectFactoryInventoryTableVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFactoryInventoryTable" parameterType="FactoryInventoryTable" useGeneratedKeys="true" keyProperty="id">
+        insert into factory_inventory_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="factoryid != null  and factoryid != ''">factoryID,</if>
+            <if test="materialid != null  and materialid != ''">materialID,</if>
+            <if test="alertstatus != null  and alertstatus != ''">alertStatus,</if>
+            <if test="storagelocationdec != null  and storagelocationdec != ''">storageLocationDec,</if>
+            <if test="inventoryamount != null  and inventoryamount != ''">inventoryAmount,</if>
+            <if test="inventoryid != null  and inventoryid != ''">inventoryID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="factoryid != null  and factoryid != ''">#{factoryid},</if>
+            <if test="materialid != null  and materialid != ''">#{materialid},</if>
+            <if test="alertstatus != null  and alertstatus != ''">#{alertstatus},</if>
+            <if test="storagelocationdec != null  and storagelocationdec != ''">#{storagelocationdec},</if>
+            <if test="inventoryamount != null  and inventoryamount != ''">#{inventoryamount},</if>
+            <if test="inventoryid != null  and inventoryid != ''">#{inventoryid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFactoryInventoryTable" parameterType="FactoryInventoryTable">
+        update factory_inventory_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="factoryid != null  and factoryid != ''">factoryID = #{factoryid},</if>
+            <if test="materialid != null  and materialid != ''">materialID = #{materialid},</if>
+            <if test="alertstatus != null  and alertstatus != ''">alertStatus = #{alertstatus},</if>
+            <if test="storagelocationdec != null  and storagelocationdec != ''">storageLocationDec = #{storagelocationdec},</if>
+            <if test="inventoryamount != null  and inventoryamount != ''">inventoryAmount = #{inventoryamount},</if>
+            <if test="inventoryid != null  and inventoryid != ''">inventoryID = #{inventoryid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFactoryInventoryTableById" parameterType="Long">
+        delete from factory_inventory_table where id = #{id}
+    </delete>
+
+    <delete id="deleteFactoryInventoryTableByIds" parameterType="String">
+        delete from factory_inventory_table where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="selectByInventoryid" parameterType="String" resultMap="FactoryInventoryTableResult">
+        <include refid="selectFactoryInventoryTableVo"/>
+        where inventoryid = #{inventoryid}
+    </select>
+
+    <update id="updateInventoryid" parameterType="FactoryInventoryTable">
+        update factory_inventory_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="factoryid != null  and factoryid != ''">factoryID = #{factoryid},</if>
+            <if test="materialid != null  and materialid != ''">materialID = #{materialid},</if>
+            <if test="alertstatus != null  and alertstatus != ''">alertStatus = #{alertstatus},</if>
+            <if test="storagelocationdec != null  and storagelocationdec != ''">storageLocationDec = #{storagelocationdec},</if>
+            <if test="inventoryamount != null  and inventoryamount != ''">inventoryAmount = #{inventoryamount},</if>
+        </trim>
+        where inventoryid = #{inventoryid}
+    </update>
+
+
+    <select id="getAllFactoryInventoryData" resultMap="FactoryInventoryTableResult">
+        select factoryID, materialID, alertStatus, storageLocationDec, inventoryAmount, inventoryID, id from factory_inventory_table
+    </select>
+
+</mapper>

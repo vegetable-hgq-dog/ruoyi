@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.distributeStaffInf.mapper.DistributestaffsTableMapper">
+    
+    <resultMap type="DistributestaffsTable" id="DistributestaffsTableResult">
+        <result property="carriername"    column="carrierName"    />
+        <result property="telephone"    column="telephone"    />
+        <result property="drivername"    column="driverName"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+    <sql id="selectDistributestaffsTableVo">
+        select carrierName, telephone, driverName, id from distributestaffs_table
+    </sql>
+
+    <select id="selectDistributestaffsTableList" parameterType="DistributestaffsTable" resultMap="DistributestaffsTableResult">
+        <include refid="selectDistributestaffsTableVo"/>
+        <where>  
+            <if test="carriername != null  and carriername != ''"> and carrierName like concat('%', #{carriername}, '%')</if>
+            <if test="telephone != null  and telephone != ''"> and telephone = #{telephone}</if>
+            <if test="drivername != null  and drivername != ''"> and driverName like concat('%', #{drivername}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDistributestaffsTableById" parameterType="Long" resultMap="DistributestaffsTableResult">
+        <include refid="selectDistributestaffsTableVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDistributestaffsTable" parameterType="DistributestaffsTable" useGeneratedKeys="true" keyProperty="id">
+        insert into distributestaffs_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="carriername != null  and carriername != ''">carrierName,</if>
+            <if test="telephone != null  and telephone != ''">telephone,</if>
+            <if test="drivername != null  and drivername != ''">driverName,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="carriername != null  and carriername != ''">#{carriername},</if>
+            <if test="telephone != null  and telephone != ''">#{telephone},</if>
+            <if test="drivername != null  and drivername != ''">#{drivername},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDistributestaffsTable" parameterType="DistributestaffsTable">
+        update distributestaffs_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="carriername != null  and carriername != ''">carrierName = #{carriername},</if>
+            <if test="telephone != null  and telephone != ''">telephone = #{telephone},</if>
+            <if test="drivername != null  and drivername != ''">driverName = #{drivername},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDistributestaffsTableById" parameterType="Long">
+        delete from distributestaffs_table where id = #{id}
+    </delete>
+
+    <delete id="deleteDistributestaffsTableByIds" parameterType="String">
+        delete from distributestaffs_table where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="selectByDrivername" parameterType="String" resultMap="DistributestaffsTableResult">
+        <include refid="selectDistributestaffsTableVo"/>
+        where drivername = #{drivername}
+    </select>
+
+
+    <update id="updateDrivername" parameterType="DistributestaffsTable">
+        update distributestaffs_table
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="carriername != null  and carriername != ''">carrierName = #{carriername},</if>
+            <if test="telephone != null  and telephone != ''">telephone = #{telephone},</if>
+        </trim>
+        where drivername = #{drivername}
+    </update>
+
+</mapper>

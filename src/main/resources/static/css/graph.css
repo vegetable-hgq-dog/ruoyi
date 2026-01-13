@@ -1,0 +1,172 @@
+#indicator {
+	position: absolute;
+	right: 30px;
+	top: 44px;
+		text-align: left;
+		color: #1c1919;
+		font-size: 12px;
+}
+
+#indicator>div {
+		margin-bottom: 4px;
+}
+
+#indicator span {
+		display: inline-block;
+		width: 30px;
+		height: 14px;
+		position: relative;
+		top: 2px;
+		margin-right: 8px;
+}
+/*设置节点及边的样式*/
+.links line {
+	stroke: rgb(240, 240, 240); 
+	stroke-opactity: 0.2;
+}
+.links line.inactive {
+		/*display: none !important;*/
+		stroke-opacity: 0.3;
+}
+.nodes circle {
+	stroke: #fff;
+	stroke-width: 1.5px;
+}
+.nodes circle:hover {
+		cursor: pointer;
+}
+.nodes circle.inactive {
+	/* display: none !important; */
+	opacity: 0.3;
+}
+.texts text {
+		display: none;
+}
+.texts text:hover {
+		cursor: pointer;
+}
+.texts text.inactive {
+		/* display: none !important; */
+		opacity: 0.3;
+}
+
+/*悬浮节点的info样式*/
+#info {
+		position: absolute;
+		bottom: 40px;
+		right: 150px;
+		text-align: right;
+		width: 270px;
+}
+#info p {
+		color: #282525;
+		font-size: 12px;
+		margin-top: 0;
+		margin-bottom: 5px;
+}
+#info p span {
+		color: #999696;
+		margin-right: 10px;
+}
+#info h4 {
+		color: #655050;
+}
+.details_div{
+	height: 100%;
+	width: 100%;
+}
+
+.graph_button{
+	margin-bottom: 5%;
+	margin-left: 80%;
+	font-weight: bold;
+
+}
+
+.knowledgeGraph{
+	position: absolute;
+	font-size: medium;
+	left:5%;
+	top:10%;
+	height: 90%;
+	width: 90%;
+	border: solid 1px lightskyblue;
+	background-color: white;
+	z-index: 999;
+	display: none;
+}
+.knowledgeGraph h3{
+	color: black;
+	text-align: center;
+	height: 10%;
+	font-size: large;
+
+}
+.move_close{
+	float: left;
+	margin-left: 95%;
+	margin-top: -5.5%;
+}
+.move_close button{
+	/*height: 1%;*/
+	/*width: 20%;*/
+	color: white;
+}
+/*.ibox-content{*/
+/*	background-color:#fff;*/
+/*	color:inherit;*/
+/*	padding:15px 20px 20px;*/
+/*	border-color:#e7eaec;*/
+/*	-webkit-border-image:none;*/
+/*	-o-border-image:none;*/
+/*	border-image:none;*/
+/*	border-style:solid solid none;*/
+/*	border-width:1px 0*/
+/*	*/
+/*}*/
+.showData{
+	height: 95%;
+	width: 95%;
+}
+#indicator1 {
+	position: absolute;
+	right: 30px;
+	top: 44px;
+	text-align: left;
+	color: #1c1919;
+	font-size: 14px;
+}
+
+#indicator1>div {
+	margin-bottom: 4px;
+}
+
+#indicator1 span {
+	display: inline-block;
+	width: 40px;
+	height: 18px;
+	position: relative;
+	top: 2px;
+	margin-right: 8px;
+}
+/*悬浮节点的info样式*/
+#info1 {
+	position: absolute;
+	bottom: 40px;
+	right: 150px;
+	text-align: right;
+	width: 280px;
+}
+#info1 p {
+	color: #282525;
+	font-size: 14px;
+	margin-top: 0;
+	margin-bottom: 5px;
+}
+#info1 p span {
+	color: #999696;
+	margin-right: 10px;
+}
+#info1 h4 {
+	color: #655050;
+}

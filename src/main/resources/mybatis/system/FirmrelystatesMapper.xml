@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.firmrelystates.mapper.FirmrelystatesMapper">
+    
+    <resultMap type="Firmrelystates" id="FirmrelystatesResult">
+        <result property="relydegree"    column="relyDegree"    />
+        <result property="relyfirmname"    column="relyFirmName"    />
+        <result property="firmname"    column="firmName"    />
+        <result property="id"    column="ID"    />
+    </resultMap>
+
+    <sql id="selectFirmrelystatesVo">
+        select relyDegree, relyFirmName, firmName, ID from firmrelystates
+    </sql>
+
+    <select id="selectFirmrelystatesList" parameterType="Firmrelystates" resultMap="FirmrelystatesResult">
+        <include refid="selectFirmrelystatesVo"/>
+        <where>  
+            <if test="relydegree != null  and relydegree != ''"> and relyDegree = #{relydegree}</if>
+            <if test="relyfirmname != null  and relyfirmname != ''"> and relyFirmName like concat('%', #{relyfirmname}, '%')</if>
+            <if test="firmname != null  and firmname != ''"> and firmName like concat('%', #{firmname}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectFirmrelystatesById" parameterType="Long" resultMap="FirmrelystatesResult">
+        <include refid="selectFirmrelystatesVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertFirmrelystates" parameterType="Firmrelystates" useGeneratedKeys="true" keyProperty="id">
+        insert into firmrelystates
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="relydegree != null  and relydegree != ''">relyDegree,</if>
+            <if test="relyfirmname != null  and relyfirmname != ''">relyFirmName,</if>
+            <if test="firmname != null  and firmname != ''">firmName,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="relydegree != null  and relydegree != ''">#{relydegree},</if>
+            <if test="relyfirmname != null  and relyfirmname != ''">#{relyfirmname},</if>
+            <if test="firmname != null  and firmname != ''">#{firmname},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFirmrelystates" parameterType="Firmrelystates">
+        update firmrelystates
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="relydegree != null  and relydegree != ''">relyDegree = #{relydegree},</if>
+            <if test="relyfirmname != null  and relyfirmname != ''">relyFirmName = #{relyfirmname},</if>
+            <if test="firmname != null  and firmname != ''">firmName = #{firmname},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteFirmrelystatesById" parameterType="Long">
+        delete from firmrelystates where ID = #{id}
+    </delete>
+
+    <delete id="deleteFirmrelystatesByIds" parameterType="String">
+        delete from firmrelystates where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getRelyState"  resultMap="FirmrelystatesResult">
+        select * from firmrelystates
+    </select>
+    
+</mapper>

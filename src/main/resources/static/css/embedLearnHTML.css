@@ -1,0 +1,124 @@
+html{
+    height: 100%;
+    width: 100%;
+}
+body{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    /*background: url("../img/normalBlue.png")  no-repeat ;*/
+    /*background-size: 100% 100%;*/
+    /*color: white;*/
+}
+.embedmodel{
+    height: 60%;
+    width: 100%;
+    border-bottom: 1px solid lightskyblue;
+}
+.traintotal{
+    height: 36%;
+    width: 100%;
+}
+.trainfactor{
+    float: left;
+    border-right: 1px solid lightskyblue;
+    height: 95%;
+    width: 34%;
+}
+.trainresult{
+    float: left;
+
+    height: 95%;
+    width: 60%;
+}
+.title_model{
+    font-size: larger;
+    font-weight: bold;
+    padding-left: 1%;
+}
+.model_content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.modelimg{
+    height: inherit;
+}
+.title_factory{
+    font-size: larger;
+    font-weight: bold;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.title_result{
+    font-size: larger;
+    font-weight: bold;
+    width: 100%;
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#resultpic{
+    width: 100%;
+    height: 70%;
+}
+.inputcontent{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    padding-top: 2%;
+}
+
+#inputbut{
+    background-color: #3a6cc6;
+    color: white;
+
+}
+#inputbut:hover{
+    background-color: lightskyblue;
+}
+.pic{
+    float: left;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+.pic_content{
+    float: left;
+}
+#dict1{
+    height: 100%;
+    width: 20%;
+    font-size: small;
+    padding-left: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: left;
+}
+#dict2{
+    height: 100%;
+    width: 20%;
+    font-size: small;
+    padding-left: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: left;
+}
+#result1png{
+    width: 220px;
+    height: 150px;
+    float: left;
+}
+#MRR{
+    width: 220px;
+    height: 150px;
+    float: left;
+}

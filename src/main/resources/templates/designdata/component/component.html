@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('产品信息列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>产品名称：</p>
+                                <input type="text" name="componentname"/>
+                            </li>
+                            <li>
+                                <p>产品类型：</p>
+                                <select name="componentlevel" th:with="type=${@dict.getType('ds_design_componentLevel')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>产品来源：</p>
+                                <select name="componenttype" th:with="type=${@dict.getType('ds_design_componentType')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.treeTable.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="designdata:component:add">
+                    <i class="fa fa-plus"></i> 新增
+                </a>
+                <a class="btn btn-primary" onclick="$.operate.edit()" shiro:hasPermission="designdata:component:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-info" id="expandAllBtn">
+                    <i class="fa fa-exchange"></i> 展开/折叠
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-tree-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var addFlag = [[${@permission.hasPermi('designdata:component:add')}]];
+        var editFlag = [[${@permission.hasPermi('designdata:component:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('designdata:component:remove')}]];
+        var componentlevelDatas = [[${@dict.getType('ds_design_componentLevel')}]];
+        var componenttypeDatas = [[${@dict.getType('ds_design_componentType')}]];
+        var prefix = ctx + "designdata/component";
+
+        $(function() {
+            var options = {
+                code: "componentid",
+                parentCode: "componentfatherid",
+                expandColumn: "2",
+                uniqueId: "componentid",
+                url: prefix + "/list",
+                createUrl: prefix + "/add/{id}",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove/{id}",
+                exportUrl: prefix + "/export",
+                modalName: "产品信息",
+                columns: [{
+                    field: 'selectItem', 
+                    radio: true
+                },
+                {
+                    field : 'componentid', 
+                    title : '产品编号',
+                    width: '7%',
+                    align: 'left'
+
+                },
+                {
+                    field : 'componentname', 
+                    title : '产品名称',
+                    width: '20%',
+                    align: 'left'
+                },
+                {
+                    field : 'componentlevel', 
+                    title : '产品类型',
+                    width: '8%',
+                    align: 'left',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(componentlevelDatas, value);
+                    }
+                },
+                {
+                    field : 'componentmodel', 
+                    title : '产品模型',
+                    align: 'left'
+                },
+                {
+                    field : 'componentstandard', 
+                    title : '产品文档',
+                    align: 'left'
+                },
+                {
+                    field : 'componenttype', 
+                    title : '产品来源',
+                    width: '8%',
+                    align: 'left',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(componenttypeDatas, value);
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    align: 'left',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.componentid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-info  btn-xs ' + addFlag + '" href="javascript:void(0)" onclick="$.operate.add(\'' + row.componentid + '\')"><i class="fa fa-plus"></i>新增</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.componentid + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.treeTable.init(options);
+        });
+    </script>
+</body>
+</html>

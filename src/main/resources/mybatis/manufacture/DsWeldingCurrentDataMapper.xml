@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.manufacture.weldinfo.mapper.DsWeldingCurrentDataMapper">
+    
+    <resultMap type="DsWeldingCurrentData" id="DsWeldingCurrentDataResult">
+        <result property="datatime"    column="datatime"    />
+        <result property="weldingQuality"    column="welding_quality"    />
+        <result property="currentEnergy"    column="current_energy"    />
+        <result property="currentPower"    column="current_power"    />
+        <result property="currentResistance"    column="current_resistance"    />
+        <result property="currentVoltage"    column="current_voltage"    />
+        <result property="currentElec"    column="current_elec"    />
+        <result property="weldingSpotId"    column="welding_spot_id"    />
+        <result property="gunType"    column="gun_type"    />
+        <result property="robotId"    column="robot_id"    />
+        <result property="autoId"    column="auto_id"    />
+    </resultMap>
+
+    <sql id="selectDsWeldingCurrentDataVo">
+        select datatime, welding_quality, current_energy, current_power, current_resistance, current_voltage, current_elec, welding_spot_id, gun_type, robot_id, auto_id from ds_welding_current_data
+    </sql>
+
+    <select id="selectDsWeldingCurrentDataList" parameterType="DsWeldingCurrentData" resultMap="DsWeldingCurrentDataResult">
+        <include refid="selectDsWeldingCurrentDataVo"/>
+        <where>  
+            <if test="datatime != null "> and datatime = #{datatime}</if>
+            <if test="weldingSpotId != null  and weldingSpotId != ''"> and welding_spot_id like concat('%', #{weldingSpotId}, '%')</if>
+            <if test="gunType != null  and gunType != ''"> and gun_type like concat('%', #{gunType}, '%')</if>
+            <if test="robotId != null  and robotId != ''"> and robot_id like concat('%', #{robotId}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDsWeldingCurrentDataById" parameterType="Long" resultMap="DsWeldingCurrentDataResult">
+        <include refid="selectDsWeldingCurrentDataVo"/>
+        where auto_id = #{autoId}
+    </select>
+        
+    <insert id="insertDsWeldingCurrentData" parameterType="DsWeldingCurrentData" useGeneratedKeys="true" keyProperty="autoId">
+        insert into ds_welding_current_data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="datatime != null ">datatime,</if>
+            <if test="weldingQuality != null  and weldingQuality != ''">welding_quality,</if>
+            <if test="currentEnergy != null ">current_energy,</if>
+            <if test="currentPower != null ">current_power,</if>
+            <if test="currentResistance != null ">current_resistance,</if>
+            <if test="currentVoltage != null ">current_voltage,</if>
+            <if test="currentElec != null ">current_elec,</if>
+            <if test="weldingSpotId != null  and weldingSpotId != ''">welding_spot_id,</if>
+            <if test="gunType != null  and gunType != ''">gun_type,</if>
+            <if test="robotId != null  and robotId != ''">robot_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="datatime != null ">#{datatime},</if>
+            <if test="weldingQuality != null  and weldingQuality != ''">#{weldingQuality},</if>
+            <if test="currentEnergy != null ">#{currentEnergy},</if>
+            <if test="currentPower != null ">#{currentPower},</if>
+            <if test="currentResistance != null ">#{currentResistance},</if>
+            <if test="currentVoltage != null ">#{currentVoltage},</if>
+            <if test="currentElec != null ">#{currentElec},</if>
+            <if test="weldingSpotId != null  and weldingSpotId != ''">#{weldingSpotId},</if>
+            <if test="gunType != null  and gunType != ''">#{gunType},</if>
+            <if test="robotId != null  and robotId != ''">#{robotId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsWeldingCurrentData" parameterType="DsWeldingCurrentData">
+        update ds_welding_current_data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="datatime != null ">datatime = #{datatime},</if>
+            <if test="weldingQuality != null  and weldingQuality != ''">welding_quality = #{weldingQuality},</if>
+            <if test="currentEnergy != null ">current_energy = #{currentEnergy},</if>
+            <if test="currentPower != null ">current_power = #{currentPower},</if>
+            <if test="currentResistance != null ">current_resistance = #{currentResistance},</if>
+            <if test="currentVoltage != null ">current_voltage = #{currentVoltage},</if>
+            <if test="currentElec != null ">current_elec = #{currentElec},</if>
+            <if test="weldingSpotId != null  and weldingSpotId != ''">welding_spot_id = #{weldingSpotId},</if>
+            <if test="gunType != null  and gunType != ''">gun_type = #{gunType},</if>
+            <if test="robotId != null  and robotId != ''">robot_id = #{robotId},</if>
+        </trim>
+        where auto_id = #{autoId}
+    </update>
+
+    <delete id="deleteDsWeldingCurrentDataById" parameterType="Long">
+        delete from ds_welding_current_data where auto_id = #{autoId}
+    </delete>
+
+    <delete id="deleteDsWeldingCurrentDataByIds" parameterType="String">
+        delete from ds_welding_current_data where auto_id in 
+        <foreach item="autoId" collection="array" open="(" separator="," close=")">
+            #{autoId}
+        </foreach>
+    </delete>
+    
+</mapper>

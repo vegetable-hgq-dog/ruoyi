@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--360浏览器优先以webkit内核解析-->
+    <title>Title</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+    <link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet" />
+    <link href="../static/css/main/style.min862f.css" th:href="@{/css/main/style.min862f.css}" rel="stylesheet" />
+
+    <link href="../static/css/graph.css" th:href="@{/css/graph.css}" rel="stylesheet" />
+    <style>
+        html{
+            height: 100%;
+            width: 100%;
+        }
+
+        body{
+            /*position: absolute;*/
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        section{
+            width: 100%;
+            height: 100%;
+            background-color: whitesmoke;
+
+        }
+        .shouye{
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        .shouyeIMG{
+            /*position: absolute;*/
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <th:block th:include="include :: header('search列表')" />
+</head>
+
+<body>
+    <section>
+        <div class="shouye">
+            <img class="shouyeIMG" src="/img/welcome_page.png">
+        </div>
+    </section>
+</body>
+<!--<body class="gray-bg">-->
+<!--    <div class="container"-->
+<!--        style="border:1px solid #ffffff;border-radius:10px;background-image:url(/img/data-bg.jpeg);height:325px">-->
+<!--        <div class="row col-md-10 col-md-offset-1">-->
+<!--            <div class="col-md-12 input-group search-collapse">-->
+<!--                <form id="formId">-->
+<!--                    &lt;!&ndash;                    <div class="select-list ">-->
+
+<!--                                <input type="text" name="datacontext" placeholder="请输入您要搜索的数据"/>-->
+
+<!--                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>-->
+<!--                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>-->
+
+<!-- -->
+<!--                    </div>  &ndash;&gt;-->
+<!--                    <div class="select-list ">-->
+<!--                        <div class="col-md-10 input-group col-md-offset-1" >-->
+<!--                            <input type="text" name="datacontext" id="datacontext" th:value="${datacontext}" class="form-control" placeholder="请输入您要搜索的数据" />-->
+<!--                            <span class="input-group-btn">-->
+<!--                                <a class="btn btn-info btn-search" onclick="$.table.search('','bootstrap-table2')"><i-->
+<!--                                        class="fa fa-search"></i> 搜索</a>-->
+<!--&lt;!&ndash;                                <button class="btn" style="margin-left:10px;"><strong>数据字典</strong></button>&ndash;&gt;-->
+<!--                            </span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--            <div class="col-sm-10 select-table table-striped ">-->
+<!--                <table id="bootstrap-table2"></table>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash;             <h1 class="text-center " style="color:rgba(200,250,255); margin-bottom: 2rem"><strong>晋中·吉利 区域数据空间</strong></h1> &ndash;&gt;-->
+
+<!--    &lt;!&ndash;             <ol class="col-sm-offset-4" style="position:center"> &ndash;&gt;-->
+<!--    &lt;!&ndash;                 <li style="color:white;height:40px;font-size:18px">涵盖用户、角色、菜单、部门、岗位等管理。</li> &ndash;&gt;-->
+<!--    &lt;!&ndash;                 <li style="color:white;height:40px;font-size:18px">包括设计、制造、服务、供应等数据的协同服务。</li> &ndash;&gt;-->
+<!--    &lt;!&ndash;                 <li style="color:white;height:40px;font-size:18px">对用户、任务、数据和服务进行实时监控。</li> &ndash;&gt;-->
+<!--    &lt;!&ndash;                 <li style="color:white;height:40px;font-size:18px">提供表单构建、代码生成及系统接口等工具。</li> &ndash;&gt;-->
+<!--    &lt;!&ndash;             </ol> &ndash;&gt;-->
+
+<!--    &lt;!&ndash;             <img th:src="@{/img/data-bg.jpeg}" width="100%"> &ndash;&gt;-->
+
+<!--    &lt;!&ndash;        三个表格 &ndash;&gt;-->
+<!--    <div class="wrapper wrapper-content animated fadeInRight">-->
+<!--        <div class="row col-sm-12">-->
+<!--            &lt;!&ndash;        热门数据表     &ndash;&gt;-->
+<!--            <div class="col-sm-6">-->
+<!--                &lt;!&ndash; <div class="row">-->
+<!--                    <div class="col">-->
+<!--                        <div class="ibox float-e-margins">-->
+<!--                            <div class="ibox-title">-->
+<!--                                <h5>热门数据</h5>-->
+<!--                                <div class="select-table table-striped">-->
+<!--                                    <table id="bootstrap-table"></table>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div> &ndash;&gt;-->
+<!--                <div class="row">-->
+<!--                    <div class="col">-->
+<!--                        &lt;!&ndash;        最新数据表    &ndash;&gt;-->
+<!--                        <div class="ibox float-e-margins">-->
+<!--                            <div class="ibox-title">-->
+<!--                                <h5>最新数据</h5>-->
+<!--                                <div class="select-table  table-striped">-->
+<!--                                    <table id="bootstrap-table3"></table>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="col-sm-6">-->
+<!--                <div class="ibox float-e-margins">-->
+<!--                    <div class="ibox-title">-->
+<!--                        <h5>知识图谱</h5>-->
+<!--                        <div class="details_div">-->
+<!--                            <button class="graph_button" id="graph_button">详情</button>-->
+<!--                        </div>-->
+<!--                        <div class="ibox-content" style="height:300px">&lt;!&ndash;ibox-tools&ndash;&gt;-->
+<!--                            <svg width="500" height="300" style="margin-right:10px;margin-bottom:-20px;" id="svg1">-->
+<!--                            </svg>-->
+<!--                            &lt;!&ndash; 绘制图例 &ndash;&gt;-->
+<!--                            <div id="indicator">-->
+<!--                            </div>-->
+<!--                            <div id="info">-->
+<!--                                <h4></h4>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+
+<!--    </div>-->
+<!--    <div class="knowledgeGraph" id="knowledgeGraph1">-->
+<!--        <h3>知识图谱</h3>-->
+<!--        <div class="move_close">-->
+<!--            <button id="close1" style="background-color: red;">关闭</button>-->
+<!--        </div>-->
+<!--        <div class="showData">&lt;!&ndash;ibox-tools&ndash;&gt;-->
+<!--            <svg width="1150" height="400" style="margin-right:0px;margin-bottom:0px;" id="svg2">-->
+<!--            </svg>-->
+<!--            &lt;!&ndash; 绘制图例 &ndash;&gt;-->
+<!--            <div id="indicator1">-->
+<!--            </div>-->
+<!--            <div id="info1">-->
+<!--                <h4></h4>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+
+
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+
+    <script type="text/javascript">
+        // 拖动
+        $(function () {
+            var _move = false;//移动标记
+            var _x, _y;//鼠标离控件左上角的相对位置
+            $("#knowledgeGraph1").click(function () {
+                //alert("click");//点击（松开后触发）
+            }).mousedown(function (e) {
+                _move = true;
+                _x = e.pageX - parseInt($("#knowledgeGraph1").css("left"));
+                _y = e.pageY - parseInt($("#knowledgeGraph1").css("top"));
+                //$("#diagnosis_shell01").fadeTo(20, 0.5);//点击后开始拖动并透明显示
+            });
+            $(document).mousemove(function (e) {
+                if (_move) {
+                    var x = e.pageX - _x;//移动时根据鼠标位置计算控件左上角的绝对位置
+                    var y = e.pageY - _y;
+                    $("#knowledgeGraph1").css({ top: y, left: x });//控件新位置
+                }
+            }).mouseup(function () {
+                _move = false;
+                //$("#move1").fadeTo(20, 1);//松开鼠标后停止移动并恢复成不透明
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        //点击详情显示
+        $("#graph_button").click(function () {
+            $("#knowledgeGraph1").show()
+            $("#knowledgeGraph1").css({ "left": 5 + "%", "top": 10 + "%" })
+        });
+    </script>
+    <script type="text/javascript">
+        //点击关闭按钮关系小窗口
+        $("#close1").click(function () {
+            $("#knowledgeGraph1").hide()
+        });
+    </script>
+
+
+<!--    <script type="text/javascript">-->
+<!--        $('#pay-qrcode').click(function () {-->
+<!--            var html = $(this).html();-->
+<!--            parent.layer.open({-->
+<!--                title: false,-->
+<!--                type: 1,-->
+<!--                closeBtn: false,-->
+<!--                shadeClose: true,-->
+<!--                area: ['600px', 'auto'],-->
+<!--                content: html-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+<!--    <th:block th:include="include :: footer" />-->
+<!--    <script th:inline="javascript">-->
+<!--        var prefix = ctx + "system/hotdata";-->
+<!--        var prefix2 = ctx + "system/search";-->
+<!--        var prefix3 = ctx + "system/newdata";-->
+
+<!--        $(function () {-->
+<!--            var options2 = {-->
+<!--                id: "bootstrap-table2",-->
+<!--                url: prefix2 + "/list",-->
+<!--                modalName: "search",-->
+<!--                pageSize: 3,-->
+<!--                showFooter: false,-->
+<!--                showSearch: false,-->
+<!--                showRefresh: false,-->
+<!--                showToggle: false,-->
+<!--                showColumns: false,-->
+<!--                sortable: true,-->
+<!--                columns: [-->
+<!--                    {-->
+<!--                        field: 'datatype',-->
+<!--                        title: '数据类型',-->
+<!--                        align:"center"-->
+<!--                    },-->
+<!--                    {-->
+<!--                        field: 'datacontext',-->
+<!--                        title: '数据内容',-->
+<!--                        align:"center"-->
+<!--                    },-->
+<!--                    {-->
+<!--                        field: 'updata',-->
+<!--                        title: '更新时间',-->
+<!--                        align:"center"-->
+<!--                    }]-->
+<!--            };-->
+<!--            $.table.init(options2);-->
+
+<!--            var options = {-->
+<!--                id: "bootstrap-table",-->
+<!--                url: prefix + "/list",-->
+<!--                modalName: "hotdata",-->
+<!--                pageSize: 3,-->
+<!--                showFooter: false,-->
+<!--                showSearch: false,-->
+<!--                showRefresh: false,-->
+<!--                showToggle: false,-->
+<!--                showColumns: false,-->
+<!--                showPaginationSwitch: false,-->
+<!--                columns: [-->
+<!--                    {-->
+<!--                        field: 'datatype',-->
+<!--                        title: '数据类型'-->
+<!--                    },-->
+<!--                    {-->
+<!--                        field: 'content',-->
+<!--                        title: '数据内容'-->
+<!--                    },-->
+<!--                    {-->
+<!--                        field: 'uptime',-->
+<!--                        title: '更新时间'-->
+<!--                    }]-->
+<!--            };-->
+<!--            $.table.init(options);-->
+
+
+
+<!--            var options3 = {-->
+<!--                id: "bootstrap-table3",-->
+<!--                url: prefix3 + "/list",-->
+<!--                modalName: "newdata",-->
+<!--                pageSize: 6,-->
+<!--                //	 										    showFooter: true,-->
+<!--                showSearch: false,-->
+<!--                showRefresh: false,-->
+<!--                showToggle: false,-->
+<!--                showColumns: false,-->
+<!--                pagination: true,-->
+<!--                //	 										    uniqueld:"userld",-->
+<!--                //	 										    height: 200,-->
+<!--                sortName:"uptime",-->
+<!--                sortOrder:"desc",-->
+<!--                columns: [-->
+<!--                    {-->
+<!--                        field: 'datatype',-->
+<!--                        title: '数据类型',-->
+<!--                        align:"center"-->
+<!--                    },-->
+<!--                    {-->
+<!--                        field: 'datacontent',-->
+<!--                        title: '数据内容',-->
+<!--                        align:"center"-->
+<!--                    },-->
+<!--                    {-->
+<!--                        field: 'uptime',-->
+<!--                        title: '更新时间',-->
+<!--                        align:"center",-->
+<!--                        sortable: true-->
+<!--                    }]-->
+<!--            };-->
+<!--            $.table.init(options3);-->
+
+
+<!--        });-->
+
+<!--    </script>-->
+<!--    &lt;!&ndash; 增加D3元素库 &ndash;&gt;-->
+<!--    <script th:src="@{/js/d3.v4.min.js}"></script>-->
+<!--    <script type="text/javascript">-->
+<!--        $(document).ready(function () {-->
+<!--            // 定义svg变量将布局svg1选出来-->
+<!--            var svg = d3.select("#svg1"),-->
+<!--                width = svg.attr("width"),-->
+<!--                height = svg.attr("height");-->
+<!--            // 自定义图标及颜色（数组保证一一对应）-->
+<!--            // names		图例名称变量制作图标-->
+<!--            // labels		节点的标签名称（与records.json中保证相同）-->
+<!--            // colors		图例颜色-->
+<!--            // url 			json文件的路径-->
+<!--            //var names = ['零部件', '设备', '设备参数', '工厂', '特征', 'MR知识', '参数值', '工艺', '产线', '工位', '生产规划', '车型', '车间']-->
+<!--            //var labels = ['Ds_component', 'Ds_device', 'Ds_device_para_operation', 'Ds_factory', 'Ds_feature', 'Ds_mrknowledge', 'Ds_parameter', 'Ds_processing', 'Ds_productline', 'Ds_station', 'Ds_vechicle_prod_loc', 'Ds_vechicleproduction', 'Ds_workshop']-->
+<!--            //var colors = ['#55ffff', '#aaaaff', '#4e88af', '#ca635f', '#FFB6C1', '#FF00FF', '#7B68EE', '#B0C4DE','#00BFFF', '#00FA9A', '#B8860B', '#FAEBD7','#CD853F']-->
+<!--            var names = ['制造知识', '工艺', '材料', '零部件', '制造特征', '设计特征']-->
+<!--            var labels = ['制造知识', '工艺', '材料', '零部件', '制造特征', '设计特征']-->
+<!--            var colors = ['#55ffff', '#aaaaff', '#4e88af', '#ca635f', '#FFB6C1', '#FF00FF']-->
+<!--            var url = "/data/kg.json";-->
+
+<!--            // 背景颜色设置 补充CSS样式设置字体布局-->
+<!--            for (var i = 0; i < names.length; i++) {-->
+<!--                $('#indicator').append("<div><span style='background-color:" + colors[i] + "'></span>" + names[i] +-->
+<!--                    "</div>")-->
+<!--            }-->
+
+<!--            // 利用d3.forceSimulation()定义关系图 包括设置边link、排斥电荷charge、关系图中心点-->
+<!--            var simulation = d3.forceSimulation()-->
+<!--                .force("link", d3.forceLink().id(d => {-->
+<!--                    // console.log(d)-->
+<!--                    return d.id-->
+<!--                }))-->
+<!--                .force("charge", d3.forceManyBody())-->
+<!--                .force("center", d3.forceCenter(width / 2, height / 2))-->
+<!--                .force("collision", d3.forceCollide(18)) // 碰撞检测-->
+<!--            // 图数据-->
+<!--            var graph-->
+<!--            let nodes = []-->
+<!--            let links = [] // 存放节点和关系-->
+<!--            let nodeSet = [] // 存放去重后nodes的id-->
+<!--            //d3.json获取数据-->
+<!--            d3.json(url, function (error, data) {-->
+<!--                if (error) throw error-->
+<!--                graph = data-->
+<!--                console.log(graph[0].p)-->
+<!--                for (let item of graph) {-->
+<!--                    for (let segment of item.p.segments) {-->
+<!--                        // 重新更改data格式-->
+<!--                        if (nodeSet.indexOf(segment.start.identity) == -1) {-->
+<!--                            nodeSet.push(segment.start.identity)-->
+<!--                            nodes.push({-->
+<!--                                id: segment.start.identity,-->
+<!--                                label: segment.start.labels[0],-->
+<!--                                properties: segment.start.properties-->
+<!--                            })-->
+<!--                        }-->
+<!--                        if (nodeSet.indexOf(segment.end.identity) == -1) {-->
+<!--                            nodeSet.push(segment.end.identity)-->
+<!--                            nodes.push({-->
+<!--                                id: segment.end.identity,-->
+<!--                                label: segment.end.labels[0],-->
+<!--                                properties: segment.end.properties-->
+<!--                            })-->
+<!--                        }-->
+<!--                        links.push({-->
+<!--                            source: segment.relationship.start,-->
+<!--                            target: segment.relationship.end,-->
+<!--                            type: segment.relationship.type,-->
+<!--                            properties: segment.relationship.properties-->
+<!--                        })-->
+<!--                    }-->
+<!--                }-->
+<!--                console.log(nodes)-->
+<!--                console.log(links)-->
+<!--                // D3映射数据至HTML中-->
+<!--                // g用于绘制所有边,selectALL选中所有的line,并绑定数据data(graph.links),enter().append("line")添加元素-->
+<!--                // 数据驱动文档,设置边的粗细-->
+<!--                var link = svg.append("g").attr("class", "links").selectAll("line").data(links).enter()-->
+<!--                    .append("line").attr("stroke-width", function (d) {-->
+<!--                        // 每次访问links的一项数据-->
+<!--                        return 1.5 //所有线宽度均为2-->
+<!--                    });-->
+
+<!--                // 添加所有的点-->
+<!--                // selectAll("circle")选中所有的圆并绑定数据,圆的直径为d.size-->
+<!--                // 再定义圆的填充色,同样数据驱动样式,圆没有描边,圆的名字为d.id-->
+<!--                // call()函数：拖动函数,当拖动开始绑定dragstarted函数，拖动进行和拖动结束也绑定函数-->
+<!--                var node = svg.append("g").attr("class", "nodes").selectAll("circle").data(nodes).enter()-->
+<!--                    .append("circle").attr("r", function (d) {-->
+<!--                        // 每次访问nodes的一项数据-->
+<!--                        // console.log(d)-->
+<!--                        let size = 15-->
+<!--                        switch (d.label) {-->
+<!--                            case labels[0]:-->
+<!--                                break;-->
+<!--                                size = 15;-->
+<!--                            case labels[1]:-->
+<!--                                size = 14;-->
+<!--                                break;-->
+<!--                            case labels[2]:-->
+<!--                                size = 13;-->
+<!--                                break;-->
+<!--                            default:-->
+<!--                                size = 12;-->
+<!--                                break;-->
+<!--                        }-->
+<!--                        return size-->
+<!--                    }).attr("fill", function (d) {-->
+<!--                        for (let i = 0; i < labels.length; i++) {-->
+<!--                            if (d.label === labels[i]) return colors[i]-->
+<!--                        }-->
+<!--                    }).attr("stroke", "none").attr("name", function (d) {-->
+<!--                        return d.properties.name;-->
+<!--                    }).attr("id", d => d.id)-->
+<!--                    .call(d3.drag()-->
+<!--                        .on("start", dragstarted)-->
+<!--                        .on("drag", dragged)-->
+<!--                        .on("end", dragended)-->
+<!--                    );-->
+
+<!--                //显示所有的文本-->
+<!--                //设置大小、填充颜色、名字、text()设置文本-->
+<!--                //attr("text-anchor", "middle")设置文本居中-->
+<!--                var text = svg.append("g").attr("class", "texts").selectAll("text").data(nodes).enter()-->
+<!--                    .append("text").attr("font-size", function (d) {-->
+<!--                        return 13;-->
+<!--                    }).attr("fill", function (d) {-->
+<!--                        for (let i = 0; i < labels.length; i++) {-->
+<!--                            if (d.label === labels[i]) return colors[i]-->
+<!--                        }-->
+<!--                    }).attr('name', function (d) {-->
+<!--                        return d.properties.name;-->
+<!--                    }).text(function (d) {-->
+<!--                        return d.properties.name;-->
+<!--                    })-->
+<!--                // var titles = ['ds_component_componentName','ds_device_deviceName','ds_device_para_operation_parameterName','ds_factory_factoryName','ds_feature_featureName'-->
+<!--                // 	,'ds_mrknowledge_MRitemContent','ds_parameter_parameterName','ds_processing_processingName','ds_productline_productlineName','ds_station_stationName','ds_vechicle_prod_loc_vechicleID','ds_vechicleproduction_currentstatus','ds_workshop_workshopName']-->
+
+<!--                // 圆增加title-->
+<!--                node.append("title").text(function (d) {-->
+<!--                    switch (d.label) {-->
+<!--                        case labels[0]:-->
+<!--                            return d.properties.name;-->
+<!--                            break;-->
+<!--                        case labels[1]:-->
+<!--                            return d.properties.name;-->
+<!--                            break;-->
+<!--                        case labels[2]:-->
+<!--                            return d.properties.name;-->
+<!--                            break;-->
+<!--                        case labels[3]:-->
+<!--                            return d.properties.name;-->
+<!--                            break;-->
+<!--                        case labels[4]:-->
+<!--                            return d.properties.name;-->
+<!--                            break;-->
+<!--                        default:-->
+<!--                            return d.properties.name;-->
+<!--                            break;-->
+<!--                    }-->
+<!--                })-->
+
+<!--                // simulation中ticked数据初始化并生成图形-->
+<!--                simulation.nodes(nodes).on("tick", ticked);-->
+
+<!--                simulation.force("link")-->
+<!--                    .links(links)-->
+<!--                    .distance(d => { //每一边的长度-->
+<!--                        let distance = 10-->
+<!--                        switch (d.source.label) {-->
+<!--                            case labels[0]:-->
+<!--                                distance += 30;-->
+<!--                                break;-->
+<!--                            case labels[1]:-->
+<!--                                distance += 25;-->
+<!--                                break;-->
+<!--                            case labels[2]:-->
+<!--                                distance += 20;-->
+<!--                                break;-->
+<!--                            default:-->
+<!--                                distance += 15;-->
+<!--                                break;-->
+<!--                        }-->
+<!--                        switch (d.target.label) {-->
+<!--                            case labels[0]:-->
+<!--                                distance += 30;-->
+<!--                                break;-->
+<!--                            case labels[1]:-->
+<!--                                distance += 25;-->
+<!--                                break;-->
+<!--                            case labels[2]:-->
+<!--                                distance += 20;-->
+<!--                                break;-->
+<!--                            default:-->
+<!--                                distance += 15;-->
+<!--                                break;-->
+<!--                        }-->
+<!--                        return distance-->
+<!--                    });-->
+
+<!--                // ticked()函数确定link线的起始点x、y坐标 node确定中心点 文本通过translate平移变化-->
+<!--                function ticked() {-->
+<!--                    link-->
+<!--                        .attr("x1", function (d) {-->
+<!--                            return d.source.x;-->
+<!--                        })-->
+<!--                        .attr("y1", function (d) {-->
+<!--                            return d.source.y;-->
+<!--                        })-->
+<!--                        .attr("x2", function (d) {-->
+<!--                            return d.target.x;-->
+<!--                        })-->
+<!--                        .attr("y2", function (d) {-->
+<!--                            return d.target.y;-->
+<!--                        });-->
+
+<!--                    node-->
+<!--                        .attr("cx", function (d) {-->
+<!--                            return d.x;-->
+<!--                        })-->
+<!--                        .attr("cy", function (d) {-->
+<!--                            return d.y;-->
+<!--                        });-->
+
+<!--                    text.attr('transform', function (d) {-->
+<!--                        let size = 15-->
+<!--                        switch (d.label) {-->
+<!--                            case labels[0]:-->
+<!--                                break;-->
+<!--                            case labels[1]:-->
+<!--                                size = 14;-->
+<!--                                break;-->
+<!--                            case labels[2]:-->
+<!--                                size = 13;-->
+<!--                                break;-->
+<!--                            default:-->
+<!--                                size = 12;-->
+<!--                                break;-->
+<!--                        }-->
+<!--                        return 'translate(' + (d.x - size / 2) + ',' + (d.y + size / 2) + ')';-->
+<!--                    });-->
+<!--                }-->
+<!--            });-->
+<!--            // 拖动函数代码-->
+<!--            var dragging = false;-->
+<!--            // 开始拖动并更新相应的点-->
+<!--            function dragstarted(d) {-->
+<!--                if (!d3.event.active) simulation.alphaTarget(0.3).restart();-->
+<!--                d.fx = d.x;-->
+<!--                d.fy = d.y;-->
+<!--                dragging = true;-->
+<!--            }-->
+<!--            // 拖动进行中-->
+<!--            function dragged(d) {-->
+<!--                d.fx = d3.event.x;-->
+<!--                d.fy = d3.event.y;-->
+<!--            }-->
+<!--            // 拖动结束-->
+<!--            function dragended(d) {-->
+<!--                if (!d3.event.active) simulation.alphaTarget(0);-->
+<!--                d.fx = null;-->
+<!--                d.fy = null;-->
+<!--                dragging = false;-->
+<!--            }-->
+<!--            // 设置鼠标选中节点显示，并循环设置与选中节点相关联的节点显示-->
+<!--            // 为svg1父元素下的.nodes circle元素绑定鼠标进入事件-->
+<!--            $('#svg1').on('mouseenter', '.nodes circle', function (event) {-->
+<!--                // console.log(event)-->
+<!--                // 通过变量dragging保证拖动鼠标时，其状态不受影响，从而改变图形-->
+<!--                // 鼠标没有拖动才能处理事件-->
+<!--                if (!dragging) {-->
+<!--                    // 获取被选中元素的名字-->
+<!--                    var name = $(this).attr("name");-->
+<!--                    var id = $(this).attr("id");-->
+<!--                    // 设置#info h4样式的颜色为该节点的颜色，文本为该节点name-->
+<!--                    //$(this).attr('fill');表示当前悬浮圆的填充色-->
+<!--                    $('#info h4').css('color', $(this).attr('fill')).text(name);-->
+<!--                    // 每次点击添加属性前把上次显示的信息去除，否则会不断叠加-->
+<!--                    $('#info p').remove();-->
+<!--                    // 遍历查找id对应的属性-->
+<!--                    for (let item of nodes) {-->
+<!--                        if (item.id == id) {-->
+<!--                            for (var key in item.properties)-->
+<!--                                //显示值及其字段名字-->
+<!--                                $('#info').append('<p><span>' + key + '</span>' + item.properties[key] +-->
+<!--                                    '</p>');-->
+<!--                        }-->
+<!--                    }-->
+<!--                    // 选择#svg1 .nodes中所有的circle，再增加个class-->
+<!--                    d3.select('#svg1 .nodes').selectAll('circle').attr('class', function (d) {-->
+<!--                        // 数据的id是否等于name,返回空-->
+<!--                        if (d.properties.name == name) {-->
+<!--                            return '';-->
+<!--                        }-->
+<!--                        // 当前节点返回空，否则其他节点循环判断是否被隐藏起来(CSS设置隐藏)-->
+<!--                        else {-->
+<!--                            // links链接的起始节点进行判断,如果其id等于name则显示这类节点-->
+<!--                            // 注意: graph=data-->
+<!--                            for (var i = 0; i < links.length; i++) {-->
+<!--                                // 如果links的起点等于name，并且终点等于正在处理的则显示-->
+<!--                                if (links[i]['source'].properties.name == name && links[i]['target']-->
+<!--                                    .id == d.id) {-->
+<!--                                    return '';-->
+<!--                                }-->
+<!--                                if (links[i]['target'].properties.name == name && links[i]['source']-->
+<!--                                    .id == d.id) {-->
+<!--                                    return '';-->
+<!--                                }-->
+<!--                            }-->
+<!--                            return "inactive"; //前面CSS定义 .nodes circle.inactive-->
+<!--                        }-->
+<!--                    });-->
+<!--                    // 处理相邻的边line是否隐藏 注意 ||-->
+<!--                    d3.select("#svg1 .links").selectAll('line').attr('class', function (d) {-->
+<!--                        if (d.source.properties.name == name || d.target.properties.name == name) {-->
+<!--                            return '';-->
+<!--                        } else {-->
+<!--                            return 'inactive';-->
+<!--                        }-->
+<!--                    });-->
+<!--                }-->
+<!--            });-->
+<!--            // 鼠标移开还原原图，显示所有隐藏的点及边-->
+<!--            $('#svg1').on('mouseleave', '.nodes circle', function (event) {-->
+<!--                d3.select('#svg1 .nodes').selectAll('circle').attr('class', '');-->
+<!--                d3.select('#svg1 .links').selectAll('line').attr('class', '');-->
+<!--            });-->
+<!--            // 鼠标进入文本显示相邻节点及边-->
+<!--            $('#svg1').on('mouseenter', '.texts text', function (event) {-->
+<!--                if (!dragging) {-->
+<!--                    var name = $(this).attr('name');-->
+
+<!--                    $('#info h4').css('color', $(this).attr('fill')).text(name);-->
+<!--                    $('#info p').remove();-->
+<!--                    // 遍历查找id对应的属性-->
+<!--                    for (let item of nodes) {-->
+<!--                        if (item.properties.name == name) {-->
+<!--                            for (var key in item.properties)-->
+<!--                                // 显示值及其字段名字-->
+<!--                                $('#info').append('<p><span>' + key + '</span>' + item.properties[key] +-->
+<!--                                    '</p>');-->
+<!--                        }-->
+<!--                    }-->
+
+<!--                    d3.select('#svg1 .texts').selectAll('text').attr('class', function (d) {-->
+<!--                        if (d.properties.name == name) {-->
+<!--                            return '';-->
+<!--                        }-->
+
+<!--                        for (var i = 0; i < links.length; i++) {-->
+<!--                            if (links[i]['source'].properties.name == name && links[i]['target']-->
+<!--                                .id == d.id) {-->
+<!--                                return '';-->
+<!--                            }-->
+<!--                            if (links[i]['target'].properties.name == name && links[i]['source']-->
+<!--                                .id == d.id) {-->
+<!--                                return '';-->
+<!--                            }-->
+<!--                        }-->
+<!--                        return 'inactive';-->
+<!--                    });-->
+<!--                    d3.select("#svg1 .links").selectAll('line').attr('class', function (d) {-->
+<!--                        if (d.source.properties.name == name || d.target.properties.name == name) {-->
+<!--                            return '';-->
+<!--                        } else {-->
+<!--                            return 'inactive';-->
+<!--                        }-->
+<!--                    });-->
+<!--                }-->
+<!--            });-->
+<!--            // 鼠标移除文本还原相应节点及边-->
+<!--            $('#svg1').on('mouseleave', '.texts text', function (event) {-->
+<!--                if (!dragging) {-->
+<!--                    d3.select('#svg1 .texts').selectAll('text').attr('class', '');-->
+<!--                    d3.select('#svg1 .links').selectAll('line').attr('class', '');-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+
+<!--    <script type="text/javascript">-->
+<!--        $(document).ready(function () {-->
+<!--            // 定义svg变量将布局svg2选出来-->
+<!--            var svg = d3.select("#svg2"),-->
+<!--                width = svg.attr("width"),-->
+<!--                height = svg.attr("height");-->
+<!--            // 自定义图标及颜色（数组保证一一对应）-->
+<!--            // names		图例名称变量制作图标-->
+<!--            // labels		节点的标签名称（与records.json中保证相同）-->
+<!--            // colors		图例颜色-->
+<!--            // url 			json文件的路径-->
+<!--            //var names = ['零部件', '设备', '设备参数', '工厂', '特征', 'MR知识', '参数值', '工艺', '产线', '工位', '生产规划', '车型', '车间']-->
+<!--            //var labels = ['Ds_component', 'Ds_device', 'Ds_device_para_operation', 'Ds_factory', 'Ds_feature', 'Ds_mrknowledge', 'Ds_parameter', 'Ds_processing', 'Ds_productline', 'Ds_station', 'Ds_vechicle_prod_loc', 'Ds_vechicleproduction', 'Ds_workshop']-->
+<!--            //var colors = ['#55ffff', '#aaaaff', '#4e88af', '#ca635f', '#FFB6C1', '#FF00FF', '#7B68EE', '#B0C4DE','#00BFFF', '#00FA9A', '#B8860B', '#FAEBD7','#CD853F']-->
+<!--            var names = ['制造知识', '工艺', '材料', '零部件', '制造特征', '设计特征']-->
+<!--            var labels = ['制造知识', '工艺', '材料', '零部件', '制造特征', '设计特征']-->
+<!--            var colors = ['#55ffff', '#aaaaff', '#4e88af', '#ca635f', '#FFB6C1', '#FF00FF']-->
+<!--            var url = "/data/kg.json";-->
+
+<!--            // 背景颜色设置 补充CSS样式设置字体布局-->
+<!--            for (var i = 0; i < names.length; i++) {-->
+<!--                $('#indicator1').append("<div><span style='background-color:" + colors[i] + "'></span>" + names[i] +-->
+<!--                    "</div>")-->
+<!--            }-->
+
+<!--            // 利用d3.forceSimulation()定义关系图 包括设置边link、排斥电荷charge、关系图中心点-->
+<!--            var simulation = d3.forceSimulation()-->
+<!--                .force("link", d3.forceLink().id(d => {-->
+<!--                    // console.log(d)-->
+<!--                    return d.id-->
+<!--                }))-->
+<!--                .force("charge", d3.forceManyBody())-->
+<!--                .force("center", d3.forceCenter(width / 2, height / 2))-->
+<!--                .force("collision", d3.forceCollide(18)) // 碰撞检测-->
+<!--            // 图数据-->
+<!--            var graph-->
+<!--            let nodes = []-->
+<!--            let links = [] // 存放节点和关系-->
+<!--            let nodeSet = [] // 存放去重后nodes的id-->
+<!--            //d3.json获取数据-->
+<!--            d3.json(url, function (error, data) {-->
+<!--                if (error) throw error-->
+<!--                graph = data-->
+<!--                console.log(graph[0].p)-->
+<!--                for (let item of graph) {-->
+<!--                    for (let segment of item.p.segments) {-->
+<!--                        // 重新更改data格式-->
+<!--                        if (nodeSet.indexOf(segment.start.identity) == -1) {-->
+<!--                            nodeSet.push(segment.start.identity)-->
+<!--                            nodes.push({-->
+<!--                                id: segment.start.identity,-->
+<!--                                label: segment.start.labels[0],-->
+<!--                                properties: segment.start.properties-->
+<!--                            })-->
+<!--                        }-->
+<!--                        if (nodeSet.indexOf(segment.end.identity) == -1) {-->
+<!--                            nodeSet.push(segment.end.identity)-->
+<!--                            nodes.push({-->
+<!--                                id: segment.end.identity,-->
+<!--                                label: segment.end.labels[0],-->
+<!--                                properties: segment.end.properties-->
+<!--                            })-->
+<!--                        }-->
+<!--                        links.push({-->
+<!--                            source: segment.relationship.start,-->
+<!--                            target: segment.relationship.end,-->
+<!--                            type: segment.relationship.type,-->
+<!--                            properties: segment.relationship.properties-->
+<!--                        })-->
+<!--                    }-->
+<!--                }-->
+<!--                console.log(nodes)-->
+<!--                console.log(links)-->
+<!--                // D3映射数据至HTML中-->
+<!--                // g用于绘制所有边,selectALL选中所有的line,并绑定数据data(graph.links),enter().append("line")添加元素-->
+<!--                // 数据驱动文档,设置边的粗细-->
+<!--                var link = svg.append("g").attr("class", "links").selectAll("line").data(links).enter()-->
+<!--                    .append("line").attr("stroke-width", function (d) {-->
+<!--                        // 每次访问links的一项数据-->
+<!--                        return 1.5 //所有线宽度均为2-->
+<!--                    });-->
+
+<!--                // 添加所有的点-->
+<!--                // selectAll("circle")选中所有的圆并绑定数据,圆的直径为d.size-->
+<!--                // 再定义圆的填充色,同样数据驱动样式,圆没有描边,圆的名字为d.id-->
+<!--                // call()函数：拖动函数,当拖动开始绑定dragstarted函数，拖动进行和拖动结束也绑定函数-->
+<!--                var node = svg.append("g").attr("class", "nodes").selectAll("circle").data(nodes).enter()-->
+<!--                    .append("circle").attr("r", function (d) {-->
+<!--                        // 每次访问nodes的一项数据-->
+<!--                        // console.log(d)-->
+<!--                        let size = 15-->
+<!--                        switch (d.label) {-->
+<!--                            case labels[0]:-->
+<!--                                break;-->
+<!--                                size = 15;-->
+<!--                            case labels[1]:-->
+<!--                                size = 14;-->
+<!--                                break;-->
+<!--                            case labels[2]:-->
+<!--                                size = 13;-->
+<!--                                break;-->
+<!--                            default:-->
+<!--                                size = 12;-->
+<!--                                break;-->
+<!--                        }-->
+<!--                        return size-->
+<!--                    }).attr("fill", function (d) {-->
+<!--                        for (let i = 0; i < labels.length; i++) {-->
+<!--                            if (d.label === labels[i]) return colors[i]-->
+<!--                        }-->
+<!--                    }).attr("stroke", "none").attr("name", function (d) {-->
+<!--                        return d.properties.name;-->
+<!--                    }).attr("id", d => d.id)-->
+<!--                    .call(d3.drag()-->
+<!--                        .on("start", dragstarted)-->
+<!--                        .on("drag", dragged)-->
+<!--                        .on("end", dragended)-->
+<!--                    );-->
+
+<!--                //显示所有的文本-->
+<!--                //设置大小、填充颜色、名字、text()设置文本-->
+<!--                //attr("text-anchor", "middle")设置文本居中-->
+<!--                var text = svg.append("g").attr("class", "texts").selectAll("text").data(nodes).enter()-->
+<!--                    .append("text").attr("font-size", function (d) {-->
+<!--                        return 13;-->
+<!--                    }).attr("fill", function (d) {-->
+<!--                        for (let i = 0; i < labels.length; i++) {-->
+<!--                            if (d.label === labels[i]) return colors[i]-->
+<!--                        }-->
+<!--                    }).attr('name', function (d) {-->
+<!--                        return d.properties.name;-->
+<!--                    }).text(function (d) {-->
+<!--                        return d.properties.name;-->
+<!--                    })-->
+<!--                // var titles = ['ds_component_componentName','ds_device_deviceName','ds_device_para_operation_parameterName','ds_factory_factoryName','ds_feature_featureName'-->
+<!--                // 	,'ds_mrknowledge_MRitemContent','ds_parameter_parameterName','ds_processing_processingName','ds_productline_productlineName','ds_station_stationName','ds_vechicle_prod_loc_vechicleID','ds_vechicleproduction_currentstatus','ds_workshop_workshopName']-->
+
+<!--                // 圆增加title-->
+<!--                node.append("title").text(function (d) {-->
+<!--                    switch (d.label) {-->
+<!--                        case labels[0]:-->
+<!--                            return d.properties.name;-->
+<!--                            break;-->
+<!--                        case labels[1]:-->
+<!--                            return d.properties.name;-->
+<!--                            break;-->
+<!--                        case labels[2]:-->
+<!--                            return d.properties.name;-->
+<!--                            break;-->
+<!--                        case labels[3]:-->
+<!--                            return d.properties.name;-->
+<!--                            break;-->
+<!--                        case labels[4]:-->
+<!--                            return d.properties.name;-->
+<!--                            break;-->
+<!--                        default:-->
+<!--                            return d.properties.ds_workshop_workshopName;-->
+<!--                            break;-->
+<!--                    }-->
+<!--                })-->
+
+<!--                // simulation中ticked数据初始化并生成图形-->
+<!--                simulation.nodes(nodes).on("tick", ticked);-->
+
+<!--                simulation.force("link")-->
+<!--                    .links(links)-->
+<!--                    .distance(d => { //每一边的长度-->
+<!--                        let distance = 10-->
+<!--                        switch (d.source.label) {-->
+<!--                            case labels[0]:-->
+<!--                                distance += 30;-->
+<!--                                break;-->
+<!--                            case labels[1]:-->
+<!--                                distance += 25;-->
+<!--                                break;-->
+<!--                            case labels[2]:-->
+<!--                                distance += 20;-->
+<!--                                break;-->
+<!--                            default:-->
+<!--                                distance += 15;-->
+<!--                                break;-->
+<!--                        }-->
+<!--                        switch (d.target.label) {-->
+<!--                            case labels[0]:-->
+<!--                                distance += 30;-->
+<!--                                break;-->
+<!--                            case labels[1]:-->
+<!--                                distance += 25;-->
+<!--                                break;-->
+<!--                            case labels[2]:-->
+<!--                                distance += 20;-->
+<!--                                break;-->
+<!--                            default:-->
+<!--                                distance += 15;-->
+<!--                                break;-->
+<!--                        }-->
+<!--                        return distance-->
+<!--                    });-->
+
+<!--                // ticked()函数确定link线的起始点x、y坐标 node确定中心点 文本通过translate平移变化-->
+<!--                function ticked() {-->
+<!--                    link-->
+<!--                        .attr("x1", function (d) {-->
+<!--                            return d.source.x;-->
+<!--                        })-->
+<!--                        .attr("y1", function (d) {-->
+<!--                            return d.source.y;-->
+<!--                        })-->
+<!--                        .attr("x2", function (d) {-->
+<!--                            return d.target.x;-->
+<!--                        })-->
+<!--                        .attr("y2", function (d) {-->
+<!--                            return d.target.y;-->
+<!--                        });-->
+
+<!--                    node-->
+<!--                        .attr("cx", function (d) {-->
+<!--                            return d.x;-->
+<!--                        })-->
+<!--                        .attr("cy", function (d) {-->
+<!--                            return d.y;-->
+<!--                        });-->
+
+<!--                    text.attr('transform', function (d) {-->
+<!--                        let size = 15-->
+<!--                        switch (d.label) {-->
+<!--                            case labels[0]:-->
+<!--                                break;-->
+<!--                            case labels[1]:-->
+<!--                                size = 14;-->
+<!--                                break;-->
+<!--                            case labels[2]:-->
+<!--                                size = 13;-->
+<!--                                break;-->
+<!--                            default:-->
+<!--                                size = 12;-->
+<!--                                break;-->
+<!--                        }-->
+<!--                        return 'translate(' + (d.x - size / 2) + ',' + (d.y + size / 2) + ')';-->
+<!--                    });-->
+<!--                }-->
+<!--            });-->
+<!--            // 拖动函数代码-->
+<!--            var dragging = false;-->
+<!--            // 开始拖动并更新相应的点-->
+<!--            function dragstarted(d) {-->
+<!--                if (!d3.event.active) simulation.alphaTarget(0.3).restart();-->
+<!--                d.fx = d.x;-->
+<!--                d.fy = d.y;-->
+<!--                dragging = true;-->
+<!--            }-->
+<!--            // 拖动进行中-->
+<!--            function dragged(d) {-->
+<!--                d.fx = d3.event.x;-->
+<!--                d.fy = d3.event.y;-->
+<!--            }-->
+<!--            // 拖动结束-->
+<!--            function dragended(d) {-->
+<!--                if (!d3.event.active) simulation.alphaTarget(0);-->
+<!--                d.fx = null;-->
+<!--                d.fy = null;-->
+<!--                dragging = false;-->
+<!--            }-->
+<!--            // 设置鼠标选中节点显示，并循环设置与选中节点相关联的节点显示-->
+<!--            // 为svg2父元素下的.nodes circle元素绑定鼠标进入事件-->
+<!--            $('#svg2').on('mouseenter', '.nodes circle', function (event) {-->
+<!--                // console.log(event)-->
+<!--                // 通过变量dragging保证拖动鼠标时，其状态不受影响，从而改变图形-->
+<!--                // 鼠标没有拖动才能处理事件-->
+<!--                if (!dragging) {-->
+<!--                    // 获取被选中元素的名字-->
+<!--                    var name = $(this).attr("name");-->
+<!--                    var id = $(this).attr("id");-->
+<!--                    // 设置#info1 h4样式的颜色为该节点的颜色，文本为该节点name-->
+<!--                    //$(this).attr('fill');表示当前悬浮圆的填充色-->
+<!--                    $('#info1 h4').css('color', $(this).attr('fill')).text(name);-->
+<!--                    // 每次点击添加属性前把上次显示的信息去除，否则会不断叠加-->
+<!--                    $('#info1 p').remove();-->
+<!--                    // 遍历查找id对应的属性-->
+<!--                    for (let item of nodes) {-->
+<!--                        if (item.id == id) {-->
+<!--                            for (var key in item.properties)-->
+<!--                                //显示值及其字段名字-->
+<!--                                $('#info1').append('<p><span>' + key + '</span>' + item.properties[key] +-->
+<!--                                    '</p>');-->
+<!--                        }-->
+<!--                    }-->
+<!--                    // 选择#svg2 .nodes中所有的circle，再增加个class-->
+<!--                    d3.select('#svg2 .nodes').selectAll('circle').attr('class', function (d) {-->
+<!--                        // 数据的id是否等于name,返回空-->
+<!--                        if (d.properties.name == name) {-->
+<!--                            return '';-->
+<!--                        }-->
+<!--                        // 当前节点返回空，否则其他节点循环判断是否被隐藏起来(CSS设置隐藏)-->
+<!--                        else {-->
+<!--                            // links链接的起始节点进行判断,如果其id等于name则显示这类节点-->
+<!--                            // 注意: graph=data-->
+<!--                            for (var i = 0; i < links.length; i++) {-->
+<!--                                // 如果links的起点等于name，并且终点等于正在处理的则显示-->
+<!--                                if (links[i]['source'].properties.name == name && links[i]['target']-->
+<!--                                    .id == d.id) {-->
+<!--                                    return '';-->
+<!--                                }-->
+<!--                                if (links[i]['target'].properties.name == name && links[i]['source']-->
+<!--                                    .id == d.id) {-->
+<!--                                    return '';-->
+<!--                                }-->
+<!--                            } F-->
+<!--                            return "inactive"; //前面CSS定义 .nodes circle.inactive-->
+<!--                        }-->
+<!--                    });-->
+<!--                    // 处理相邻的边line是否隐藏 注意 ||-->
+<!--                    d3.select("#svg2 .links").selectAll('line').attr('class', function (d) {-->
+<!--                        if (d.source.properties.name == name || d.target.properties.name == name) {-->
+<!--                            return '';-->
+<!--                        } else {-->
+<!--                            return 'inactive';-->
+<!--                        }-->
+<!--                    });-->
+<!--                }-->
+<!--            });-->
+<!--            // 鼠标移开还原原图，显示所有隐藏的点及边-->
+<!--            $('#svg2').on('mouseleave', '.nodes circle', function (event) {-->
+<!--                d3.select('#svg2 .nodes').selectAll('circle').attr('class', '');-->
+<!--                d3.select('#svg2 .links').selectAll('line').attr('class', '');-->
+<!--            });-->
+<!--            // 鼠标进入文本显示相邻节点及边-->
+<!--            $('#svg2').on('mouseenter', '.texts text', function (event) {-->
+<!--                if (!dragging) {-->
+<!--                    var name = $(this).attr('name');-->
+
+<!--                    $('#info1 h4').css('color', $(this).attr('fill')).text(name);-->
+<!--                    $('#info1 p').remove();-->
+<!--                    // 遍历查找id对应的属性-->
+<!--                    for (let item of nodes) {-->
+<!--                        if (item.properties.name == name) {-->
+<!--                            for (var key in item.properties)-->
+<!--                                // 显示值及其字段名字-->
+<!--                                $('#info1').append('<p><span>' + key + '</span>' + item.properties[key] +-->
+<!--                                    '</p>');-->
+<!--                        }-->
+<!--                    }-->
+
+<!--                    d3.select('#svg2 .texts').selectAll('text').attr('class', function (d) {-->
+<!--                        if (d.properties.name == name) {-->
+<!--                            return '';-->
+<!--                        }-->
+
+<!--                        for (var i = 0; i < links.length; i++) {-->
+<!--                            if (links[i]['source'].properties.name == name && links[i]['target']-->
+<!--                                .id == d.id) {-->
+<!--                                return '';-->
+<!--                            }-->
+<!--                            if (links[i]['target'].properties.name == name && links[i]['source']-->
+<!--                                .id == d.id) {-->
+<!--                                return '';-->
+<!--                            }-->
+<!--                        }-->
+<!--                        return 'inactive';-->
+<!--                    });-->
+<!--                    d3.select("#svg2 .links").selectAll('line').attr('class', function (d) {-->
+<!--                        if (d.source.properties.name == name || d.target.properties.name == name) {-->
+<!--                            return '';-->
+<!--                        } else {-->
+<!--                            return 'inactive';-->
+<!--                        }-->
+<!--                    });-->
+<!--                }-->
+<!--            });-->
+<!--            // 鼠标移除文本还原相应节点及边-->
+<!--            $('#svg2').on('mouseleave', '.texts text', function (event) {-->
+<!--                if (!dragging) {-->
+<!--                    d3.select('#svg2 .texts').selectAll('text').attr('class', '');-->
+<!--                    d3.select('#svg2 .links').selectAll('line').attr('class', '');-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+
+<!--</body>-->
+<!--    <body>-->
+
+<!--    </body>-->
+</html>

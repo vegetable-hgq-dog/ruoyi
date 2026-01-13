@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.supply.materialsupply.mapper.OdsIwmWmTotalMapper">
+    
+    <resultMap type="OdsIwmWmTotal" id="OdsIwmWmTotalResult">
+        <result property="materialWareType"    column="material_ware_type"    />
+        <result property="materialWareNum"    column="material_ware_num"    />
+        <result property="materialUnit"    column="material_unit"    />
+        <result property="materialText"    column="material_text"    />
+        <result property="materialCode"    column="material_code"    />
+        <result property="supplierName"    column="supplier_name"    />
+        <result property="supplierCode"    column="supplier_code"    />
+        <result property="warehouseCode"    column="warehouse_code"    />
+        <result property="factorCode"    column="factor_code"    />
+        <result property="autoid"    column="autoid"    />
+    </resultMap>
+
+    <sql id="selectOdsIwmWmTotalVo">
+        select material_ware_type, material_ware_num, material_unit, material_text, material_code, supplier_name, supplier_code, warehouse_code, factor_code, autoid from ods_iwm_wm_total
+    </sql>
+
+    <select id="selectOdsIwmWmTotalList" parameterType="OdsIwmWmTotal" resultMap="OdsIwmWmTotalResult">
+        <include refid="selectOdsIwmWmTotalVo"/>
+        <where>  
+            <if test="materialWareType != null  and materialWareType != ''"> and material_ware_type = #{materialWareType}</if>
+            <if test="materialText != null  and materialText != ''"> and material_text like concat('%', #{materialText}, '%')</if>
+            <if test="materialCode != null  and materialCode != ''"> and material_code = #{materialCode}</if>
+            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
+            <if test="supplierCode != null  and supplierCode != ''"> and supplier_code = #{supplierCode}</if>
+            <if test="warehouseCode != null  and warehouseCode != ''"> and warehouse_code = #{warehouseCode}</if>
+            <if test="factorCode != null  and factorCode != ''"> and factor_code = #{factorCode}</if>
+        </where>
+    </select>
+    
+    <select id="selectOdsIwmWmTotalById" parameterType="Long" resultMap="OdsIwmWmTotalResult">
+        <include refid="selectOdsIwmWmTotalVo"/>
+        where autoid = #{autoid}
+    </select>
+        
+    <insert id="insertOdsIwmWmTotal" parameterType="OdsIwmWmTotal" useGeneratedKeys="true" keyProperty="autoid">
+        insert into ods_iwm_wm_total
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="materialWareType != null  and materialWareType != ''">material_ware_type,</if>
+            <if test="materialWareNum != null ">material_ware_num,</if>
+            <if test="materialUnit != null  and materialUnit != ''">material_unit,</if>
+            <if test="materialText != null  and materialText != ''">material_text,</if>
+            <if test="materialCode != null  and materialCode != ''">material_code,</if>
+            <if test="supplierName != null  and supplierName != ''">supplier_name,</if>
+            <if test="supplierCode != null  and supplierCode != ''">supplier_code,</if>
+            <if test="warehouseCode != null  and warehouseCode != ''">warehouse_code,</if>
+            <if test="factorCode != null  and factorCode != ''">factor_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="materialWareType != null  and materialWareType != ''">#{materialWareType},</if>
+            <if test="materialWareNum != null ">#{materialWareNum},</if>
+            <if test="materialUnit != null  and materialUnit != ''">#{materialUnit},</if>
+            <if test="materialText != null  and materialText != ''">#{materialText},</if>
+            <if test="materialCode != null  and materialCode != ''">#{materialCode},</if>
+            <if test="supplierName != null  and supplierName != ''">#{supplierName},</if>
+            <if test="supplierCode != null  and supplierCode != ''">#{supplierCode},</if>
+            <if test="warehouseCode != null  and warehouseCode != ''">#{warehouseCode},</if>
+            <if test="factorCode != null  and factorCode != ''">#{factorCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOdsIwmWmTotal" parameterType="OdsIwmWmTotal">
+        update ods_iwm_wm_total
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="materialWareType != null  and materialWareType != ''">material_ware_type = #{materialWareType},</if>
+            <if test="materialWareNum != null ">material_ware_num = #{materialWareNum},</if>
+            <if test="materialUnit != null  and materialUnit != ''">material_unit = #{materialUnit},</if>
+            <if test="materialText != null  and materialText != ''">material_text = #{materialText},</if>
+            <if test="materialCode != null  and materialCode != ''">material_code = #{materialCode},</if>
+            <if test="supplierName != null  and supplierName != ''">supplier_name = #{supplierName},</if>
+            <if test="supplierCode != null  and supplierCode != ''">supplier_code = #{supplierCode},</if>
+            <if test="warehouseCode != null  and warehouseCode != ''">warehouse_code = #{warehouseCode},</if>
+            <if test="factorCode != null  and factorCode != ''">factor_code = #{factorCode},</if>
+        </trim>
+        where autoid = #{autoid}
+    </update>
+
+    <delete id="deleteOdsIwmWmTotalById" parameterType="Long">
+        delete from ods_iwm_wm_total where autoid = #{autoid}
+    </delete>
+
+    <delete id="deleteOdsIwmWmTotalByIds" parameterType="String">
+        delete from ods_iwm_wm_total where autoid in 
+        <foreach item="autoid" collection="array" open="(" separator="," close=")">
+            #{autoid}
+        </foreach>
+    </delete>
+    
+</mapper>

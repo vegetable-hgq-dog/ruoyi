@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('robot_info列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>机器人：</p>
+                                <input type="text" name="systemName"/>
+                            </li>
+                            <li>
+                                <p>控制器名：</p>
+                                <input type="text" name="controllerName"/>
+                            </li>
+
+                            <li>
+                                <p>机器人ID：</p>
+                                <input type="text" name="systemId"/>
+                            </li>
+                            <li>
+                                <p>状态：</p>
+                                <select name="state" th:with="type=${@dict.getType('robot_condition')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>焊枪：</p>
+                                <select name="curToolName" th:with="type=${@dict.getType('gun_tool_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i> 重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="manufacture:robotinfo:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="manufacture:robotinfo:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="manufacture:robotinfo:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="manufacture:robotinfo:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('manufacture:robotinfo:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('manufacture:robotinfo:remove')}]];
+        var robotConditionData = [[${@dict.getType('robot_condition')}]];
+        var gunToolTypeData = [[${@dict.getType('gun_tool_type')}]];
+        var prefix = ctx + "manufacture/robotinfo";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "robot_info",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'autoid', 
+                    title : 'ID',
+                    visible: false
+                },
+
+                {
+                    field : 'writtenTime', 
+                    title : '采集时间',
+                    sortable: true
+                },
+                {
+                    field : 'systemName', 
+                    title : '机器人',
+                    sortable: true
+                },
+                {
+                    field : 'controllerName', 
+                    title : '控制器名',
+                    sortable: true
+                },
+                {
+                    field : 'state', 
+                    title : '状态',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(robotConditionData, value);
+                    },
+                    sortable: true
+                },
+                {
+                    field : 'curToolName', 
+                    title : '焊枪',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(gunToolTypeData, value);
+                    },
+                    sortable: true
+                },
+                {
+                    field : 'toolLoad', 
+                    title : '负载',
+                    sortable: true
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.autoid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.autoid + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

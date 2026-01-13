@@ -1,0 +1,257 @@
+html{
+    height: 100%;
+    width: 100%;
+}
+body{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    /*background: url("../img/normalBlue.png")  no-repeat ;*/
+    /*background-size: 100% 100%;*/
+    /*color: white;*/
+}
+#knowledgeRecommendButton{
+    color: white;
+    border-color: grey;
+    background-color: #3a6cc6;
+    width: 35%;
+}
+#knowledgeRecommendButton:hover{
+    background-color: lightskyblue;
+}
+.recommendKnowledge{
+    width: 100%;
+    height: 10%;
+    padding-top:0.3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #0e9aef;
+}
+.design_task{
+    float: left;
+    height: 100%;
+    width: 40%;
+    display: flex;
+    padding-left: 2%;
+    /*justify-content: center;*/
+    align-items: center;
+}
+#task{
+    height: 40%;
+    width: 55%;
+}
+#keynum{
+    height: 40%;
+    width: 55%;
+}
+
+.keywordNum{
+    float: left;
+    height: 100%;
+    width: 35%;
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+}
+.recommend_button{
+    float: left;
+    height: 100%;
+    width: 25%;
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+}
+.visual_result{
+    width: 100%;
+    height: 46%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #0e9aef;
+}
+.visual{
+    float: left;
+    height: 100%;
+    width: 55%;
+    border-right: 1px solid lightskyblue;
+}
+.recommend_result{
+    float: left;
+    height: 100%;
+    width: 45%;
+    padding-left: 1%;
+    padding-right: 1%;
+    overflow-y: auto;
+
+}
+.recommend_result::-webkit-scrollbar{
+    width: 8px;
+    height: 4px;
+}
+.recommend_result::-webkit-scrollbar-thumb{
+    border-radius: 3px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: #c7c4c4;
+}
+.recommend_result::-webkit-scrollbar-track{
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.2) inset;
+}
+.recommend_result::-webkit-scrollbar-corner{
+    background: transparent;
+}
+.recommend_result_table{
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    text-align: center;
+
+}
+.visualTitle{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.visualContent{
+    height: 90%;
+}
+.visualPic{
+    float: left;
+    width: 50%;
+    height: 100%;
+}
+.visualPicTitle{
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.designVisualImg{
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#designImg{
+    height: inherit;
+    width: inherit;
+}
+.visualKeyword{
+    float: left;
+    height: 100%;
+    width: 50%;
+}
+.keywordShow{
+    width: 80%;
+    height: 60%;
+    margin: 20% 10%;
+    padding: 2% 1% 1%;
+    word-wrap: break-word;
+    word-break: normal;
+    overflow-y: auto;
+    border: 1px solid grey;
+}
+.contentTitle{
+    border-top: 1px solid grey;
+
+}
+.resultTitle{
+    padding: 10px;
+    font-weight: bold;
+    font-size: large;
+}
+td{
+    padding: 5px;
+    word-break: break-all;
+}
+.detailInfo{
+    color: white;
+    border-color: grey;
+    background-color: #3a6cc6;
+    width: 30%;
+    border-radius: 5px;
+}
+#detailInfo:hover{
+    background-color: lightskyblue;
+}
+
+.recommend_visual{
+    height: 38%;
+}
+.part1{
+    float: left;
+    height: 100%;
+    width: 30%;
+}
+.part2{
+    float: left;
+    height: 100%;
+    width: 30%;
+}
+.part3{
+    float: left;
+    height: 100%;
+    width: 40%;
+}
+.resultVisualTitle{
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.resultVisualContent{
+    height: 90%;
+    width: 100%;
+}
+.partResultMapTitle{
+    height: 8%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.partResultMap{
+    height: 92%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#partResultMapImg{
+    height: inherit;
+    width: inherit;
+}
+.part2Content{
+    height: 80%;
+    width: 80%;
+    margin: 5% 15% 10%;
+    padding-top: 2%;
+    padding-left: 1%;
+    word-wrap: break-word;
+    word-break: normal;
+    overflow-y: auto;
+    border: 1px solid grey;
+}
+.part3Text{
+    width: 100%;
+    height: 95%;
+    margin-top: 5%;
+
+}
+.part3Title{
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.part3TextContent{
+    height: 75%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#knowledgeText{
+    height: inherit;
+    width: inherit;
+}

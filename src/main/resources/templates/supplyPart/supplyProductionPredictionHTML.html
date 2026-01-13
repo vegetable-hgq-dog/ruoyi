@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/supplyProductionPredictionHTML.css">
+</head>
+<body>
+
+    <section>
+        <div class="queryCondition">
+            <div class="queryPart ifactoryID">工厂编号<select id="firstChoose">
+                <option th:value="0"></option>
+                <option th:each="fi : ${allFactoryInfo}" th:value="${fi.factoryid}" th:text="${fi.factoryid}"></option>
+            </select></div>
+            <div class="queryPart imaterialName">物料名称<input id="materialNam" type="text"></div>
+            <div class="queryPart isupplierName">供应商名称<input id="supplierNam" type="text"></div>
+            <div class="queryPart istartDate">开始日期<input id="startDate" type="datetime-local"></div>
+            <div class="queryPart ifinishDate">结束日期<input id="endDate" type="datetime-local"></div>
+            <div class="queryPart iqueryButton">
+                <button id="queryButton" type="button">查询</button>
+            </div>
+        </div>
+        <div class="production_prediction_form">
+            <div class="production_prediction_form_title">物料产能预测</div>
+            <div class="production_prediction_form_content" id="production_prediction_form_content">
+<!--                <table class="form_table">-->
+<!--                    <tr>-->
+<!--                        <th class="num">序号</th>-->
+<!--                        <th>工厂编号</th>-->
+<!--                        <th>物料编号</th>-->
+<!--                        <th>物料名称</th>-->
+<!--                        <th>供应商编号</th>-->
+<!--                        <th>供应商名称</th>-->
+<!--                        <th class="proPredict">当月产能预测</th>-->
+<!--                        <th class="predict_time">预测时间</th>-->
+<!--                        <th>详情</th>-->
+<!--                    </tr>-->
+<!--                    <tr class="form_table_detail">-->
+<!--                        <td class="num">1</td>-->
+<!--                        <td>D355</td>-->
+<!--                        <td>8891389963G51</td>-->
+<!--                        <td>短距离超声波传感器（星辰蓝）</td>-->
+<!--                        <td>57110</td>-->
+<!--                        <td>杭州海康汽车有限公司</td>-->
+<!--                        <td class="proPredict">1050</td>-->
+<!--                        <td class="predict_time">2023.1.8 12：00</td>-->
+<!--                        <td><button class="detailsButton" type="button">查看</button></td>-->
+<!--                    </tr>-->
+<!--                    <tr class="form_table_detail">-->
+<!--                        <td class="num">1</td>-->
+<!--                        <td>D355</td>-->
+<!--                        <td>8891389963D14</td>-->
+<!--                        <td>短距离超声波传感器（丝缎银）</td>-->
+<!--                        <td>45332</td>-->
+<!--                        <td>智寇科技（苏州）有限公司</td>-->
+<!--                        <td class="proPredict">1330</td>-->
+<!--                        <td class="predict_time">2023.1.8 12：00</td>-->
+<!--                        <td><button class="detailsButton" type="button">查看</button></td>-->
+<!--                    </tr>-->
+<!--                    <tr class="form_table_detail">-->
+<!--                        <td class="num">1</td>-->
+<!--                        <td>D355</td>-->
+<!--                        <td>8891389963J06</td>-->
+<!--                        <td>短距离超声波传感器（星辰蓝）</td>-->
+<!--                        <td>26987</td>-->
+<!--                        <td>苏州万隆汽车零部件有限公司</td>-->
+<!--                        <td class="proPredict">1200</td>-->
+<!--                        <td class="predict_time">2023.1.8 12：00</td>-->
+<!--                        <td><button class="detailsButton" type="button">查看</button></td>-->
+<!--                    </tr>-->
+<!--                    <tr class="form_table_detail">-->
+<!--                        <td class="num">1</td>-->
+<!--                        <td>D355</td>-->
+<!--                        <td>8891389963A08</td>-->
+<!--                        <td>长距离超声波传感器（冰晶白）</td>-->
+<!--                        <td>16523</td>-->
+<!--                        <td>苏州新长宣科技有限公司</td>-->
+<!--                        <td class="proPredict">1450</td>-->
+<!--                        <td class="predict_time">2023.1.8 12：00</td>-->
+<!--                        <td><button class="detailsButton" type="button">查看</button></td>-->
+<!--                    </tr>-->
+<!--                    <tr class="form_table_detail">-->
+<!--                        <td class="num">1</td>-->
+<!--                        <td>D355</td>-->
+<!--                        <td>8891389963B10</td>-->
+<!--                        <td>长距离超声波传感器（星辰粉）</td>-->
+<!--                        <td>56831</td>-->
+<!--                        <td>智寇科技（苏州）有限公司</td>-->
+<!--                        <td class="proPredict">1190</td>-->
+<!--                        <td class="predict_time">2023.1.8 12：00</td>-->
+<!--                        <td><button class="detailsButton" type="button">查看</button></td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+            </div>
+        </div>
+        <div class="functionBox">
+            <div class="functionBoxContent">
+                <div class="inputPart">
+                    <div class="inputPart1">
+                        <div class="inputPart1Title">预测输入</div>
+                        <div class="inputPart1Input">
+                            <div class="input1Part">物料名称&emsp;&emsp;&ensp;<input type="text"></div>
+                            <div class="input1Part">预测物料编号&ensp;<select type="text">
+                                <option>8891389963G51</option>
+                                <option>8891389963J06</option>
+                            </select></div>
+                            <div class="input1Part">预测月数&emsp;&emsp;&ensp;<input type="text"></div>
+                            <div class="input1Part">供应商&emsp;&emsp;&emsp;&ensp;<select type="text">
+                                <option>所有</option>
+                                <option>苏州万隆汽车零部件有限公司</option>
+                            </select></div>
+                        </div>
+                        <div class="inputPart1Button">
+                            <button class="reset Part1Button" type="button">重置</button>
+                            <button class="Part1Button" type="button">确定</button>
+                        </div>
+                    </div>
+                    <div class="inputPart2">
+                        <div class="inputPart2Title">算法参数设置</div>
+                        <div class="inputPart2Input">
+                            <div class="input2Part">feed数据行数&emsp;<input type="text"></div>
+                            <div class="input2Part">时间步长&emsp;&emsp;&emsp;<input type="text"></div>
+                            <div class="input2Part">订单数目&emsp;&emsp;&emsp;<input type="text"></div>
+                        </div>
+                        <div class="inputPart1Button">
+                            <button class="reset Part1Button" type="button">重置</button>
+                            <button class="Part1Button" type="button">确定</button>
+                        </div>
+                    </div>
+                    <div class="inputPart3"><div class="inputPart3Val">产能预测</div></div>
+                </div>
+                <div class="resultPart">
+                    <div class="resultPartTitle">产能预测结果</div>
+                    <div class="resultPartTable">
+                        <table class="resultPartTableContent">
+                            <tr>
+                                <th>物料编号</th>
+                                <th>物料名称</th>
+                                <th>供应商编号</th>
+                                <th>供应商名称</th>
+                                <th>生产时间</th>
+                                <th>生成数量</th>
+                            </tr>
+                            <tr class="resultPartTable_detail">
+                                <td>8897389963G51</td>
+                                <td>短距离超声波传感器（星辰蓝）</td>
+                                <td>57110</td>
+                                <td>杭州海康</td>
+                                <td>2023.01</td>
+                                <td>1050</td>
+                            </tr>
+                            <tr class="resultPartTable_detail">
+                                <td>8897389963G51</td>
+                                <td>短距离超声波传感器（星辰蓝）</td>
+                                <td>57110</td>
+                                <td>杭州海康</td>
+                                <td>2023.02</td>
+                                <td>1330</td>
+                            </tr>
+                            <tr class="resultPartTable_detail">
+                                <td>8897389963G51</td>
+                                <td>短距离超声波传感器（星辰蓝）</td>
+                                <td>26987</td>
+                                <td>万隆汽车</td>
+                                <td>2023.01</td>
+                                <td>1200</td>
+                            </tr>
+                            <tr class="resultPartTable_detail">
+                                <td>8897389963G51</td>
+                                <td>短距离超声波传感器（星辰蓝）</td>
+                                <td>26987</td>
+                                <td>万隆汽车</td>
+                                <td>2023.02</td>
+                                <td>1450</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script th:src="@{/echarts/echarts.min.js}"></script>
+
+    <script type="text/javascript">
+        $.when(
+            $.getJSON('/system/orderInf/allData'),
+            $.getJSON('/system/materialInf/getAllMaterialData'),
+            $.getJSON('/system/supplierInf/getAllSupplierData')
+        ).done(function (orderinfo,materialinfo,supplierinfo) {
+
+
+            var eachTr = '';
+            var materialName = '';
+            var supplierName = '';
+
+            for (let i = 0;i < orderinfo[0].length;i++){
+
+                for (let j = 0;j < materialinfo[0].length;j++){
+                    if (materialinfo[0][j].materialid == orderinfo[0][i].materialid ){
+                        materialName = materialinfo[0][j].materialname;
+                    }
+                }
+
+                for (let k = 0;k < supplierinfo[0].length;k++){
+                    if (supplierinfo[0][k].supplierid == orderinfo[0][i].supplierid ){
+                        supplierName = supplierinfo[0][k].suppliername;
+                    }
+                }
+
+                eachTr += '<tr class="form_table_detail">\n' +
+                    '                        <td class="num">' + (i+1) + '</td>\n' +
+                    '                        <td>' + orderinfo[0][i].factoryid + '</td>\n' +
+                    '                        <td>' + orderinfo[0][i].materialid + '</td>\n' +
+                    '                        <td>' + materialName + '</td>\n' +
+                    '                        <td>' + orderinfo[0][i].supplierid + '</td>\n' +
+                    '                        <td>' + supplierName + '</td>\n' +
+                    '                        <td class="proPredict">1450</td>\n' +
+                    '                        <td class="predict_time">' + orderinfo[0][i].deliverydate + '</td>\n' +
+                    '                        <td><button class="detailsButton" type="button">查看</button></td>\n' +
+                    '                    </tr>';
+
+            }
+            var tableInfo = '<table class="form_table">\n' +
+                '                    <tr>\n' +
+                '                        <th class="num">序号</th>\n' +
+                '                        <th>工厂编号</th>\n' +
+                '                        <th>物料编号</th>\n' +
+                '                        <th>物料名称</th>\n' +
+                '                        <th>供应商编号</th>\n' +
+                '                        <th>供应商名称</th>\n' +
+                '                        <th class="proPredict">当月产能预测</th>\n' +
+                '                        <th class="predict_time">预测时间</th>\n' +
+                '                        <th>详情</th>\n' +
+                '                    </tr>' +
+                eachTr +
+                '            </table>'
+            document.getElementById('production_prediction_form_content').innerHTML = tableInfo;
+            $("#queryButton").click(function () {
+                var factoryNum = $('#firstChoose').find("option:selected").val();
+                var materialNam = $('#materialNam').val();
+                var supplierNam = $('#supplierNam').val();
+                var startDate = $('#startDate').val();
+                var endDate = $('#endDate').val();
+                var xu = 0;
+                tableInfo = '';
+                eachTr = '';
+
+                var ti1 = '2022-01-05 12:00:15';
+                var ti2 = '2022-01-01 12:00:09';
+                if (ti1 > ti2){
+
+                }
+
+                // if (factoryNum == 0 && materialNam == '' && supplierNam == '' && startDate == '' && endDate == ''){
+                //     $('#form_table').remove();
+                //     document.getElementById('production_prediction_form_content').innerHTML = wholeData;
+                // }
+
+                for (let i = 0;i < orderinfo[0].length;i++){
+
+                    for (let j = 0;j < materialinfo[0].length;j++){
+                        if (materialinfo[0][j].materialid == orderinfo[0][i].materialid ){
+                            materialName = materialinfo[0][j].materialname;
+                        }
+                    }
+
+                    for (let k = 0;k < supplierinfo[0].length;k++){
+                        if (supplierinfo[0][k].supplierid == orderinfo[0][i].supplierid ){
+                            supplierName = supplierinfo[0][k].suppliername;
+                        }
+                    }
+                    if ((orderinfo[0][i].factoryid == factoryNum || factoryNum == 0) && (materialName == materialNam || materialNam == '') && (supplierName == supplierNam || supplierNam == '') && (orderinfo[0][i].deliverydate >= startDate.replace("T"," ") || startDate == '') && (orderinfo[0][i].deliverydate <= endDate.replace("T"," ") || endDate == '')){
+                        eachTr += '<tr class="form_table_detail">\n' +
+                            '                        <td class="num">' + (xu+1) + '</td>\n' +
+                            '                        <td>' + orderinfo[0][i].factoryid + '</td>\n' +
+                            '                        <td>' + orderinfo[0][i].materialid + '</td>\n' +
+                            '                        <td>' + materialName + '</td>\n' +
+                            '                        <td>' + orderinfo[0][i].supplierid + '</td>\n' +
+                            '                        <td>' + supplierName + '</td>\n' +
+                            '                        <td class="proPredict">1450</td>\n' +
+                            '                        <td class="predict_time">' + orderinfo[0][i].deliverydate + '</td>\n' +
+                            '                        <td><button class="detailsButton" type="button">查看</button></td>\n' +
+                            '                    </tr>';
+                        xu = xu + 1;
+                    }
+
+                }
+
+                tableInfo = '<table class="form_table">\n' +
+                    '                    <tr>\n' +
+                    '                        <th class="num">序号</th>\n' +
+                    '                        <th>工厂编号</th>\n' +
+                    '                        <th>物料编号</th>\n' +
+                    '                        <th>物料名称</th>\n' +
+                    '                        <th>供应商编号</th>\n' +
+                    '                        <th>供应商名称</th>\n' +
+                    '                        <th class="proPredict">当月产能预测</th>\n' +
+                    '                        <th class="predict_time">预测时间</th>\n' +
+                    '                        <th>详情</th>\n' +
+                    '                    </tr>' +
+                    eachTr +
+                    '            </table>';
+                console.log(tableInfo)
+                $('.production_prediction_form_content').children().remove();
+                document.getElementById('production_prediction_form_content').innerHTML = tableInfo;
+
+            })
+
+        })
+
+
+    </script>
+</body>
+</html>

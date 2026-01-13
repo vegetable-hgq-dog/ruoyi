@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('weld_para列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>机器人：</p>
+                                <input type="text" name="robotId"/>
+                            </li>
+                            <li>
+                                <p>焊枪型号：</p>
+                                <input type="text" name="gunType"/>
+                            </li>
+                            <li>
+                                <p>焊点号：</p>
+                                <input type="text" name="weldSpotId"/>
+                            </li>
+                            <li>
+                                <p>程序号：</p>
+                                <input type="text" name="weldProgramid"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i> 重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="manufacture:weldpara:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="manufacture:weldpara:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="manufacture:weldpara:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="manufacture:weldpara:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('manufacture:weldpara:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('manufacture:weldpara:remove')}]];
+        var prefix = ctx + "manufacture/weldpara";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "weld_para",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'autoId', 
+                    title : 'ID',
+                    visible: false
+                },
+                {
+                    field : 'robotId', 
+                    title : '工位机器人',
+                    sortable: true
+                },
+                {
+                    field : 'gunType', 
+                    title : '焊枪型号',
+                    width: '8%',
+                    align: 'left',
+                    sortable: true
+                },
+                {
+                    field : 'weldSpotId', 
+                    title : '焊点号',
+                    sortable: true
+                    
+                },
+                {
+                    field : 'weldProgramid', 
+                    title : '焊接程序号',
+                    sortable: true
+                },
+                {
+                    field : 'weldMaterial1', 
+                    title : '焊件1材质',
+                    sortable: true
+                },
+                {
+                    field : 'weldThick1', 
+                    title : '焊件1厚度/mm',
+                    sortable: true
+                },
+                {
+                    field : 'hasWeldGlue1', 
+                    title : '焊件1-2涂胶',
+                    sortable: true
+                },
+                {
+                    field : 'weldMaterial2', 
+                    title : '焊件2材质',
+                    sortable: true
+                },
+                {
+                    field : 'weldThick2', 
+                    title : '焊件2厚度/mm',
+                    sortable: true
+                },
+                {
+                    field : 'hasWeldGlue2', 
+                    title : '焊件2-3涂胶',
+                    visible: false,
+                    sortable: true
+                },
+                {
+                    field : 'weldMaterial3', 
+                    title : '焊件3材质',
+                    visible: false,
+                    sortable: true
+                },
+                {
+                    field : 'weldThick3', 
+                    title : '焊件3厚度/mm',
+                    visible: false,
+                    sortable: true
+                },
+                {
+                    field : 'totalThick', 
+                    title : '总板厚/mm',
+                    sortable: true
+                },
+                {
+                    field : 'weldDiameter', 
+                    title : '熔核直径/mm',
+                    sortable: true
+                },
+                {
+                    field : 'weldGunMaxpress', 
+                    title : '焊枪最大压力/kN',
+                    sortable: true
+                },
+
+                {
+                    field : 'paraElecCapType', 
+                    title : '电极帽规格/mm',
+                    sortable: true
+                },
+                {
+                    field : 'paraElecPress', 
+                    title : '电极压力/kN',
+                    sortable: true
+                },
+                {
+                    field : 'paraPreloadTime', 
+                    title : '预压时间/ms',
+                    sortable: true
+                },
+                {
+                    field : 'paraPretempElec', 
+                    title : '预热电流/kA',
+                    sortable: true
+                },
+                {
+                    field : 'paraPretempTime', 
+                    title : '预热时间/ms',
+                    sortable: true
+                },
+                {
+                    field : 'paraCoolTime', 
+                    title : '冷却时间/ms',
+                    sortable: true
+                },
+                {
+                    field : 'paraWeldElec', 
+                    title : '焊接电流/kA',
+                    sortable: true
+                },
+                {
+                    field : 'paraWeldTime', 
+                    title : '焊接时间/ms',
+                    sortable: true
+                },
+                {
+                    field : 'paraPulseNum', 
+                    title : '脉冲次数',
+                    sortable: true
+                },
+                {
+                    field : 'paraPluseBetwCoolTime', 
+                    title : '脉冲间冷却时间/ms',
+                    sortable: true
+                },
+                {
+                    field : 'paraPluseCoolTime', 
+                    title : '脉冲冷却时间/ms',
+                    sortable: true
+                },
+                {
+                    field : 'paraBackfireElec', 
+                    title : '回火电流/kA',
+                    sortable: true
+                },
+                {
+                    field : 'paraBackfireTime', 
+                    title : '回火时间/ms',
+                    sortable: true
+                },
+                {
+                    field : 'paraBackfireHoldtime', 
+                    title : '保持时间/ms',
+                    sortable: true
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.autoId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.autoId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

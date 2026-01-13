@@ -1,0 +1,200 @@
+html{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+}
+
+section{
+    width: 100%;
+    height: 100%;
+
+}
+.keyChainCalculate{
+    float: left;
+    height: 98%;
+    width: 36%;
+    margin-right: 10px;
+    padding: 0;
+    margin-left: 10px;
+    margin-top: 10px;
+
+}
+.predictionPart{
+    float: left;
+    height: 98%;
+    width: 60%;
+    margin-right: 10px;
+    padding: 0;
+    margin-left: 10px;
+    margin-top: 10px;
+
+}
+.inputKeyChainParameter{
+    height: 90%;
+    width: 100%;
+    margin-top: -10px;
+
+}
+.inputKeyChainParameter h1{
+    height: 10%;
+    width: 100%;
+    -moz-box-align: center;
+    -webkit-box-align: center;
+    font-size: large;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: grey 2px solid;
+}
+.inputKeyChainParameter iframe{
+    width: 96%;
+    height: 88%;
+    margin-top: -10px;
+    margin-left: 7px;
+}
+.runEnchartsButton{
+    height: 8%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#re-button{
+    width: 26%;
+    height: 80%;
+    background-color: #3a6cc6;
+    color: white;
+}
+#re-button:hover{
+    background-color: lightskyblue;
+}
+
+.runButtonIcon{
+    height: 100%;
+    width: 100%;
+}
+.keyChainEchartsShow{
+    height: 40%;
+    width: 100%;
+
+}
+.mathModel{
+    height: 35%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    background-color: white;
+}
+.mathModel img{
+    height: 100%;
+}
+.judgeControlNeed{
+    height: 24%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+
+
+}
+.acceptableProcessState{
+    float: left;
+    height: 100%;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+
+}
+.acceptableProcessState img{
+    height: 80%;
+    border: 1px lightskyblue solid;
+}
+
+
+.jcn-runButton{
+    float: left;
+    height: 100%;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+
+}
+
+#jcn-button{
+    width: 80%;
+    height: 30%;
+    background-color: #3a6cc6;
+    color: white;
+}
+#jcn-button:hover{
+    background-color: lightskyblue;
+}
+
+.resultsShow{
+    float: left;
+    height: 100%;
+    width: 45%;
+
+}
+.needControlEcharts{
+    width: 100%;
+    height: 100%;
+}
+
+.PopUp{
+    position: absolute;
+    font-size: medium;
+    left:5%;
+    top:10%;
+    height: 90%;
+    width: 90%;
+    border: solid 1px lightskyblue;
+    background-color: white;
+    z-index: 999;
+    display: none;
+}
+.PopUp h3{
+    color: black;
+    text-align: center;
+    height: 10%;
+    font-size: large;
+
+}
+.move_close{
+    float: left;
+    margin-left: 95%;
+    margin-top: -5.5%;
+}
+.move_close button{
+    /*height: 1%;*/
+    /*width: 20%;*/
+    color: white;
+}
+.PopUpContent{
+    height: 95%;
+    width: 95%;
+
+}
+.PopUp-url{
+    height: 85%;
+    width: 100%;
+    margin-top: -3%;
+    margin-left: 2.5%;
+    background-color: #2d6987;
+}

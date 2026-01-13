@@ -1,0 +1,539 @@
+html{
+    height: 100%;
+    width: 100%;
+}
+body{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #0F3581;
+}
+header{
+    width: 100%;
+    height: 6%;
+    padding-top: 0.3%;
+    padding-bottom: 0.3%;
+}
+header h1{
+    width: 30%;
+    margin-left: 35%;
+    margin-top: 0.5%;
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+    background: url("../img/weldingTitleBackground.png")  no-repeat ;
+    background-size: 100% 100%;
+    color: white;
+}
+.show_time{
+    position: absolute;
+    font-size: medium;
+    text-align: center;
+    top: 1%;
+    right: 3%;
+    color: white;
+}
+section{
+    width: 100%;
+    height: 92%;
+}
+.info_data{
+    float: left;
+    /*box-sizing: border-box;*/
+    height: 98%;
+    width: 29%;
+
+}
+.overview_pic{
+    float: left;
+    height: 98%;
+    width: 39%;
+}
+.overview_info{
+    float: left;
+    height: 98%;
+    width: 29%;
+}
+.current_work_info{
+    height: 32%;
+    width: 97%;
+    padding-top: 0.1%;
+    margin-left: 1%;
+    margin-top: 1%;
+
+    border: #2F5597 solid 1px;
+    background: #104B9C;
+}
+.current_welding_data{
+    height: 32%;
+    width: 97%;
+    margin-left: 1%;
+    margin-top: 1.5%;
+    margin-bottom: 1.5%;
+    padding-top: 0.3%;
+    border: #2F5597 solid 1px;
+    background: #104B9C;
+}
+.history_welding_data{
+    height: 32%;
+    width: 97%;
+    margin-left: 1%;
+    padding-top: 0.3%;
+    border: #2F5597 solid 1px;
+    background: #104B9C;
+}
+.current_work_info_content{
+    height: 96%;
+    width: 98%;
+    margin-left: 1%;
+    margin-top: 1%;
+    border: solid 1px #416DBB;
+    background: #2F5597;
+}
+.current_welding_data_content{
+    height: 96%;
+    width: 98%;
+    margin-left: 1%;
+    margin-top: 1%;
+    border: solid 1px #416DBB;
+    background: #2F5597;
+}
+.history_welding_data_content{
+    height: 96%;
+    width: 98%;
+    margin-left: 1%;
+    margin-top: 1%;
+    border: solid 1px #416DBB;
+    background: #2F5597;
+}
+.current_work_info_title{
+    width: 100%;
+    height: 16%;
+    text-align: center;
+    padding-top: 0.2%;
+    background: url("../img/title_background.png")  no-repeat ;
+    background-size: 100% 100%;
+}
+.title_info_data{
+    width: 32%;
+    height: 65%;
+    padding-top: 0.5%;
+    margin-left: 10%;
+    border: #2F5597 solid 1.5px;
+    background: #073B75;
+    font-size: x-small;
+    font-weight: bold;
+    color: white;
+}
+.info_name{
+    font-size: small;
+    color: white;
+}
+.info_value{
+    font-size: small;
+    color: #FFFF00;
+}
+/*.selectFactory{*/
+/*    font-size: x-small;*/
+/*    color: yellow;*/
+/*}*/
+.current_work_info_data{
+    height: auto;
+    width: 100%;
+}
+#factor_info_up{
+    padding-left: 2%;
+    padding-top: 2%;
+
+}
+#station{
+    float: left;
+}
+#equip{
+    padding-left: 50%;
+}
+#weldingSpot{
+    padding-top: 3%;
+}
+
+
+#factor_info_box{
+    text-align: center;
+}
+#factor_info{
+    width: 32%;
+    margin-left: 2%;
+    margin-top: 1.5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    font-size: x-small;
+    font-weight: bold;
+    color: white;
+    background: #073B75;
+}
+#factor_info_down{
+    padding-left: 2%;
+    padding-top: 2%;
+
+}
+#programNum{
+    float: left;
+}
+#weldingElec{
+    padding-left: 50%;
+}
+#weldingTime{
+    float: left;
+}
+#electrodePressure{
+    padding-left: 50%;
+}
+.s{
+    position: relative;
+}
+.row1{
+    float: left;
+    margin-left: -1px;
+    margin-top: -1px;
+    width: 6px;
+    height: 6px;
+    border-left: 2px solid #00B2BA;
+    border-top: 2px solid #00B2BA;
+}
+.row2{
+    float: right;
+    margin-right: -1px;
+    margin-top: -1px;
+    width: 6px;
+    height: 6px;
+    border-right: 2px solid #00B2BA;
+    border-top: 2px solid #00B2BA;
+}
+.bottom_border{
+    height: 4%;
+    width: 100%;
+}
+.bottom_border_bl{
+    /*float: left;*/
+    margin-left: -1px;
+    margin-top: -5px;
+    width: 6px;
+    height: 6px;
+    border-left: 2px solid #00B2BA;
+    border-bottom: 2px solid #00B2BA;
+}
+.bottom_border_br{
+    float: right;
+    margin-right: -1px;
+    margin-top: -8px;
+    width: 6px;
+    height: 6px;
+    border-right: 2px solid #00B2BA;
+    border-bottom: 2px solid #00B2BA;
+}
+.current_welding_data_head{
+    width: 100%;
+    height: 16%;
+    text-align: center;
+    padding-top: 0.2%;
+    background: url("../img/title_background.png")  no-repeat ;
+    background-size: 100% 100%;
+}
+.history_welding_data_title{
+    width: 100%;
+    height: 16%;
+    text-align: center;
+    padding-top: 0.2%;
+    background: url("../img/title_background.png")  no-repeat ;
+    background-size: 100% 100%;
+}
+
+#current_welding_data_title{
+    height: 65%;
+    padding-top: 0.5%;
+    padding-left: 3%;
+    padding-right: 3%;
+    border: #2F5597 solid 1.5px;
+    background: #073B75;
+    font-size: x-small;
+    font-weight: bold;
+    color: white;
+}
+#welding_quality{
+
+    height: 65%;
+    padding-top: 0.5%;
+    padding-left: 3%;
+    padding-right: 3%;
+    margin-left: 20%;
+    border: #2F5597 solid 1.5px;
+    background: #073B75;
+    font-size: x-small;
+    font-weight: bold;
+    color: yellow;
+}
+#welding_quality_value{
+    color: green;
+}
+
+.title_history_welding_data{
+    width: 32%;
+    height: 65%;
+    padding-top: 0.5%;
+    margin-left: 10%;
+    border: #2F5597 solid 1.5px;
+    background: #073B75;
+    font-size: x-small;
+    font-weight: bold;
+    color: white;
+}
+
+.current_welding_data_pic{
+    height: 84%;
+    width: 100%;
+    /*background: url("../img/current_welding_data_pic.png")  no-repeat ;*/
+    /*background-size: 100% 100%;*/
+}
+.history_welding_data_pic{
+    height: 84%;
+    width: 100%;
+    /*background: url("../img/history_welding_data_pic.png")  no-repeat ;*/
+    /*background-size: 100% 100%;*/
+}
+.plan_overview{
+    width: 98%;
+    height: 32%;
+    padding-top: 0.1%;
+    margin-left: 1%;
+    margin-top: 1%;
+    border: #2F5597 solid 1px;
+    background: #104B9C;
+}
+.station_pic{
+    width: 98%;
+    height: 65%;
+    padding-top: 0.1%;
+    margin-left: 1%;
+    margin-top: 1%;
+    border: #2F5597 solid 1px;
+    background: #104B9C;
+}
+.plan_overview_content{
+    height: 96%;
+    width: 98%;
+    margin-left: 1%;
+    margin-top: 0.5%;
+    border: solid 1px #416DBB;
+    background: #2F5597;
+}
+.station_pic_content{
+    height: 98%;
+    width: 98%;
+    margin-left: 1%;
+    margin-top: 1%;
+    border: solid 1px #416DBB;
+
+    background: url("../img/main_overview.png")  no-repeat ;
+    background-size: 100% 100%;
+}
+.plan_overview_title{
+    width: 100%;
+    height: 20%;
+    text-align: center;
+    padding-top: 0.2%;
+    background: url("../img/background.png")  no-repeat ;
+    background-size: 100% 100%;
+}
+.title_plan_overview_info{
+    width: 32%;
+    height: 65%;
+    padding-top: 0.5%;
+    margin-left: 32%;
+    margin-top: 0.5%;
+    border: #2F5597 solid 1.5px;
+    background: #073B75;
+    font-size: medium;
+    font-weight: bold;
+    color: white;
+}
+.plan_overview_data{
+    height: 80%;
+    width: 100%;
+    background: url("../img/plan_view.png")  no-repeat ;
+    background-size: 100% 100%;
+}
+.production_statistic_info{
+    width: 98%;
+    height: 32%;
+    padding-top: 0.1%;
+    margin-left: 1%;
+    margin-top: 1.5%;
+    border: #2F5597 solid 1px;
+    background: #104B9C;
+}
+.historical_pass_rate{
+    width: 98%;
+    height: 32%;
+    padding-top: 0.1%;
+    margin-left: 1%;
+    margin-top: 1%;
+    border: #2F5597 solid 1px;
+    background: #104B9C;
+}
+.warning_info{
+    width: 98%;
+    height: 32%;
+    padding-top: 0.1%;
+    margin-left: 1%;
+    margin-top: 1%;
+    border: #2F5597 solid 1px;
+    background: #104B9C;
+}
+.production_statistic_info_content{
+    height: 96%;
+    width: 98%;
+    margin-left: 1%;
+    margin-top: 0.5%;
+    border: solid 1px #416DBB;
+    background: #2F5597;
+}
+.historical_pass_rate_content{
+    height: 96%;
+    width: 98%;
+    margin-left: 1%;
+    margin-top: 0.5%;
+    border: solid 1px #416DBB;
+    background: #2F5597;
+}
+.warning_info_content{
+    height: 96%;
+    width: 98%;
+    margin-left: 1%;
+    margin-top: 0.5%;
+    border: solid 1px #416DBB;
+    background: #2F5597;
+}
+.production_statistic_info_title{
+    width: 100%;
+    height: 16%;
+    text-align: center;
+    padding-top: 0.2%;
+    background: url("../img/title_background.png")  no-repeat ;
+    background-size: 100% 100%;
+}
+.historical_pass_rate_title{
+    width: 100%;
+    height: 16%;
+    text-align: center;
+    padding-top: 0.2%;
+    background: url("../img/title_background.png")  no-repeat ;
+    background-size: 100% 100%;
+}
+.warning_info_title{
+    width: 100%;
+    height: 16%;
+    text-align: center;
+    padding-top: 0.2%;
+    background: url("../img/title_background.png")  no-repeat ;
+    background-size: 100% 100%;
+}
+.title_production_statistic{
+    width: 32%;
+    height: 65%;
+    padding-top: 0.5%;
+    margin-left: 10%;
+    border: #2F5597 solid 1.5px;
+    background: #073B75;
+    font-size: x-small;
+    font-weight: bold;
+    color: white;
+}
+.title_historical_pass_rate{
+    width: 32%;
+    height: 65%;
+    padding-top: 0.5%;
+    margin-left: 10%;
+    border: #2F5597 solid 1.5px;
+    background: #073B75;
+    font-size: x-small;
+    font-weight: bold;
+    color: white;
+}
+.title_warning_info{
+    width: 32%;
+    height: 65%;
+    padding-top: 0.5%;
+    margin-left: 10%;
+    border: #2F5597 solid 1.5px;
+    background: #073B75;
+    font-size: x-small;
+    font-weight: bold;
+    color: white;
+}
+
+#pass_percent{
+    width: 100%;
+    height: 17%;
+    margin-top: 2%;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: small;
+}
+#pass_percent_value{
+    text-align: center;
+    color: #03AA54;
+    font-weight: bold;
+    font-size: small;
+}
+
+.production_statistic_info_data{
+    height: 65%;
+    width: 80%;
+    /*background: url("../img/production_statistic_info_data.png")  no-repeat ;*/
+    /*background-size: 100% 100%;*/
+}
+.historical_pass_rate_data{
+    height: 84%;
+    width: 100%;
+    /*background: url("../img/historical_pass_rate_data.png")  no-repeat ;*/
+    /*background-size: 100% 100%;*/
+}
+.warning_info_data{
+    height: 84%;
+    width: 100%;
+}
+.warning_info_table{
+    width: 100%;
+    height: 100%;
+    border-left: black solid 1.5px;
+    border-top: black solid 1.5px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    text-align: center;
+    color: white;
+    font-size: small;
+}
+.warning_info_table th{
+    border-right: black solid 1.5px;
+    border-bottom: black solid 1.5px;
+    border-spacing: 0;
+    font-size: small;
+}
+.warning_info_table td{
+    border-right: black solid 1.5px;
+    border-bottom: black solid 1.5px;
+    border-spacing: 0;
+    font-size: small;
+}
+.odd_row{
+    background: #092849;
+}
+.even_title{
+    background: #8C7DF2;
+}
+.even_row{
+    background: #4B55A1;
+}

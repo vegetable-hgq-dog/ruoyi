@@ -1,0 +1,358 @@
+html{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+}
+
+section{
+    width: 100%;
+    height: 100%;
+
+}
+
+.processPart{
+    float: left;
+    height: 98%;
+    width: 32%;
+    margin-right: 10px;
+    padding: 0;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.parameterPart{
+    float: left;
+    height: 98%;
+    width: 32%;
+    margin-right: 10px;
+    padding: 0;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.paretoPart{
+    float: left;
+    height: 98%;
+    width: 30%;
+    margin-right: 10px;
+    padding: 0;
+    margin-left: 10px;
+    margin-top: 10px;
+
+}
+.algorithmPicture{
+    height: 75%;
+    width: 100%;
+
+}
+.ap-title{
+    height: 10%;
+    width: 100%;
+    -moz-box-align: center;
+    -webkit-box-align: center;
+    font-size: large;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: grey 2px solid;
+
+}
+.ap-picture{
+    height: 90%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.ap-pictureIMG{
+    height: inherit;
+}
+.originalAllocate{
+    height: 24%;
+    width: 100%;
+
+}
+.oa-uploadTitle{
+    height: 20%;
+    width: 100%;
+    -moz-box-align: center;
+    -webkit-box-align: center;
+    font-size: large;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: grey 2px solid;
+}
+.oa-uploadPart{
+    height: 70%;
+    width: 100%;
+
+
+}
+.top{
+    height: 90%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.img{
+    margin-top: 20px;
+    height: inherit;
+}
+.click{
+    display: none;
+}
+/*.oa-bottom{*/
+/*    height: 20%;*/
+/*    width: 100%;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    box-sizing: border-box;*/
+/*    font-size: medium;*/
+/*    color: grey;*/
+/*}*/
+
+.modelParameter{
+    height: 40%;
+    width: 100%;
+
+}
+.mp-uploadTitle{
+    height: 10%;
+    width: 100%;
+    -moz-box-align: center;
+    -webkit-box-align: center;
+    font-size: large;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: grey 2px solid;
+}
+.mp-uploadPart1{
+    height: 35%;
+    width: 94%;
+    margin-left: 15px;
+    margin-top: 12px;
+    border-bottom: grey 2px solid;
+
+}
+.inputText{
+    height: 50%;
+}
+
+input{
+    color: gray;
+}
+.mp-uploadPart2{
+    height: 64%;
+
+}
+.mp-fileUpload{
+    float: left;
+    height: 70%;
+    width: 50%;
+}
+.bottom{
+    height: 18%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    font-size: medium;
+    color: black;
+}
+.algorithmParameter{
+    height: 55%;
+    width: 100%;
+    margin-top: 20px;
+}
+.alp-uploadTitle{
+    height: 10%;
+    width: 100%;
+    -moz-box-align: center;
+    -webkit-box-align: center;
+    font-size: large;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: grey 2px solid;
+}
+.alp-uploadPart1{
+    height: 70%;
+    width: 94%;
+    margin-left: 20px;
+    margin-top: 12px;
+}
+.inputText1{
+    height: 20%;
+}
+.alp-uploadPart2{
+    height: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: -10%;
+}
+
+#alp-button{
+    width: 26%;
+    height: 60%;
+    background-color: #3a6cc6;
+    color: white;
+
+}
+#alp-button:hover{
+    background-color: lightskyblue;
+}
+.runButtonIcon{
+    height: 100%;
+    width: 100%;
+}
+.algorithmResultPicture{
+    height: 40%;
+    width: 100%;
+    border: grey 2px solid;
+}
+.algorithmResultInfos{
+    height: 50%;
+    width: 100%;
+    margin-top: 5%;
+    border: grey 2px solid;
+}
+.ar-title{
+    height: 6%;
+    width: 100%;
+    -moz-box-align: center;
+    -webkit-box-align: center;
+    font-size: medium;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2px;
+}
+.ar-results{
+    height: 90%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.ar-resultsIMG{
+    height: inherit;
+}
+.ar-resultList{
+    height: 70%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /*align-items: center;*/
+    box-sizing: border-box;
+    border: 2px solid lightgrey;
+    overflow-y: auto;
+    overflow-x: auto;
+
+}
+.ar-resultListInfos{
+    height: inherit;
+    width: inherit;
+}
+
+.PopUp{
+    position: absolute;
+    font-size: medium;
+    left:5%;
+    top:10%;
+    height: 90%;
+    width: 90%;
+    border: solid 1px lightskyblue;
+    background-color: white;
+    z-index: 999;
+    display: none;
+}
+.PopUp h3{
+    color: black;
+    text-align: center;
+    height: 10%;
+    font-size: large;
+
+}
+.move_close{
+    float: left;
+    margin-left: 95%;
+    margin-top: -5.5%;
+}
+.move_close button{
+    /*height: 1%;*/
+    /*width: 20%;*/
+    color: white;
+}
+.PopUpContent{
+    height: 95%;
+    width: 95%;
+
+}
+.PopUp-url{
+    height: 85%;
+    width: 100%;
+    margin-top: -3%;
+    margin-left: 2.5%;
+
+}
+.resultListTable{
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    /*table-layout: fixed;*/
+    font-size: xx-small;
+}
+.resultListTableData{
+    border-top: 1px solid lightgrey;
+}
+td{
+    /*padding: 5px;*/
+    /*word-break: break-all;*/
+}
+.finalResultsTitle{
+    height: 6%;
+    width: 100%;
+    -moz-box-align: center;
+    -webkit-box-align: center;
+    font-size: medium;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2px;
+}
+.finalResults{
+     height: 10%;
+     width: 100%;
+     -moz-box-align: center;
+     -webkit-box-align: center;
+     font-size: medium;
+     /*font-weight: bold;*/
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     margin-top: 3px;
+ }
+.finalResultsData{
+    border: 1px solid grey;
+}

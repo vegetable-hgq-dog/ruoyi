@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.newdata.mapper.NewdataMapper">
+    
+    <resultMap type="Newdata" id="NewdataResult">
+        <result property="id"    column="id"    />
+        <result property="datatype"    column="datatype"    />
+        <result property="datacontent"    column="datacontent"    />
+        <result property="uptime"    column="uptime"    />
+    </resultMap>
+
+    <sql id="selectNewdataVo">
+        select id, datatype, datacontent, uptime from newdata
+    </sql>
+
+    <select id="selectNewdataList" parameterType="Newdata" resultMap="NewdataResult">
+        <include refid="selectNewdataVo"/>
+        <where>  
+            <if test="datacontent != null  and datacontent != ''"> and datacontent like concat('%', #{datacontent}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectNewdataById" parameterType="Long" resultMap="NewdataResult">
+        <include refid="selectNewdataVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertNewdata" parameterType="Newdata" useGeneratedKeys="true" keyProperty="id">
+        insert into newdata
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="datatype != null  and datatype != ''">datatype,</if>
+            <if test="datacontent != null  and datacontent != ''">datacontent,</if>
+            <if test="uptime != null ">uptime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="datatype != null  and datatype != ''">#{datatype},</if>
+            <if test="datacontent != null  and datacontent != ''">#{datacontent},</if>
+            <if test="uptime != null ">#{uptime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNewdata" parameterType="Newdata">
+        update newdata
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="datatype != null  and datatype != ''">datatype = #{datatype},</if>
+            <if test="datacontent != null  and datacontent != ''">datacontent = #{datacontent},</if>
+            <if test="uptime != null ">uptime = #{uptime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNewdataById" parameterType="Long">
+        delete from newdata where id = #{id}
+    </delete>
+
+    <delete id="deleteNewdataByIds" parameterType="String">
+        delete from newdata where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

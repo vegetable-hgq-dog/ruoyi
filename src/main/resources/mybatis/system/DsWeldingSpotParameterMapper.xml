@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.weldingParameterInfo.mapper.DsWeldingSpotParameterMapper">
+    
+    <resultMap type="DsWeldingSpotParameter" id="DsWeldingSpotParameterResult">
+        <result property="dsweldingid"    column="dsWeldingID"    />
+        <result property="weldingspotid"    column="weldingSpotID"    />
+        <result property="deviceid"    column="deviceID"    />
+        <result property="programname"    column="programName"    />
+        <result property="controlcurrent"    column="controlCurrent"    />
+        <result property="controlpressure"    column="controlPressure"    />
+        <result property="controltime"    column="controlTime"    />
+    </resultMap>
+
+    <sql id="selectDsWeldingSpotParameterVo">
+        select dsWeldingID, weldingSpotID, deviceID, programName, controlCurrent, controlPressure, controlTime from ds_welding_spot_parameter
+    </sql>
+
+    <select id="selectDsWeldingSpotParameterList" parameterType="DsWeldingSpotParameter" resultMap="DsWeldingSpotParameterResult">
+        <include refid="selectDsWeldingSpotParameterVo"/>
+        <where>  
+            <if test="weldingspotid != null  and weldingspotid != ''"> and weldingSpotID = #{weldingspotid}</if>
+            <if test="deviceid != null "> and deviceID = #{deviceid}</if>
+            <if test="programname != null "> and programName like concat('%', #{programname}, '%')</if>
+            <if test="controlcurrent != null "> and controlCurrent = #{controlcurrent}</if>
+            <if test="controlpressure != null "> and controlPressure = #{controlpressure}</if>
+            <if test="controltime != null "> and controlTime = #{controltime}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsWeldingSpotParameterById" parameterType="Long" resultMap="DsWeldingSpotParameterResult">
+        <include refid="selectDsWeldingSpotParameterVo"/>
+        where dsWeldingID = #{dsweldingid}
+    </select>
+        
+    <insert id="insertDsWeldingSpotParameter" parameterType="DsWeldingSpotParameter" useGeneratedKeys="true" keyProperty="dsweldingid">
+        insert into ds_welding_spot_parameter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="weldingspotid != null  and weldingspotid != ''">weldingSpotID,</if>
+            <if test="deviceid != null ">deviceID,</if>
+            <if test="programname != null ">programName,</if>
+            <if test="controlcurrent != null ">controlCurrent,</if>
+            <if test="controlpressure != null ">controlPressure,</if>
+            <if test="controltime != null ">controlTime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="weldingspotid != null  and weldingspotid != ''">#{weldingspotid},</if>
+            <if test="deviceid != null ">#{deviceid},</if>
+            <if test="programname != null ">#{programname},</if>
+            <if test="controlcurrent != null ">#{controlcurrent},</if>
+            <if test="controlpressure != null ">#{controlpressure},</if>
+            <if test="controltime != null ">#{controltime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsWeldingSpotParameter" parameterType="DsWeldingSpotParameter">
+        update ds_welding_spot_parameter
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="weldingspotid != null  and weldingspotid != ''">weldingSpotID = #{weldingspotid},</if>
+            <if test="deviceid != null ">deviceID = #{deviceid},</if>
+            <if test="programname != null ">programName = #{programname},</if>
+            <if test="controlcurrent != null ">controlCurrent = #{controlcurrent},</if>
+            <if test="controlpressure != null ">controlPressure = #{controlpressure},</if>
+            <if test="controltime != null ">controlTime = #{controltime},</if>
+        </trim>
+        where dsWeldingID = #{dsweldingid}
+    </update>
+
+    <delete id="deleteDsWeldingSpotParameterById" parameterType="Long">
+        delete from ds_welding_spot_parameter where dsWeldingID = #{dsweldingid}
+    </delete>
+
+    <delete id="deleteDsWeldingSpotParameterByIds" parameterType="String">
+        delete from ds_welding_spot_parameter where dsWeldingID in 
+        <foreach item="dsweldingid" collection="array" open="(" separator="," close=")">
+            #{dsweldingid}
+        </foreach>
+    </delete>
+
+
+    <select id="getAllWeldingSpotPara" resultMap="DsWeldingSpotParameterResult">
+        select weldingSpotID, deviceID, programName, controlCurrent, controlPressure, controlTime from ds_welding_spot_parameter
+    </select>
+
+</mapper>

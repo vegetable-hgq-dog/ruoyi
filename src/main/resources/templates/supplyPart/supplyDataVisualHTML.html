@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/supplyDataVisualHTML.css">
+</head>
+<body>
+    <section>
+        <div class="form_info">
+            <div class="inventoryBox">
+                <div class="inventoryContent">
+                    <div class="inventoryContentTitle">基地物料库存数量监视</div>
+                    <div class="inventoryContentData">
+                        <table class="table_data">
+                            <tr>
+                                <th>序号</th>
+                                <th>物料编号</th>
+                                <th>物料名称</th>
+                                <th>库存数量</th>
+                                <th>预警状态</th>
+                            </tr>
+
+                            <tr th:each="fid : ${factoryInventoryData}">
+                                <td th:text="${fidStat.index+1}"></td>
+                                <td th:text="${fid.materialid}"></td>
+                                <td th:each="md : ${materialsData}" th:if="${md.materialid} eq ${fid.materialid}" th:text="${md.materialname}"></td>
+                                <td th:text="${fid.inventoryamount}"></td>
+<!--                                识别预警类型-->
+                                <td class="greenState" th:if="${fid.alertstatus} eq 1" th:text="Green"></td>
+                                <td class="orangeState" th:if="${fid.alertstatus} eq 2" th:text="Orange"></td>
+                                <td class="redState" th:if="${fid.alertstatus} eq 3" th:text="Red"></td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="supplyBox">
+                <div class="supplyContent">
+                    <div class="supplyContentTitle">供应商物料供应情况检查</div>
+                    <div class="supplyContentData">
+                        <table class="table_data">
+                            <tr>
+                                <th>序号</th>
+                                <th>订单编号</th>
+                                <th>供应商名称</th>
+                                <th>收货状态</th>
+                            </tr>
+
+                            <tr th:each="sd : ${supplyData}">
+                                <td th:text="${sdStat.index+1}"></td>
+                                <td th:text="${sd.orderid}"></td>
+                                <td th:text="${sd.suppliername}"></td>
+
+                                <td class="hasReceipted" th:if="${sd.receiptstatus} eq 1" th:text="已收货"></td>
+                                <td class="notReceipt" th:if="${sd.receiptstatus} eq 2" th:text="未收货"></td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pic_info">
+            <div class="staticBox">
+                <div class="upTwoBar">
+                    <div class="settlementBar">
+                        <div class="settlementBarTitle">当前订单数量/条：<span id="settlementBarTitle"></span></div>
+                        <div id="settlementBarData" class="settlementBarData"></div>
+                    </div>
+                    <div class="receiptBar">
+                        <div class="receiptBarTitle" >当前物料供应/条：<span id="receiptBarTitle"></span></div>
+                        <div id="receiptBarData" class="receiptBarData"></div>
+                    </div>
+                </div>
+                <div class="downOneBar">
+                    <div class="downOneBarTitle">当前物料运输/辆：<span id="downOneBarTitle"></span></div>
+                    <div id="downOneBarData" class="downOneBarData"></div>
+                </div>
+            </div>
+            <div id="mapBox" class="mapBox"></div>
+        </div>
+        <div class="bar_info">
+            <div id="orderBox1" class="orderBox1"></div>
+            <div id="orderBox2" class="orderBox2"></div>
+        </div>
+
+
+<!--        <div style="color: white;font-size: medium;">a——b</div>-->
+<!--        <div><table style="color: white;" >-->
+<!--            <tr>-->
+<!--                <td>t1</td>-->
+<!--                <td>c1</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>t2</td>-->
+<!--                <td>c2</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>t3</td>-->
+<!--                <td>c3</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>t4</td>-->
+<!--                <td>c4</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>t5</td>-->
+<!--                <td>c5</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>t6</td>-->
+<!--                <td>c6</td>-->
+<!--            </tr>-->
+<!--        </table></div>-->
+
+    </section>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script th:src="@{/echarts/echarts.min.js}"></script>
+    <script th:src="@{/js/china.js}"></script>
+
+    <script type="text/javascript">
+        // 结算状态字段
+        $.when(
+            $.getJSON('/system/orderInf/allData'),
+        ).done(function (settlementData) {
+            var myChart = echarts.init(document.getElementById('settlementBarData'));
+            var hasSettlement = 0;
+            var noSettlement = 0;
+            // var settlementState = [];
+
+            for (let i = 0;i < settlementData.length;i++){
+
+                if (settlementData[i].settlementstatus == 1){
+                    hasSettlement++;
+                }
+                if (settlementData[i].settlementstatus == 2){
+                    noSettlement++;
+                }
+
+            }
+
+            $("#settlementBarTitle").text(settlementData.length);
+
+            var option = {
+                color:['#92D050','#ED7D31','#FFC72F'],
+                tooltip: {
+                    trigger: 'item'
+                },
+                // legend: {
+                //     y:'center',
+                //     x:'right',
+                //     orient:'vertical',
+                //     verticalAlign: 'middle',
+                //     layout: 'vertical',
+                //     textStyle:{
+                //         color: '#ffffff'
+                //     },
+                // },
+                grid: {
+                    left: '5%',
+                    right: '5%',
+                    bottom: '5%',
+                    top:'10%',
+                    containLabel: true
+                },
+                series: [
+                    {
+                        type: 'pie',
+                        radius: ['20','80%'],
+                        data: [
+                            {value:hasSettlement,name:'已结算'},
+                            {value:noSettlement,name:'未结算'}
+                        ],
+                        itemStyle:{
+                            normal:{
+                                label:{
+                                    show:true,
+                                    formatter:'{b}:{c}',
+                                    textStyle:{
+                                        color:'white'
+                                    }
+                                }
+                            }
+                        },
+                        // labelLine: {
+                        //     show: false
+                        // },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        })
+
+
+        //收货状态字段
+        $.when(
+            $.getJSON('/system/supplyInf/getReceiptState'),
+        ).done(function (receiptData) {
+            var myChart = echarts.init(document.getElementById('receiptBarData'));
+            var hasReceipt = 0;
+            var noReceipt = 0;
+
+
+            for (let i = 0;i < receiptData.length;i++){
+
+                if (receiptData[i].receiptstatus == 1){
+                    hasReceipt++;
+                }
+                if (receiptData[i].receiptstatus == 2){
+                    noReceipt++;
+                }
+
+            }
+
+            $("#receiptBarTitle").text(receiptData.length);
+
+            var option = {
+                color:['#92D050','#ED7D31','#FFC72F'],
+                tooltip: {
+                    trigger: 'item'
+                },
+                // legend: {
+                //     y:'center',
+                //     x:'right',
+                //     orient:'vertical',
+                //     verticalAlign: 'middle',
+                //     layout: 'vertical',
+                //     textStyle:{
+                //         color: '#ffffff'
+                //     },
+                // },
+                grid: {
+                    left: '5%',
+                    right: '5%',
+                    bottom: '5%',
+                    top:'10%',
+                    containLabel: true
+                },
+                series: [
+                    {
+                        type: 'pie',
+                        radius: ['20','80%'],
+                        data: [
+                            {value:hasReceipt,name:'已收货'},
+                            {value:noReceipt,name:'未收货'}
+                        ],
+                        itemStyle:{
+                            normal:{
+                                label:{
+                                    show:true,
+                                    formatter:'{b}:{c}',
+                                    textStyle:{
+                                        color:'white'
+                                    }
+                                }
+                            }
+                        },
+                        // labelLine: {
+                        //     show: false
+                        // },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            myChart.setOption(option);
+
+        })
+
+
+
+        //运输状态字段
+        $.when(
+            $.getJSON('/system/transportInf/getTransportState'),
+        ).done(function (transportData) {
+            var myChart = echarts.init(document.getElementById('downOneBarData'));
+            var hasBegan = 0;
+            var finished = 0;
+            var cancelled = 0;
+
+            for (let i = 0;i < transportData.length;i++){
+
+                if (transportData[i].shippingstatus == 1){
+                    cancelled++;
+                }
+                if (transportData[i].shippingstatus == 2){
+                    hasBegan++;
+                }
+                if (transportData[i].shippingstatus == 3){
+                    finished++;
+                }
+
+            }
+
+            $("#downOneBarTitle").text(transportData.length);
+
+            var option = {
+                color:['#92D050','#ED7D31','#FFC72F'],
+                tooltip: {
+                    trigger: 'item'
+                },
+                // legend: {
+                //     y:'center',
+                //     x:'right',
+                //     orient:'vertical',
+                //     verticalAlign: 'middle',
+                //     layout: 'vertical',
+                //     textStyle:{
+                //         color: '#ffffff'
+                //     },
+                // },
+                grid: {
+                    left: '5%',
+                    right: '5%',
+                    bottom: '5%',
+                    top:'10%',
+                    containLabel: true
+                },
+                series: [
+                    {
+                        type: 'pie',
+                        radius: ['20','80%'],
+                        data: [
+                            {value:cancelled,name:'已取消'},
+                            {value:finished,name:'已完成'},
+                            {value:hasBegan,name:'已启动'}
+                        ],
+                        itemStyle:{
+                            normal:{
+                                label:{
+                                    show:true,
+                                    formatter:'{b}:{c}',
+                                    textStyle:{
+                                        color:'white'
+                                    }
+                                }
+                            }
+                        },
+                        // labelLine: {
+                        //     show: false
+                        // },
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            myChart.setOption(option);
+
+        })
+
+        $.when(
+            $.getJSON('/system/orderInf/getMaterialAmount'),
+            $.getJSON('/system/materialInf/getAllMaterialData')
+        ).done(function (orderInfo,materialInfo) {
+            var myChart = echarts.init(document.getElementById('orderBox1'));
+            var materialName = [];
+            var planUseAmount = [];
+            var len = 10;
+
+            for (let i = 0;i < orderInfo[0].length;i++){
+
+                planUseAmount[i] = orderInfo[0][i].materialAmount;
+
+                for (let j = 0;j < materialInfo[0].length;j++){
+                    if (orderInfo[0][i].materialid == materialInfo[0][j].materialid){
+                        materialName[i] = materialInfo[0][j].materialname;
+                    }
+                }
+                if (planUseAmount.length == materialName.length && planUseAmount.length >= len){
+                    break;
+                }
+            }
+            var option = {
+                color:['#4472C4'],
+                title: {
+                    text: '当前物料订单数量排名前十',
+                    left:'center',
+                    textStyle:{
+                        color:'white',
+                        fontWeight:'normal',
+                        fontSize:14
+                    },
+                    top:15
+
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                // legend: {},
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    splitLine: {
+                        show: false
+                    },
+                    axisLine:{
+                        show:false
+                    },
+                    axisLabel:{
+                        show:false
+                    },
+                    boundaryGap: [0, 0.01]
+                },
+                yAxis: {
+                    inverse: true,
+                    type: 'category',
+                    axisLine:{
+                        show:false,
+                        lineStyle:{
+                            //修改y坐标轴颜色
+                            color:'#ffffff'
+                        },
+                    },
+                    axisTick:{
+                        show:false
+                    },
+                    data: materialName
+                },
+                series: [
+                    {
+                        type: 'bar',
+                        label: {
+                            show: true,
+                            position: 'inside',
+                            textStyle:{
+                                color:'orange'
+                            }
+                        },
+                        data: planUseAmount
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        })
+
+        $.when(
+            $.getJSON('/system/orderInf/getSupplierAmount'),
+            $.getJSON('/system/supplierInf/getAllSupplierData')
+        ).done(function (orderInfo,supplierInfo) {
+            var myChart = echarts.init(document.getElementById('orderBox2'));
+            var supplierName = [];
+            var planUseAmount = [];
+            var len = 10;
+
+
+            for (let i = 0;i < orderInfo[0].length;i++){
+                planUseAmount[i] = orderInfo[0][i].supplierAmount;
+                for (let j = 0;j < supplierInfo[0].length;j++){
+                    if (orderInfo[0][i].supplierid == supplierInfo[0][j].supplierid){
+                        supplierName[i] = supplierInfo[0][j].suppliername;
+                    }
+                }
+                if (planUseAmount.length == supplierName.length && planUseAmount.length >= len ){
+                    break;
+                }
+            }
+            var option = {
+                color:['#97A9D9'],
+                title: {
+                    text: '当前供应商供应数量排名前十',
+                    left:'center',
+                    textStyle:{
+                        color:'white',
+                        fontWeight:'normal',
+                        fontSize:14
+                    },
+                    top:15
+
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                // legend: {},
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    splitLine: {
+                        show: false
+                    },
+                    axisLine:{
+                        show:false
+                    },
+                    axisLabel:{
+                        show:false
+                    },
+                    boundaryGap: [0, 0.01]
+                },
+                yAxis: {
+                    inverse:true,
+                    type: 'category',
+                    axisLine:{
+                        show:false,
+                        lineStyle:{
+                            //修改y坐标轴颜色
+                            color:'#ffffff'
+                        },
+                    },
+                    axisTick:{
+                        show:false
+                    },
+                    data: supplierName
+                },
+                series: [
+                    {
+                        type: 'bar',
+                        label: {
+                            show: true,
+                            position: 'inside',
+                            textStyle:{
+                                color:'#B45F04'
+                            }
+                        },
+                        data: planUseAmount
+                    }
+                ]
+            };
+            myChart.setOption(option);
+
+        })
+
+
+        $.when(
+            $.getJSON('/system/transportInf/getTransportState'),
+            $.getJSON('/system/pickupPlanInf/getAllPickupplanData')
+        ).done(function (transportData,pickupplanData) {
+            var myChart = echarts.init(document.getElementById('mapBox'));
+
+            var transportID = [];
+            var carrierName = [];
+            var transportType = [];
+            var shippingStatus = [];
+            var alertStatus = [];
+            var dateOfDelivery = [];
+            var TpickupplanID = [];
+
+            var planRoute = [];
+            var PpickupplanID = [];
+
+            for (let i = 0;i < transportData[0].length;i++){
+                transportID[i] = transportData[0][i].transportplanid;
+                carrierName[i] = transportData[0][i].carriername;
+
+                //1:集货 2：普运
+
+                if (transportData[0][i].transporttype == 1){
+                    transportType[i] = "集货";
+                }else if (transportData[0][i].transporttype == 2){
+                    transportType[i] = "普运";
+                }
+
+                //1：已取消 2：已启动 3：已完成
+
+                if (transportData[0][i].shippingstatus == 1){
+                    shippingStatus[i] = "已取消";
+                }else if (transportData[0][i].shippingstatus == 2){
+                    shippingStatus[i] = "已启动";
+                }else if (transportData[0][i].shippingstatus == 3){
+                    shippingStatus[i] = "已完成";
+                }
+
+                //1：green 2：orange 3：red
+
+                if (transportData[0][i].alertstatus == 1){
+                    alertStatus[i] = "Green";
+                }else if (transportData[0][i].alertstatus == 2){
+                    alertStatus[i] = "Orange";
+                }else if (transportData[0][i].alertstatus == 3){
+                    alertStatus[i] = "Red";
+                }
+
+                dateOfDelivery[i] = transportData[0][i].dateofdelivery.substr(0,10);
+
+                TpickupplanID[i] = transportData[0][i].pickupplanid;
+            }
+
+
+            for (let j = 0;j < pickupplanData[0].length;j++){
+                planRoute[j] = pickupplanData[0][j].planroute;
+                PpickupplanID[j] = pickupplanData[0][j].pickupplanid;
+            }
+
+
+            // console.log(transportID);
+            // console.log(carrierName);
+            // console.log(transportType);
+            // console.log(shippingStatus);
+            // console.log(alertStatus);
+            // console.log(dateOfDelivery);
+            // console.log(TpickupplanID);
+            // console.log(planRoute);
+            // console.log(PpickupplanID);
+
+            var geoCoordMap = {
+                "重庆": [106.54, 29.59],
+                "诸暨": [120.23,29.72],
+                "晋中": [112.75,37.68],
+                "上海": [121.47,31.23]
+            };
+
+            var myData = [
+                { name: "重庆", value: 0 },
+                { name: "诸暨", value: 0 },
+                { name: "晋中", value: 0 },
+                { name: "上海", value: 0 }
+            ];
+
+            var convertData = function (data) {
+                var res = [];
+                for (var i = 0; i < data.length; i++) {
+                    var geoCoord = geoCoordMap[data[i].name];
+                    if (geoCoord) {
+                        res.push({
+                            name:data[i].name,
+                            value:geoCoord.concat(data[i].value)
+                        });
+                    }
+                }
+                return res;
+            };
+
+
+
+            var option = {
+                backgroundColor: '#203864',
+                title: {
+                    text: '',
+                    subtext: '',
+                    left: 'center',
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                tooltip: {
+                    position:['1%','2%'],
+                    triggerOn:'click',
+                    trigger: 'item',
+                    formatter:function (para){
+                        var titlePart = '';
+                        var transportPlanValue = '';
+                        var carrierNameValue = '';
+                        var transportTypeValue = '';
+                        var transportStatusValue = '';
+                        var alertStatusValue = '';
+                        var dateOfDeliveryValue = '';
+
+
+                        for (let i = 0;i < planRoute.length;i++){
+                            if (planRoute[i].indexOf(para.name) >=0){
+                                titlePart += '<div style="color: white;font-size: small;padding-bottom: 1%">' + planRoute[i] + '</div>\n'
+                            }
+                        }
+
+                        for (let i = 0;i < planRoute.length;i++){
+                            if (planRoute[i].indexOf(para.name) >=0){
+                                for (let j = 0;j < TpickupplanID.length;j++){
+                                    if (PpickupplanID[i] == TpickupplanID[j]){
+                                        transportPlanValue += '<td>' + transportID[j] + '</td>\n';
+                                        carrierNameValue += '<td>' + carrierName[j] + '</td>\n';
+                                        transportTypeValue += '<td>' + transportType[j] + '</td>\n';
+                                        transportStatusValue += '<td>' + shippingStatus[j] + '</td>\n';
+
+                                        if (alertStatus[j] == "Green"){
+                                            alertStatusValue += '<td style="color: green">' + alertStatus[j] + '</td>\n';
+                                        }else if (alertStatus[j] == "Orange"){
+                                            alertStatusValue += '<td style="color: orange">' + alertStatus[j] + '</td>\n';
+                                        }else if (alertStatus[j] == "Red"){
+                                            alertStatusValue += '<td style="color: red">' + alertStatus[j] + '</td>\n';
+                                        }
+
+
+                                        dateOfDeliveryValue += '<td>' + dateOfDelivery[j] + '</td>\n';
+                                    }
+                                }
+
+                            }
+                        }
+
+                        var str = titlePart +
+                            '        <div style="overflow: auto"><table style="color: white;font-size: x-small" >\n' +
+                            '            <tr>\n' +
+                            '                <td>运输计划</td>\n' +
+                            transportPlanValue +
+                            '            </tr>\n' +
+                            '            <tr>\n' +
+                            '                <td>承运商名称</td>\n' +
+                            carrierNameValue +
+                            '            </tr>\n' +
+                            '            <tr>\n' +
+                            '                <td>运输类型</td>\n' +
+                            transportTypeValue +
+                            '            </tr>\n' +
+                            '            <tr>\n' +
+                            '                <td>运输状态</td>\n' +
+                            transportStatusValue +
+                            '            </tr>\n' +
+                            '            <tr>\n' +
+                            '                <td>预警状态</td>\n' +
+                            alertStatusValue +
+                            '            </tr>\n' +
+                            '            <tr>\n' +
+                            '                <td>计划交付时间&emsp;&emsp;</td>\n' +
+                            dateOfDeliveryValue +
+                            '            </tr>\n' +
+                            '        </table></div>'
+                        return str
+                    },
+                    backgroundColor: '#1F4E79',
+                    borderColor:'transparent',
+                },
+                // legend: {
+                //     orient: 'horizontal',
+                //     top: 'bottom',
+                //     left: 'right',
+                //     data: [],
+                //     textStyle: {
+                //         color: '#fff'
+                //     }
+                // },
+                visualMap: {
+                    color: ['#79fbd7'],
+                    min: 0,
+                    max: 300,
+                    show:false,
+                    splitNumber: 10,
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                geo: {
+                    map: 'china',
+                    label: {
+                        emphasis: {
+                            show: false
+                        }
+                    },
+                    roam:true,
+                    zoom:1.5,
+                    itemStyle: {
+                        normal: {
+                            areaColor: '#1E367C',
+                            borderColor: '#000000'
+                        },
+                        emphasis: {
+                            areaColor: '#414a58'
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: 'pm2.5',
+                        type: 'scatter',
+                        coordinateSystem: 'geo',
+                        data: convertData(myData),
+                        symbolSize: 10,
+                        encode:{
+                            value:2
+                        },
+                        label: {
+                            normal: {
+                                formatter: '{b}',
+                                show: true
+                            },
+                            emphasis: {
+                                show: true
+                            }
+                        },
+                        itemStyle: {
+                            emphasis: {
+                                borderColor: '',
+                                borderWidth: 1
+                            }
+                        }
+                    }
+                ]
+            }
+            myChart.setOption(option);
+
+        })
+
+
+
+    </script>
+</body>
+</html>

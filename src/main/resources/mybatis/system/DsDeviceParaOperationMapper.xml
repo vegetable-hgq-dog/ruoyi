@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.operation.mapper.DsDeviceParaOperationMapper">
+    
+    <resultMap type="DsDeviceParaOperation" id="DsDeviceParaOperationResult">
+        <result property="id"    column="ID"    />
+        <result property="deviceid"    column="deviceID"    />
+        <result property="devicename"    column="deviceName"    />
+        <result property="parameterid"    column="parameterID"    />
+        <result property="parametername"    column="parameterName"    />
+        <result property="parametevalue"    column="parameteValue"    />
+        <result property="deviceoperstatus"    column="deviceOperStatus"    />
+        <result property="devicehealthcond"    column="deviceHealthCond"    />
+    </resultMap>
+
+    <sql id="selectDsDeviceParaOperationVo">
+        select ID, deviceID, deviceName, parameterID, parameterName, parameteValue, deviceOperStatus, deviceHealthCond from ds_device_para_operation
+    </sql>
+
+    <select id="selectDsDeviceParaOperationList" parameterType="DsDeviceParaOperation" resultMap="DsDeviceParaOperationResult">
+        <include refid="selectDsDeviceParaOperationVo"/>
+        <where>  
+            <if test="devicename != null  and devicename != ''"> and deviceName like concat('%', #{devicename}, '%')</if>
+            <if test="parametername != null  and parametername != ''"> and parameterName like concat('%', #{parametername}, '%')</if>
+            <if test="deviceoperstatus != null  and deviceoperstatus != ''"> and deviceOperStatus = #{deviceoperstatus}</if>
+            <if test="devicehealthcond != null  and devicehealthcond != ''"> and deviceHealthCond = #{devicehealthcond}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsDeviceParaOperationById" parameterType="Long" resultMap="DsDeviceParaOperationResult">
+        <include refid="selectDsDeviceParaOperationVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertDsDeviceParaOperation" parameterType="DsDeviceParaOperation" useGeneratedKeys="true" keyProperty="id">
+        insert into ds_device_para_operation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceid != null ">deviceID,</if>
+            <if test="devicename != null  and devicename != ''">deviceName,</if>
+            <if test="parameterid != null ">parameterID,</if>
+            <if test="parametername != null  and parametername != ''">parameterName,</if>
+            <if test="parametevalue != null ">parameteValue,</if>
+            <if test="deviceoperstatus != null  and deviceoperstatus != ''">deviceOperStatus,</if>
+            <if test="devicehealthcond != null  and devicehealthcond != ''">deviceHealthCond,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceid != null ">#{deviceid},</if>
+            <if test="devicename != null  and devicename != ''">#{devicename},</if>
+            <if test="parameterid != null ">#{parameterid},</if>
+            <if test="parametername != null  and parametername != ''">#{parametername},</if>
+            <if test="parametevalue != null ">#{parametevalue},</if>
+            <if test="deviceoperstatus != null  and deviceoperstatus != ''">#{deviceoperstatus},</if>
+            <if test="devicehealthcond != null  and devicehealthcond != ''">#{devicehealthcond},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsDeviceParaOperation" parameterType="DsDeviceParaOperation">
+        update ds_device_para_operation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceid != null ">deviceID = #{deviceid},</if>
+            <if test="devicename != null  and devicename != ''">deviceName = #{devicename},</if>
+            <if test="parameterid != null ">parameterID = #{parameterid},</if>
+            <if test="parametername != null  and parametername != ''">parameterName = #{parametername},</if>
+            <if test="parametevalue != null ">parameteValue = #{parametevalue},</if>
+            <if test="deviceoperstatus != null  and deviceoperstatus != ''">deviceOperStatus = #{deviceoperstatus},</if>
+            <if test="devicehealthcond != null  and devicehealthcond != ''">deviceHealthCond = #{devicehealthcond},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteDsDeviceParaOperationById" parameterType="Long">
+        delete from ds_device_para_operation where ID = #{id}
+    </delete>
+
+    <delete id="deleteDsDeviceParaOperationByIds" parameterType="String">
+        delete from ds_device_para_operation where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

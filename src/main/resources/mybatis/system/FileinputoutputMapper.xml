@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.fileinputoutput.mapper.FileinputoutputMapper">
+    
+    <resultMap type="Fileinputoutput" id="FileinputoutputResult">
+        <result property="filepath"    column="filePath"    />
+        <result property="filename"    column="fileName"    />
+        <result property="fileid"    column="fileID"    />
+    </resultMap>
+
+    <sql id="selectFileinputoutputVo">
+        select filePath, fileName, fileID from fileinputoutput
+    </sql>
+
+    <select id="selectFileinputoutputList" parameterType="Fileinputoutput" resultMap="FileinputoutputResult">
+        <include refid="selectFileinputoutputVo"/>
+        <where>  
+            <if test="filepath != null  and filepath != ''"> and filePath = #{filepath}</if>
+            <if test="filename != null  and filename != ''"> and fileName like concat('%', #{filename}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectFileinputoutputById" parameterType="Long" resultMap="FileinputoutputResult">
+        <include refid="selectFileinputoutputVo"/>
+        where fileID = #{fileid}
+    </select>
+        
+    <insert id="insertFileinputoutput" parameterType="Fileinputoutput">
+        insert into fileinputoutput
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="filepath != null  and filepath != ''">filePath,</if>
+            <if test="filename != null  and filename != ''">fileName,</if>
+            <if test="fileid != null ">fileID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="filepath != null  and filepath != ''">#{filepath},</if>
+            <if test="filename != null  and filename != ''">#{filename},</if>
+            <if test="fileid != null ">#{fileid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFileinputoutput" parameterType="Fileinputoutput">
+        update fileinputoutput
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="filepath != null  and filepath != ''">filePath = #{filepath},</if>
+            <if test="filename != null  and filename != ''">fileName = #{filename},</if>
+        </trim>
+        where fileID = #{fileid}
+    </update>
+
+    <delete id="deleteFileinputoutputById" parameterType="Long">
+        delete from fileinputoutput where fileID = #{fileid}
+    </delete>
+
+    <delete id="deleteFileinputoutputByIds" parameterType="String">
+        delete from fileinputoutput where fileID in 
+        <foreach item="fileid" collection="array" open="(" separator="," close=")">
+            #{fileid}
+        </foreach>
+    </delete>
+    
+</mapper>

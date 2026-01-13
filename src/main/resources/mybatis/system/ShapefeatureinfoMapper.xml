@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.shapefeatureinfo.mapper.ShapefeatureinfoMapper">
+    
+    <resultMap type="Shapefeatureinfo" id="ShapefeatureinfoResult">
+        <result property="shapefeatureid"    column="shapeFeatureID"    />
+        <result property="shapefeaturename"    column="shapeFeatureName"    />
+        <result property="shapefeaturetype"    column="shapeFeatureType"    />
+    </resultMap>
+
+    <sql id="selectShapefeatureinfoVo">
+        select shapeFeatureID, shapeFeatureName, shapeFeatureType from shapefeatureinfo
+    </sql>
+
+    <select id="selectShapefeatureinfoList" parameterType="Shapefeatureinfo" resultMap="ShapefeatureinfoResult">
+        <include refid="selectShapefeatureinfoVo"/>
+        <where>  
+            <if test="shapefeaturename != null  and shapefeaturename != ''"> and shapeFeatureName like concat('%', #{shapefeaturename}, '%')</if>
+            <if test="shapefeaturetype != null  and shapefeaturetype != ''"> and shapeFeatureType = #{shapefeaturetype}</if>
+        </where>
+    </select>
+    
+    <select id="selectShapefeatureinfoById" parameterType="Long" resultMap="ShapefeatureinfoResult">
+        <include refid="selectShapefeatureinfoVo"/>
+        where shapeFeatureID = #{shapefeatureid}
+    </select>
+        
+    <insert id="insertShapefeatureinfo" parameterType="Shapefeatureinfo" useGeneratedKeys="true" keyProperty="shapefeatureid">
+        insert into shapefeatureinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="shapefeaturename != null  and shapefeaturename != ''">shapeFeatureName,</if>
+            <if test="shapefeaturetype != null  and shapefeaturetype != ''">shapeFeatureType,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="shapefeaturename != null  and shapefeaturename != ''">#{shapefeaturename},</if>
+            <if test="shapefeaturetype != null  and shapefeaturetype != ''">#{shapefeaturetype},</if>
+         </trim>
+    </insert>
+
+    <update id="updateShapefeatureinfo" parameterType="Shapefeatureinfo">
+        update shapefeatureinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shapefeaturename != null  and shapefeaturename != ''">shapeFeatureName = #{shapefeaturename},</if>
+            <if test="shapefeaturetype != null  and shapefeaturetype != ''">shapeFeatureType = #{shapefeaturetype},</if>
+        </trim>
+        where shapeFeatureID = #{shapefeatureid}
+    </update>
+
+    <delete id="deleteShapefeatureinfoById" parameterType="Long">
+        delete from shapefeatureinfo where shapeFeatureID = #{shapefeatureid}
+    </delete>
+
+    <delete id="deleteShapefeatureinfoByIds" parameterType="String">
+        delete from shapefeatureinfo where shapeFeatureID in 
+        <foreach item="shapefeatureid" collection="array" open="(" separator="," close=")">
+            #{shapefeatureid}
+        </foreach>
+    </delete>
+
+
+    <select id="selectShapefeatureName"  resultMap="ShapefeatureinfoResult">
+        select shapeFeatureName from ShapeFeatureInfo
+    </select>
+
+</mapper>

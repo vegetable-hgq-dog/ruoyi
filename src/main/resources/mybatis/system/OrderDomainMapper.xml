@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.tool.swagger.firstInterface.mapper.OrderDomainMapper">
+
+    <resultMap type="OrderTable" id="OrderTableResult">
+        <result property="factoryid"    column="factoryID"    />
+        <result property="materialid"    column="materialID"    />
+        <result property="supplierid"    column="supplierID"    />
+        <result property="settlementstatus"    column="settlementStatus"    />
+        <result property="orderdeliverystate"    column="orderDeliveryState"    />
+        <result property="deliverydate"    column="deliveryDate"    />
+        <result property="dateofordermake"    column="dateOfOrderMake"    />
+        <result property="leftuseamount"    column="leftUseAmount"    />
+        <result property="hasusedamount"    column="hasUsedAmount"    />
+        <result property="planuseamount"    column="planUseAmount"    />
+        <result property="ordertype"    column="orderType"    />
+        <result property="orderid"    column="orderID"    />
+        <result property="id"    column="id"    />
+    </resultMap>
+
+
+    <insert id="insertOrderDomain" parameterType="OrderDomain" useGeneratedKeys="true" keyProperty="id">
+        insert into order_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="factoryid != null  and factoryid != ''">factoryID,</if>
+            <if test="materialid != null  and materialid != ''">materialID,</if>
+            <if test="supplierid != null  and supplierid != ''">supplierID,</if>
+            <if test="settlementstatus != null  and settlementstatus != ''">settlementStatus,</if>
+            <if test="orderdeliverystate != null  and orderdeliverystate != ''">orderDeliveryState,</if>
+            <if test="deliverydate != null ">deliveryDate,</if>
+            <if test="dateofordermake != null ">dateOfOrderMake,</if>
+            <if test="leftuseamount != null  and leftuseamount != ''">leftUseAmount,</if>
+            <if test="hasusedamount != null  and hasusedamount != ''">hasUsedAmount,</if>
+            <if test="planuseamount != null  and planuseamount != ''">planUseAmount,</if>
+            <if test="ordertype != null  and ordertype != ''">orderType,</if>
+            <if test="orderid != null  and orderid != ''">orderID,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="factoryid != null  and factoryid != ''">#{factoryid},</if>
+            <if test="materialid != null  and materialid != ''">#{materialid},</if>
+            <if test="supplierid != null  and supplierid != ''">#{supplierid},</if>
+            <if test="settlementstatus != null  and settlementstatus != ''">#{settlementstatus},</if>
+            <if test="orderdeliverystate != null  and orderdeliverystate != ''">#{orderdeliverystate},</if>
+            <if test="deliverydate != null ">#{deliverydate},</if>
+            <if test="dateofordermake != null ">#{dateofordermake},</if>
+            <if test="leftuseamount != null  and leftuseamount != ''">#{leftuseamount},</if>
+            <if test="hasusedamount != null  and hasusedamount != ''">#{hasusedamount},</if>
+            <if test="planuseamount != null  and planuseamount != ''">#{planuseamount},</if>
+            <if test="ordertype != null  and ordertype != ''">#{ordertype},</if>
+            <if test="orderid != null  and orderid != ''">#{orderid},</if>
+        </trim>
+    </insert>
+
+</mapper>

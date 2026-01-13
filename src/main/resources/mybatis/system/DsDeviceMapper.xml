@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.device.mapper.DsDeviceMapper">
+    
+    <resultMap type="DsDevice" id="DsDeviceResult">
+        <result property="deviceid"    column="deviceID"    />
+        <result property="stationid"    column="stationID"    />
+        <result property="devicename"    column="deviceName"    />
+        <result property="devicetype"    column="deviceType"    />
+        <result property="deviceintroduction"    column="deviceIntroduction"    />
+        <result property="deviceip"    column="deviceIP"    />
+    </resultMap>
+
+    <sql id="selectDsDeviceVo">
+        select deviceID, stationID, deviceName, deviceType, deviceIntroduction, deviceIP from ds_device
+    </sql>
+
+    <select id="selectDsDeviceList" parameterType="DsDevice" resultMap="DsDeviceResult">
+        <include refid="selectDsDeviceVo"/>
+        <where>  
+            <if test="devicename != null  and devicename != ''"> and deviceName like concat('%', #{devicename}, '%')</if>
+            <if test="devicetype != null  and devicetype != ''"> and deviceType = #{devicetype}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsDeviceById" parameterType="Long" resultMap="DsDeviceResult">
+        <include refid="selectDsDeviceVo"/>
+        where deviceID = #{deviceid}
+    </select>
+        
+    <insert id="insertDsDevice" parameterType="DsDevice" useGeneratedKeys="true" keyProperty="deviceid">
+        insert into ds_device
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stationid != null ">stationID,</if>
+            <if test="devicename != null  and devicename != ''">deviceName,</if>
+            <if test="devicetype != null  and devicetype != ''">deviceType,</if>
+            <if test="deviceintroduction != null  and deviceintroduction != ''">deviceIntroduction,</if>
+            <if test="deviceip != null  and deviceip != ''">deviceIP,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stationid != null ">#{stationid},</if>
+            <if test="devicename != null  and devicename != ''">#{devicename},</if>
+            <if test="devicetype != null  and devicetype != ''">#{devicetype},</if>
+            <if test="deviceintroduction != null  and deviceintroduction != ''">#{deviceintroduction},</if>
+            <if test="deviceip != null  and deviceip != ''">#{deviceip},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsDevice" parameterType="DsDevice">
+        update ds_device
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="stationid != null ">stationID = #{stationid},</if>
+            <if test="devicename != null  and devicename != ''">deviceName = #{devicename},</if>
+            <if test="devicetype != null  and devicetype != ''">deviceType = #{devicetype},</if>
+            <if test="deviceintroduction != null  and deviceintroduction != ''">deviceIntroduction = #{deviceintroduction},</if>
+            <if test="deviceip != null  and deviceip != ''">deviceIP = #{deviceip},</if>
+        </trim>
+        where deviceID = #{deviceid}
+    </update>
+
+    <delete id="deleteDsDeviceById" parameterType="Long">
+        delete from ds_device where deviceID = #{deviceid}
+    </delete>
+
+    <delete id="deleteDsDeviceByIds" parameterType="String">
+        delete from ds_device where deviceID in 
+        <foreach item="deviceid" collection="array" open="(" separator="," close=")">
+            #{deviceid}
+        </foreach>
+    </delete>
+    
+</mapper>

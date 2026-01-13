@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.salevehicle.mapper.DsSalevehicleMapper">
+    
+    <resultMap type="DsSalevehicle" id="DsSalevehicleResult">
+        <result property="vehicleprice"    column="vehiclePrice"    />
+        <result property="vehiclebirthdate"    column="vehicleBirthDate"    />
+        <result property="vehiclebirthplace"    column="vehicleBirthPlace"    />
+        <result property="vehicletype"    column="vehicleType"    />
+        <result property="vehiclename"    column="vehicleName"    />
+        <result property="vechiclemanuid"    column="vechicleManuID"    />
+        <result property="vehicleid"    column="vehicleID"    />
+    </resultMap>
+
+    <sql id="selectDsSalevehicleVo">
+        select vehiclePrice, vehicleBirthDate, vehicleBirthPlace, vehicleType, vehicleName, vechicleManuID, vehicleID from ds_salevehicle
+    </sql>
+
+    <select id="selectDsSalevehicleList" parameterType="DsSalevehicle" resultMap="DsSalevehicleResult">
+        <include refid="selectDsSalevehicleVo"/>
+        <where>  
+            <if test="vehicleprice != null "> and vehiclePrice = #{vehicleprice}</if>
+            <if test="vehiclebirthdate != null "> and vehicleBirthDate = #{vehiclebirthdate}</if>
+            <if test="vehiclebirthplace != null  and vehiclebirthplace != ''"> and vehicleBirthPlace = #{vehiclebirthplace}</if>
+            <if test="vehicletype != null  and vehicletype != ''"> and vehicleType = #{vehicletype}</if>
+            <if test="vehiclename != null  and vehiclename != ''"> and vehicleName like concat('%', #{vehiclename}, '%')</if>
+            <if test="vechiclemanuid != null "> and vechicleManuID = #{vechiclemanuid}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsSalevehicleById" parameterType="Long" resultMap="DsSalevehicleResult">
+        <include refid="selectDsSalevehicleVo"/>
+        where vehicleID = #{vehicleid}
+    </select>
+        
+    <insert id="insertDsSalevehicle" parameterType="DsSalevehicle">
+        insert into ds_salevehicle
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vehicleprice != null ">vehiclePrice,</if>
+            <if test="vehiclebirthdate != null ">vehicleBirthDate,</if>
+            <if test="vehiclebirthplace != null  and vehiclebirthplace != ''">vehicleBirthPlace,</if>
+            <if test="vehicletype != null  and vehicletype != ''">vehicleType,</if>
+            <if test="vehiclename != null  and vehiclename != ''">vehicleName,</if>
+            <if test="vechiclemanuid != null ">vechicleManuID,</if>
+            <if test="vehicleid != null ">vehicleID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vehicleprice != null ">#{vehicleprice},</if>
+            <if test="vehiclebirthdate != null ">#{vehiclebirthdate},</if>
+            <if test="vehiclebirthplace != null  and vehiclebirthplace != ''">#{vehiclebirthplace},</if>
+            <if test="vehicletype != null  and vehicletype != ''">#{vehicletype},</if>
+            <if test="vehiclename != null  and vehiclename != ''">#{vehiclename},</if>
+            <if test="vechiclemanuid != null ">#{vechiclemanuid},</if>
+            <if test="vehicleid != null ">#{vehicleid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsSalevehicle" parameterType="DsSalevehicle">
+        update ds_salevehicle
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vehicleprice != null ">vehiclePrice = #{vehicleprice},</if>
+            <if test="vehiclebirthdate != null ">vehicleBirthDate = #{vehiclebirthdate},</if>
+            <if test="vehiclebirthplace != null  and vehiclebirthplace != ''">vehicleBirthPlace = #{vehiclebirthplace},</if>
+            <if test="vehicletype != null  and vehicletype != ''">vehicleType = #{vehicletype},</if>
+            <if test="vehiclename != null  and vehiclename != ''">vehicleName = #{vehiclename},</if>
+            <if test="vechiclemanuid != null ">vechicleManuID = #{vechiclemanuid},</if>
+        </trim>
+        where vehicleID = #{vehicleid}
+    </update>
+
+    <delete id="deleteDsSalevehicleById" parameterType="Long">
+        delete from ds_salevehicle where vehicleID = #{vehicleid}
+    </delete>
+
+    <delete id="deleteDsSalevehicleByIds" parameterType="String">
+        delete from ds_salevehicle where vehicleID in 
+        <foreach item="vehicleid" collection="array" open="(" separator="," close=")">
+            #{vehicleid}
+        </foreach>
+    </delete>
+
+    <select id="selectVehicleId" resultMap="DsSalevehicleResult">
+        select vehicleid from ds_salevehicle
+    </select>
+    
+</mapper>

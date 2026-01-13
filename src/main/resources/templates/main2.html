@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--360浏览器优先以webkit内核解析-->
+    <title>吉利介绍</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/style.min862f.css" th:href="@{/css/main/style.min862f.css}" rel="stylesheet"/>
+</head>
+
+<body class="gray-bg">
+<!--     <div class="row  border-bottom white-bg dashboard-header"> -->
+    <div class="container"style="border:1px solid #ffffff;border-radius:10px;background-image:url(/img/data-bg.jpeg);height:230px">
+<!--          <div class="col-sm-3"> -->
+          
+<!--         </div> -->
+        <div class="row" >
+                 <div class="col-md-2" style="font-size:20px;color:white;position:relative;top:20px;text-align:right">数据目录</div>
+                 <div class="col-md-8 input-group"style="margin-top:15px;position:relative">
+                 			<input type="text" class="form-control" placeholder="请输入您要搜索的数据"/>
+                 			<span class="input-group-btn">
+                 					<button class="btn btn-info btn-search">搜索</button>
+                 					<button class="btn" style="margin-left:10px;"><strong>数据字典</strong></button>
+                 			</span>
+                 </div>
+<!--                  <div class="col-md-2" style="font-size:20px;color:white;position:relative;top:15px;text-align:center">数据目录</div> -->
+        </div>
+        <div class="col-md-10 col-xs-offset-1"
+        		style="border:1px solid #ffffff;
+        		border-radius:10px;
+        		position:relative;
+        		top:15px;
+        		height:150px;
+        		background-color:white">
+        		<table class="table table-condensed table-hover">
+
+				  <thead>
+				    <tr>
+				      <th class="text-center">序号</th>
+				      <th class="text-center">编号</th>
+				      <th class="text-center">标题</th>
+				      <th class="text-center">发布时间</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <td class="text-center">1</td>
+				      <td class="text-center">SD-210110</td>
+				      <td class="text-center">前后纵梁材料</td>
+				      <td class="text-center">2021-07-25 09:15:02</td>
+				    </tr>
+				    <tr>
+				      <td class="text-center">2</td>
+				      <td class="text-center">SD-210112</td>
+				      <td class="text-center">A柱过渡结构尺寸</td>
+				      <td class="text-center">2020-12-01 10:23:30</td>
+				    </tr>
+				    <tr>
+				      <td class="text-center">3</td>
+				      <td class="text-center">SD-210115</td>
+				      <td class="text-center">车门板厚尺寸</td>
+				      <td class="text-center">2020-02-10 15:02:40</td>
+				    </tr>
+
+				  </tbody>
+				</table>
+        		
+        </div>
+    </div>
+
+<!--             <h1 class="text-center " style="color:rgba(200,250,255); margin-bottom: 2rem"><strong>晋中·吉利 区域数据空间</strong></h1> -->
+          
+<!--             <ol class="col-sm-offset-4" style="position:center"> -->
+<!--                 <li style="color:white;height:40px;font-size:18px">涵盖用户、角色、菜单、部门、岗位等管理。</li> -->
+<!--                 <li style="color:white;height:40px;font-size:18px">包括设计、制造、服务、供应等数据的协同服务。</li> -->
+<!--                 <li style="color:white;height:40px;font-size:18px">对用户、任务、数据和服务进行实时监控。</li> -->
+<!--                 <li style="color:white;height:40px;font-size:18px">提供表单构建、代码生成及系统接口等工具。</li> -->
+<!--             </ol> -->
+           	
+<!--             <img th:src="@{/img/data-bg.jpeg}" width="100%"> -->
+        
+        
+        <div class="col-md-6">
+<!--             <h2 class="text-success">热门数据</h2> -->
+			<div class="col-md-5"style="border:1px solid #000000;border-radius:10px;position:relative;top:10px;width:85%;height:250px;margin-left:100px">
+				<table class="table table-striped">
+					  <caption class="text-primary"style="font-size:20px">热门数据</caption>
+					  <thead>
+					    <tr>
+					      <th>数据类型</th>
+					      <th>数据内容</th>
+					      <th>时间</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr>
+					      <td>材料</td>
+					      <td>前后纵梁材料选择</td>
+					      <td>2018-10-09</td>
+					    </tr>
+					    <tr>
+					      <td>动力总成</td>
+					      <td>动力总成分装工艺卡片</td>
+					      <td>2020-08-12</td>
+					    </tr>
+					    <tr>
+					      <td>车身</td>
+					      <td>上车身三维数模</td>
+					      <td>2019-11-05</td>
+					    </tr>
+					    <tr>
+					      <td>EBOM</td>
+					      <td>EBOM数据</td>
+					      <td>2019-09-15</td>
+					    </tr>
+					  </tbody>
+					</table>
+			</div>
+			<div class="col-md-5"style="border:1px solid #000000;border-radius:10px;position:relative;top:20px;width:85%;height:250px;margin-left:100px">
+				<table class="table table-striped">
+				  <caption class="text-primary"style="font-size:20px">最新数据</caption>
+				  <thead>
+				    <tr>
+				      <th>数据类型</th>
+				      <th>数据内容</th>
+				      <th>时间</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <td>焊装</td>
+				      <td>左侧围焊装工艺文件</td>
+				      <td>2022-01-09</td>
+				    </tr>
+				    <tr>
+				      <td>车架</td>
+				      <td>车架分装工艺文件</td>
+				      <td>2022-01-05</td>
+				    </tr>
+				    <tr>
+				      <td>车身</td>
+				      <td>上车身项目点检表</td>
+				      <td>2021-12-25</td>
+				    </tr>
+				    <tr>
+				      <td>焊装</td>
+				      <td>前车门焊装设备数据</td>
+				      <td>2021-12-15</td>
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
+        </div>
+        <div class="col-sm-5 "style="border:1px solid #000000;border-radius:10px;position:relative;top:10px;height:510px;margin-right:5px">
+        	<h3 class="col-sm-3">数据关系图</h3>
+        	<button class="col-sm-2 push-left"
+        				 style="border:1px solid #000000;
+        				 border-radius:5px;
+        				 position:relative;
+        				 top:10px;
+        				 height:30px;
+        				 font-size:20px;
+        				 align:center">全部</button>
+        	<button class="col-sm-2 push-left"
+        				 style="border:1px solid #000000;
+        				 border-radius:5px;
+        				 position:relative;
+        				 top:10px;
+        				 height:30px;
+        				 font-size:20px;
+        				 align:center">设计</button>
+        	<button class="col-sm-2 push-left"
+        				 style="border:1px solid #000000;
+        				 border-radius:5px;
+        				 position:relative;
+        				 top:10px;
+        				 height:30px;
+        				 font-size:20px;
+        				 align:center">制造</button>
+        	<button class="col-sm-2 push-left"
+        				 style="border:1px solid #000000;
+        				 border-radius:5px;
+        				 position:relative;
+        				 top:10px;
+        				 height:30px;
+        				 font-size:20px;
+        				 align:center">供应</button>
+        	<img th:src="@{/img/know_pho.jpeg}" width="100%" height="80%" style="position:relative;top:30px">
+        </div>
+        
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+    <script type="text/javascript">
+	    $('#pay-qrcode').click(function(){
+	        var html=$(this).html();
+	        parent.layer.open({
+	            title: false,
+	            type: 1,
+	            closeBtn:false,
+	            shadeClose:true,
+	            area: ['600px', 'auto'],
+	            content: html
+	        });
+	    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('material_supply列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>工厂：</p>
+                                <input type="text" name="factorCode"/>
+                            </li>
+                            <li>
+                                <p>仓库：</p>
+                                <input type="text" name="warehouseCode"/>
+                            </li>
+                            <li>
+                                <p>供应商：</p>
+                                <input type="text" name="supplierName"/>
+                            </li>
+                            <li>
+                                <p>物料编码：</p>
+                                <input type="text" name="materialCode"/>
+                            </li>
+                            <li>
+                                <p>物料描述：</p>
+                                <input type="text" name="materialText"/>
+                            </li>
+                            <li>
+                                <p>库存类型：</p>
+                                <input type="text" name="materialWareType"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i> 搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i> 重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="supply:materialsupply:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="supply:materialsupply:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="supply:materialsupply:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="supply:materialsupply:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('supply:materialsupply:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('supply:materialsupply:remove')}]];
+        var prefix = ctx + "supply/materialsupply";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "material_supply",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'autoid', 
+                    title : 'ID',
+                    visible: false
+                },
+                {
+                    field : 'factorCode', 
+                    title : '工厂',
+                    sortable: true
+                },
+                {
+                    field : 'warehouseCode', 
+                    title : '仓库',
+                    sortable: true
+                },
+                {
+                    field : 'supplierCode', 
+                    title : '供应商编码',
+                    sortable: true
+                },
+                {
+                    field : 'supplierName', 
+                    title : '供应商名称',
+                    sortable: true
+                },
+                {
+                    field : 'materialCode', 
+                    title : '物料编码',
+                    sortable: true
+                },
+                {
+                    field : 'materialText', 
+                    title : '物料描述',
+                    sortable: true
+                },
+                {
+                    field : 'materialUnit', 
+                    title : '单位',
+                    sortable: true
+                },
+                {
+                    field : 'materialWareNum', 
+                    title : '实际数量',
+                    sortable: true
+                },
+                {
+                    field : 'materialWareType', 
+                    title : '库存类型',
+                    sortable: true
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.autoid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.autoid + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

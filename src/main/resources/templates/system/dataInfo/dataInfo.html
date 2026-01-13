@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('焊接实时数据列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>焊点ID：</p>
+                                <input type="text" name="weldingspotid"/>
+                            </li>
+                            <li class="select-time">
+                                <p>时间：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginDatatime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endDatatime]"/>
+                            </li>
+                            <li>
+                                <p>焊接电流：</p>
+                                <input type="text" name="currentvalue"/>
+                            </li>
+                            <li>
+                                <p>焊接能量：</p>
+                                <input type="text" name="energyvalue"/>
+                            </li>
+                            <li>
+                                <p>焊接功率：</p>
+                                <input type="text" name="powervalue"/>
+                            </li>
+                            <li>
+                                <p>焊接质量：</p>
+                                <select name="weldingquality" th:with="type=${@dict.getType('welding_quality')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:dataInfo:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:dataInfo:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:dataInfo:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:dataInfo:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:dataInfo:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:dataInfo:remove')}]];
+        var weldingqualityDatas = [[${@dict.getType('welding_quality')}]];
+        var prefix = ctx + "system/dataInfo";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "焊接实时数据",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '序号',
+                    visible: false
+                },
+                {
+                    field : 'weldingspotid', 
+                    title : '焊点ID'
+                },
+                {
+                    field : 'datatime', 
+                    title : '时间'
+                },
+                {
+                    field : 'current', 
+                    title : '实时电流'
+                },
+                {
+                    field : 'voltage', 
+                    title : '实时电压'
+                },
+                {
+                    field : 'resistance', 
+                    title : '实时电阻'
+                },
+                {
+                    field : 'currentvalue', 
+                    title : '焊接电流'
+                },
+                {
+                    field : 'energyvalue', 
+                    title : '焊接能量'
+                },
+                {
+                    field : 'powervalue', 
+                    title : '焊接功率'
+                },
+                {
+                    field : 'weldingquality', 
+                    title : '焊接质量',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(weldingqualityDatas, value);
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

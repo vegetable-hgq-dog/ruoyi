@@ -1,0 +1,280 @@
+html{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+section{
+    width: 100%;
+    height: 100%;
+}
+.allocationQuery{
+    width: 96%;
+    height: 8%;
+    margin-left: 2%;
+
+}
+.materialAllocationTable{
+    width: 96%;
+    height: 32%;
+    margin-left: 2%;
+}
+.allocationFuncBox{
+    width: 96%;
+    height: 58%;
+    margin-left: 2%;
+
+}
+.allocationQueryPart{
+    float: left;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-left: 1.5%;
+}
+
+.aqueryButton{
+    /*margin-left: 2%;*/
+    width: 10%;
+}
+#aqueryButton{
+    color: white;
+    border-color: grey;
+    background-color: #3a6cc6;
+    width: 35%;
+}
+.materialAllocationTableTitle{
+    width: 100%;
+    height: 15%;
+    background: #4472C4;
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+    color: white;
+}
+.materialAllocationTableContent{
+    width: 100%;
+    height: 85%;
+    overflow-y: auto;
+}
+.materialAllocationTableContent::-webkit-scrollbar{
+    width: 8px;
+    height: 4px;
+}
+.materialAllocationTableContent::-webkit-scrollbar-thumb{
+    border-radius: 3px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: #c7c4c4;
+}
+.materialAllocationTableContent::-webkit-scrollbar-track{
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.2) inset;
+}
+.materialAllocationTableContent::-webkit-scrollbar-corner{
+    background: transparent;
+}
+.allocation_table{
+    border: solid 1px #4472C4;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+.allocation_table_detail{
+    border-top: solid 1px #4472C4;
+}
+.allocationDetailsButton{
+    color: white;
+    border-color: grey;
+    background-color: orange;
+    width: 40%;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.xuhao{
+    width: 40px;
+}
+.supplierNum{
+    width: 50px;
+}
+.allocationFuncPart{
+    height: 96%;
+    width: 100%;
+    border: #4472C4 solid 2px;
+    margin-top: 0.9%;
+}
+.allocationInputPart{
+    width: 100%;
+    height: 65%;
+
+}
+.allocationResultPart{
+    width: 100%;
+    height: 35%;
+}
+.allocationInputPart1{
+    float: left;
+    height: 86%;
+    width: 40%;
+    border: #4472C4 solid 2px;
+    margin-top: 0.6%;
+    margin-left: 2%;
+}
+
+.allocationInputPart1Title{
+    text-align: center;
+    height: 15%;
+    width: 100%;
+    font-weight: bold;
+    font-size: large;
+}
+.allocationInputPart1Content{
+    height: 65%;
+    margin-left: 20%;
+}
+.allocationInputPart1ContentDetails{
+    padding-bottom: 0.5%;
+}
+.allocationInputPart1Button{
+    width: 100%;
+    height: 20%;
+    text-align: center;
+}
+
+.allocationPart1Button{
+    color: white;
+    border-color: grey;
+    background-color: orange;
+    width: 15%;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.doReset1{
+    margin-right: 25%;
+}
+
+
+.allocationInputPart2{
+    float: left;
+    height: 86%;
+    width: 40%;
+    border: #4472C4 solid 2px;
+    margin-top: 0.6%;
+    margin-left: 2%;
+}
+
+.allocationInputPart2Title{
+    text-align: center;
+    height: 15%;
+    width: 100%;
+    font-weight: bold;
+    font-size: large;
+}
+.allocationInputPart2Content{
+    height: 65%;
+    margin-left: 20%;
+}
+.allocationInputPart2ContentDetails{
+    padding-bottom: 2%;
+}
+.allocationInputPart2Button{
+    width: 100%;
+    height: 20%;
+    text-align: center;
+}
+
+.allocationPart2Button{
+    color: white;
+    border-color: grey;
+    background-color: orange;
+    width: 15%;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.doReset2{
+    margin-right: 25%;
+}
+
+.allocationInputPart3{
+    float: left;
+    height: 80%;
+    width: 4%;
+    /*text-align: center;*/
+    font-weight: bold;
+    font-size: large;
+    color: white;
+    background: url("../img/production_prediction_bac.png")  no-repeat center;
+    background-size: 100% 100%;
+    margin-top: 0.8%;
+    margin-left: 4%;
+}
+.allocationInputPart3Val{
+    word-break: break-all;
+    height: 60%;
+    width: 60%;
+    margin-left: 30%;
+    margin-top: 50%;
+
+}
+
+
+.allocationResultPartTitle{
+    margin-left: 2%;
+    height: 18%;
+    width: 94%;
+    background: #4472C4;
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+    color: white;
+}
+.allocationResultPartTable{
+    margin-left: 2%;
+    height: 82%;
+    width: 94%;
+    text-align: center;
+    border-collapse: collapse;
+    table-layout: fixed;
+    overflow-y: auto;
+
+}
+.allocationResultPartTable::-webkit-scrollbar{
+    width: 8px;
+    height: 4px;
+}
+.allocationResultPartTable::-webkit-scrollbar-thumb{
+    border-radius: 3px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: #c7c4c4;
+}
+.allocationResultPartTable::-webkit-scrollbar-track{
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.2) inset;
+}
+.allocationResultPartTable::-webkit-scrollbar-corner{
+    background: transparent;
+}
+
+.allocationResultPartTableContent{
+    /*border: solid 1px #4472C4;*/
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+.allocationResultPartTable_detail{
+    border-top: solid 1px #4472C4;
+}
+
+.allocationInputPart1Size{
+    width: 50%;
+}
+.allocationInputPart2Size{
+    width: 40%;
+}

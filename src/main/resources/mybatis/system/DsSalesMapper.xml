@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.sales.mapper.DsSalesMapper">
+    
+    <resultMap type="DsSales" id="DsSalesResult">
+        <result property="salesprice"    column="salesPrice"    />
+        <result property="customerid"    column="customerID"    />
+        <result property="vehiclesaledate"    column="vehicleSaleDate"    />
+        <result property="vehicleid"    column="vehicleID"    />
+        <result property="salesid"    column="salesID"    />
+    </resultMap>
+
+    <sql id="selectDsSalesVo">
+        select salesPrice, customerID, vehicleSaleDate, vehicleID, salesID from ds_sales
+    </sql>
+
+    <select id="selectDsSalesList" parameterType="DsSales" resultMap="DsSalesResult">
+        <include refid="selectDsSalesVo"/>
+        <where>  
+            <if test="salesprice != null "> and salesPrice = #{salesprice}</if>
+            <if test="customerid != null "> and customerID = #{customerid}</if>
+            <if test="vehiclesaledate != null "> and vehicleSaleDate = #{vehiclesaledate}</if>
+            <if test="vehicleid != null "> and vehicleID = #{vehicleid}</if>
+        </where>
+    </select>
+    
+    <select id="selectDsSalesById" parameterType="Long" resultMap="DsSalesResult">
+        <include refid="selectDsSalesVo"/>
+        where salesID = #{salesid}
+    </select>
+        
+    <insert id="insertDsSales" parameterType="DsSales">
+        insert into ds_sales
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="salesprice != null ">salesPrice,</if>
+            <if test="customerid != null ">customerID,</if>
+            <if test="vehiclesaledate != null ">vehicleSaleDate,</if>
+            <if test="vehicleid != null ">vehicleID,</if>
+            <if test="salesid != null ">salesID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="salesprice != null ">#{salesprice},</if>
+            <if test="customerid != null ">#{customerid},</if>
+            <if test="vehiclesaledate != null ">#{vehiclesaledate},</if>
+            <if test="vehicleid != null ">#{vehicleid},</if>
+            <if test="salesid != null ">#{salesid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsSales" parameterType="DsSales">
+        update ds_sales
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="salesprice != null ">salesPrice = #{salesprice},</if>
+            <if test="customerid != null ">customerID = #{customerid},</if>
+            <if test="vehiclesaledate != null ">vehicleSaleDate = #{vehiclesaledate},</if>
+            <if test="vehicleid != null ">vehicleID = #{vehicleid},</if>
+        </trim>
+        where salesID = #{salesid}
+    </update>
+
+    <delete id="deleteDsSalesById" parameterType="Long">
+        delete from ds_sales where salesID = #{salesid}
+    </delete>
+
+    <delete id="deleteDsSalesByIds" parameterType="String">
+        delete from ds_sales where salesID in 
+        <foreach item="salesid" collection="array" open="(" separator="," close=")">
+            #{salesid}
+        </foreach>
+    </delete>
+    
+</mapper>

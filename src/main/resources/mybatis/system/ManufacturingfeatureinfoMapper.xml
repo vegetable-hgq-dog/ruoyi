@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.manufacturingfeatureinfo.mapper.ManufacturingfeatureinfoMapper">
+    
+    <resultMap type="Manufacturingfeatureinfo" id="ManufacturingfeatureinfoResult">
+        <result property="manufacturingfeatureid"    column="manufacturingFeatureID"    />
+        <result property="manufacturingfeaturename"    column="manufacturingFeatureName"    />
+        <result property="manufacturingfeaturetype"    column="manufacturingFeatureType"    />
+    </resultMap>
+
+    <sql id="selectManufacturingfeatureinfoVo">
+        select manufacturingFeatureID, manufacturingFeatureName, manufacturingFeatureType from manufacturingfeatureinfo
+    </sql>
+
+    <select id="selectManufacturingfeatureinfoList" parameterType="Manufacturingfeatureinfo" resultMap="ManufacturingfeatureinfoResult">
+        <include refid="selectManufacturingfeatureinfoVo"/>
+        <where>  
+            <if test="manufacturingfeaturename != null  and manufacturingfeaturename != ''"> and manufacturingFeatureName like concat('%', #{manufacturingfeaturename}, '%')</if>
+            <if test="manufacturingfeaturetype != null  and manufacturingfeaturetype != ''"> and manufacturingFeatureType = #{manufacturingfeaturetype}</if>
+        </where>
+    </select>
+    
+    <select id="selectManufacturingfeatureinfoById" parameterType="Long" resultMap="ManufacturingfeatureinfoResult">
+        <include refid="selectManufacturingfeatureinfoVo"/>
+        where manufacturingFeatureID = #{manufacturingfeatureid}
+    </select>
+        
+    <insert id="insertManufacturingfeatureinfo" parameterType="Manufacturingfeatureinfo" useGeneratedKeys="true" keyProperty="manufacturingfeatureid">
+        insert into manufacturingfeatureinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="manufacturingfeaturename != null  and manufacturingfeaturename != ''">manufacturingFeatureName,</if>
+            <if test="manufacturingfeaturetype != null  and manufacturingfeaturetype != ''">manufacturingFeatureType,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="manufacturingfeaturename != null  and manufacturingfeaturename != ''">#{manufacturingfeaturename},</if>
+            <if test="manufacturingfeaturetype != null  and manufacturingfeaturetype != ''">#{manufacturingfeaturetype},</if>
+         </trim>
+    </insert>
+
+    <update id="updateManufacturingfeatureinfo" parameterType="Manufacturingfeatureinfo">
+        update manufacturingfeatureinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="manufacturingfeaturename != null  and manufacturingfeaturename != ''">manufacturingFeatureName = #{manufacturingfeaturename},</if>
+            <if test="manufacturingfeaturetype != null  and manufacturingfeaturetype != ''">manufacturingFeatureType = #{manufacturingfeaturetype},</if>
+        </trim>
+        where manufacturingFeatureID = #{manufacturingfeatureid}
+    </update>
+
+    <delete id="deleteManufacturingfeatureinfoById" parameterType="Long">
+        delete from manufacturingfeatureinfo where manufacturingFeatureID = #{manufacturingfeatureid}
+    </delete>
+
+    <delete id="deleteManufacturingfeatureinfoByIds" parameterType="String">
+        delete from manufacturingfeatureinfo where manufacturingFeatureID in 
+        <foreach item="manufacturingfeatureid" collection="array" open="(" separator="," close=")">
+            #{manufacturingfeatureid}
+        </foreach>
+    </delete>
+
+    <select id="selectManufacturingfeatureName"  resultMap="ManufacturingfeatureinfoResult">
+        select manufacturingfeatureName from ManufacturingfeatureInfo
+    </select>
+
+    
+</mapper>

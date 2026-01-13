@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.customer.mapper.DsCustomerMapper">
+    
+    <resultMap type="DsCustomer" id="DsCustomerResult">
+        <result property="customerage"    column="customerAge"    />
+        <result property="customerbuyplace"    column="customerBuyPlace"    />
+        <result property="customersex"    column="customerSex"    />
+        <result property="customername"    column="customerName"    />
+        <result property="customerid"    column="customerID"    />
+    </resultMap>
+
+    <sql id="selectDsCustomerVo">
+        select customerAge, customerBuyPlace, customerSex, customerName, customerID from ds_customer
+    </sql>
+
+    <select id="selectDsCustomerList" parameterType="DsCustomer" resultMap="DsCustomerResult">
+        <include refid="selectDsCustomerVo"/>
+        <where>  
+            <if test="customerage != null "> and customerAge = #{customerage}</if>
+            <if test="customerbuyplace != null  and customerbuyplace != ''"> and customerBuyPlace = #{customerbuyplace}</if>
+            <if test="customersex != null  and customersex != ''"> and customerSex = #{customersex}</if>
+            <if test="customername != null  and customername != ''"> and customerName like concat('%', #{customername}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectDsCustomerById" parameterType="Long" resultMap="DsCustomerResult">
+        <include refid="selectDsCustomerVo"/>
+        where customerID = #{customerid}
+    </select>
+        
+    <insert id="insertDsCustomer" parameterType="DsCustomer">
+        insert into ds_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerage != null ">customerAge,</if>
+            <if test="customerbuyplace != null  and customerbuyplace != ''">customerBuyPlace,</if>
+            <if test="customersex != null  and customersex != ''">customerSex,</if>
+            <if test="customername != null  and customername != ''">customerName,</if>
+            <if test="customerid != null ">customerID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerage != null ">#{customerage},</if>
+            <if test="customerbuyplace != null  and customerbuyplace != ''">#{customerbuyplace},</if>
+            <if test="customersex != null  and customersex != ''">#{customersex},</if>
+            <if test="customername != null  and customername != ''">#{customername},</if>
+            <if test="customerid != null ">#{customerid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDsCustomer" parameterType="DsCustomer">
+        update ds_customer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerage != null ">customerAge = #{customerage},</if>
+            <if test="customerbuyplace != null  and customerbuyplace != ''">customerBuyPlace = #{customerbuyplace},</if>
+            <if test="customersex != null  and customersex != ''">customerSex = #{customersex},</if>
+            <if test="customername != null  and customername != ''">customerName = #{customername},</if>
+        </trim>
+        where customerID = #{customerid}
+    </update>
+
+    <delete id="deleteDsCustomerById" parameterType="Long">
+        delete from ds_customer where customerID = #{customerid}
+    </delete>
+
+    <delete id="deleteDsCustomerByIds" parameterType="String">
+        delete from ds_customer where customerID in 
+        <foreach item="customerid" collection="array" open="(" separator="," close=")">
+            #{customerid}
+        </foreach>
+    </delete>
+
+    <select id="selectCustomerId" resultMap="DsCustomerResult">
+        select customerid from ds_customer
+    </select>
+    
+</mapper>
