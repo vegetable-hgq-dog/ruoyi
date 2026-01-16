@@ -26,6 +26,31 @@ public class PerformancePlot extends ApplicationFrame {
         initUI(series1, series2, title, xAxisLabel, yAxisLabel);
     }
 
+    // 统一设置中文字体的工具方法
+    private static void setChineseFont(JFreeChart chart) {
+        // 定义支持中文的字体（可替换为"微软雅黑"、"黑体"等，根据系统适配）
+        Font chineseFont = new Font("SimSun", Font.PLAIN, 18); // SimSun=宋体
+
+        // 1. 设置图表标题字体
+        if (chart.getTitle() != null) {
+            chart.getTitle().setFont(new Font("SimSun", Font.BOLD, 18));
+        }
+
+        // 2. 设置图例字体（原有逻辑保留，叠加中文支持）
+        chart.getLegend().setItemFont(new Font("SimSun", Font.PLAIN, 24));
+
+        // 3. 获取XYPlot，设置坐标轴字体
+        XYPlot plot = chart.getXYPlot();
+        // X轴标签字体
+        plot.getDomainAxis().setLabelFont(chineseFont);
+        // X轴刻度字体
+        plot.getDomainAxis().setTickLabelFont(chineseFont);
+        // Y轴标签字体
+        plot.getRangeAxis().setLabelFont(chineseFont);
+        // Y轴刻度字体
+        plot.getRangeAxis().setTickLabelFont(chineseFont);
+    }
+
     public void initUI(XYSeries series1, XYSeries series2, String title, String xAxisLabel, String yAxisLabel){
         XYDataset dataset = createDataset(series1, series2);
         JFreeChart chart = createChart(dataset, title, xAxisLabel, yAxisLabel);
@@ -94,6 +119,8 @@ public class PerformancePlot extends ApplicationFrame {
         renderer.setSeriesStroke(1, new BasicStroke(2.0f));
 
         plot.setRenderer(renderer);
+        setChineseFont(chart);
+
         //背景色
 //        plot.setBackgroundPaint(Color.white);
         //网格是否开启

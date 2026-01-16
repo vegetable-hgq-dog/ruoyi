@@ -162,9 +162,9 @@ public class runTest {
         configuration.setGeneticCodeProducer(OrderAllocationGeneticCodeProducer.orderAllocationGeneProducer(suppliersNum,demand,lower,upper,dq,de,cr,deliveryDate,tp,transportDate));
         configuration.setMutation(mutation);
         configuration.setCrossover(crossover);
-        configuration.setGenerations(50);
+        configuration.setGenerations(150);
         configuration.setChromosomeLength(length);
-        configuration.setPopulationSize(150);
+        configuration.setPopulationSize(250);
 
 //        NSGA2 nsga21 = new NSGA2(configuration);
 //        Population populationNSGA21 = nsga21.run();
