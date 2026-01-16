@@ -6,8 +6,8 @@ import com.debacharya.nsgaii.datastructure.Chromosome;
 import com.debacharya.nsgaii.datastructure.IntegerAllele;
 import com.debacharya.nsgaii.datastructure.Population;
 import custom.implementation.constraint.ConstraintFactor;
+import custom.implementation.improved.ChromosomeDuplicateRemover;
 import custom.implementation.improved.RepairMechanism;
-import custom.implementation.improved.RepairWithoutSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +60,9 @@ public class CrossoverWithSet extends AbstractCrossover {
             result.add(selected.get(0).getCopy());
             result.add(selected.get(1).getCopy());
         }
+
+        // ========== 新增：交叉操作后去重 ==========
+        result = ChromosomeDuplicateRemover.removeDuplicates(result);
 
         return result;
     }

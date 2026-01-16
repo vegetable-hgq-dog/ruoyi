@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * NSGA-II（Non-dominated Sorting Genetic Algorithm II）算法核心实现类，
@@ -64,7 +65,7 @@ public class NSGA2 {
 	 * 使用用户自定义配置创建 NSGA2 实例，允许灵活设置种群参数、遗传算子、
 	 * 目标函数等，是实际应用中推荐的构造方式。
 	 *
-	 * @param configuration 算法配置对象，需提前通过 {@link Configuration#setup()} 完成初始化
+	 * @param configuration 算法配置对象，需提前通过  完成初始化
 	 */
 	public NSGA2(Configuration configuration) {
 		this.configuration = configuration;
@@ -78,7 +79,7 @@ public class NSGA2 {
 	 * 3. 满足终止条件后，提取并输出最终 Pareto 前沿
 	 *
 	 * @return 包含 Pareto 最优解的种群对象
-	 * @throws UnsupportedOperationException 若配置未通过 {@link Configuration#setup()} 初始化
+	 * @throws UnsupportedOperationException 若配置未通过  初始化
 	 */
 	public Population run() {
 
@@ -88,6 +89,14 @@ public class NSGA2 {
 
 		// 初始化结果报告器
 		Reporter.init(this.configuration);
+
+		// ===== 新增：初始化监控参数 =====
+		long totalStartTime = System.currentTimeMillis(); // 算法总耗时
+		int maxGenerations = this.configuration.getGenerations();
+		System.out.println("===== NSGA-II 算法启动 =====");
+		System.out.println("最大迭代代数：" + maxGenerations);
+		System.out.println("种群规模：" + this.configuration.getPopulationSize());
+		System.out.println("============================");
 
 		// 初始化父代种群：调用配置的种群生成器，生成初始种群并预处理
 		Population parent = this.preparePopulation(
@@ -117,9 +126,15 @@ public class NSGA2 {
 		List<Chromosome> rank2 = new ArrayList<>();
 
 		// 迭代进化：根据终止准则判断是否继续（当前代数 < 最大代数）
-		while(configuration.getTerminatingCriterion().shouldRun(child, ++generation, this.configuration.getGenerations())) {
+		while(configuration.getTerminatingCriterion().shouldRun(child, ++generation, maxGenerations)) {
+			// ===== 新增：当前代开始计时 + 进度输出 =====
+			long generationStartTime = System.currentTimeMillis();
+			double progress = (double) generation / maxGenerations * 100;
+			System.out.printf("[进度] 第 %d 代 / 总 %d 代 (%.1f%%) | 开始执行...%n",
+					generation, maxGenerations, progress);
 
 			// 合并父代和子代种群（规模 2N），预处理后选择 N 个个体作为新父代
+			long step1Start = System.currentTimeMillis();
 			parent = this.getChildFromCombinedPopulation(
 					this.preparePopulation(
 							Service.combinePopulation(
@@ -128,8 +143,11 @@ public class NSGA2 {
 							)
 					)
 			);
+			long step1End = System.currentTimeMillis();
+			System.out.printf("  - 合并种群+选择新父代耗时：%d ms%n", step1End - step1Start);
 
 			// 通过新父代种群的遗传操作生成新一代子代（规模 N）并预处理
+			long step2Start = System.currentTimeMillis();
 			child = this.preparePopulation(
 					this.configuration.getChildPopulationProducer().produce(
 							parent,
@@ -138,10 +156,12 @@ public class NSGA2 {
 							this.configuration.getPopulationSize()
 					)
 			);
+			long step2End = System.currentTimeMillis();
+			System.out.printf("  - 遗传操作生成子代耗时：%d ms%n", step2End - step2Start);
 
 			// 收集最后5代的非支配解（rank=1），用于后续去重和前沿构建
 			List<Chromosome> populace = child.getPopulace();
-			if (generation >= this.configuration.getGenerations() -5){
+			if (generation >= maxGenerations -5){
 				boolean rank0 = true;
 				while (rank0){
 					for (Chromosome chromosome : populace) {
@@ -157,6 +177,23 @@ public class NSGA2 {
 
 			// 记录当前代的种群信息（父代、子代、目标函数值等）
 			Reporter.reportGeneration(parent, child, generation, this.configuration.objectives);
+
+			// ===== 新增：当前代结束计时 + 剩余时间预估 =====
+			long generationEndTime = System.currentTimeMillis();
+			long generationCost = generationEndTime - generationStartTime;
+			long elapsedTime = generationEndTime - totalStartTime;
+			// 预估剩余时间（仅当迭代>5时，避免初始值不准）
+			String remainingTime = "未知";
+			if (generation >= 5) {
+				long avgPerGeneration = elapsedTime / generation;
+				long remainingGenerations = maxGenerations - generation;
+				long remainingMs = avgPerGeneration * remainingGenerations;
+				remainingTime = String.format("%d分%d秒",
+						TimeUnit.MILLISECONDS.toMinutes(remainingMs),
+						TimeUnit.MILLISECONDS.toSeconds(remainingMs) % 60);
+			}
+			System.out.printf("[完成] 第 %d 代耗时：%d ms | 累计耗时：%d ms | 预估剩余：%s%n%n",
+					generation, generationCost, elapsedTime, remainingTime);
 		}
 
 		// 从收集的最后5代非支配解中提取最终 Pareto 前沿
@@ -193,6 +230,17 @@ public class NSGA2 {
 		Reporter.terminate(new Population(rank1), this.configuration.objectives);
 		if(Reporter.autoTerminate)
 			Reporter.commitToDisk();
+
+		// ===== 新增：算法结束总统计 =====
+		long totalEndTime = System.currentTimeMillis();
+		long totalCost = totalEndTime - totalStartTime;
+		System.out.println("===== NSGA-II 算法结束 =====");
+		System.out.printf("总迭代代数：%d | 总耗时：%d ms (%d分%d秒)%n",
+				generation, totalCost,
+				TimeUnit.MILLISECONDS.toMinutes(totalCost),
+				TimeUnit.MILLISECONDS.toSeconds(totalCost) % 60);
+		System.out.println("Pareto 前沿解数量：" + ranks.size());
+		System.out.println("============================");
 
 		return child;
 	}

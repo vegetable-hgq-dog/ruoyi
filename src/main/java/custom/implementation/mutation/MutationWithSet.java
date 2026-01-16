@@ -4,6 +4,7 @@ import com.debacharya.nsgaii.datastructure.Chromosome;
 import com.debacharya.nsgaii.datastructure.IntegerAllele;
 import com.debacharya.nsgaii.mutation.AbstractMutation;
 import custom.implementation.constraint.ConstraintFactor;
+import custom.implementation.improved.ChromosomeDuplicateRemover;
 import custom.implementation.improved.RepairMechanism;
 
 import java.util.ArrayList;
@@ -58,12 +59,30 @@ public class MutationWithSet extends AbstractMutation {
                 integerGeneticCode.add(i,new IntegerAllele(((IntegerAllele)chromosome.getAllele(i)).getGene()));
             }
         }
+        Chromosome mutatedChr;
         if (constraintFactor.satisfyDemand(integerGeneticCode,suppliersNum,demand) && constraintFactor.satisfyOrderFulfillment(integerGeneticCode,suppliersNum,demand,dq,de,cr)){
-            return new Chromosome(integerGeneticCode);
+            mutatedChr = new Chromosome(integerGeneticCode);
         }else {
             List<IntegerAllele> repaired = new RepairMechanism().repair1(new Chromosome(integerGeneticCode), lower, upper, suppliersNum, demand,dq,de,cr,deliveryDate,tp,transportDate);
-            return new Chromosome(repaired);
+            mutatedChr = new Chromosome(repaired);
         }
+
+        // ========== 新增：单条染色体变异后，若需批量处理可扩展；此处先保证返回唯一染色体 ==========
+        // 若批量变异（比如种群级），可将多条变异结果传入removeDuplicates方法
+        List<Chromosome> tempList = new ArrayList<>();
+        tempList.add(mutatedChr);
+        tempList = ChromosomeDuplicateRemover.removeDuplicates(tempList);
+        return tempList.get(0);
+    }
+
+    // 批量变异方法（扩展）：若需要对种群批量变异，可新增此方法并去重
+    public List<Chromosome> performBatch(List<Chromosome> chromosomes) {
+        List<Chromosome> mutatedList = new ArrayList<>();
+        for (Chromosome chr : chromosomes) {
+            mutatedList.add(this.perform(chr));
+        }
+        // 批量变异后去重
+        return ChromosomeDuplicateRemover.removeDuplicates(mutatedList);
     }
 
     //随机生成供应商订单量[min,max]及0（表示不选择供应商）

@@ -51,6 +51,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
+		<!-- JFreeChart 核心依赖 -->
+		<dependency>
+			<groupId>org.jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.5.3</version> <!-- 兼容Java 8，版本可按需调整 -->
+		</dependency>
 
 		<!-- SpringBoot 测试 -->
 		<dependency>

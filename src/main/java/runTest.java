@@ -197,7 +197,34 @@ public class runTest {
         configuration1.setPopulationSize(150);
 //
         NSGA2 insga21 = new NSGA2(configuration1);
-        Population populationINSGA21 = insga21.run();
+        // 方式1：简单线程监控（控制台打印心跳）
+        new Thread(() -> {
+            int count = 0;
+            while (true) {
+                try {
+                    Thread.sleep(5000); // 每5秒打印一次心跳
+                    count++;
+                    System.out.printf("[心跳检测] 程序仍在运行，已持续 %d 秒...%n", count * 5);
+                } catch (InterruptedException e) {
+                    // 主程序结束时中断心跳线程
+                    System.out.println("[心跳检测] 程序正常结束，心跳线程退出");
+                    return;
+                }
+            }
+        }).start();
+
+// 执行算法
+        try {
+            Population populationINSGA21 = insga21.run();
+            // 中断心跳线程（通过设置标志位/中断状态）
+            Thread.currentThread().interrupt();
+        } catch (Exception e) {
+            // 捕获异常并打印，避免程序静默卡死
+            System.err.println("[错误] 算法执行异常：");
+            e.printStackTrace();
+        }
+
+
 //        System.out.println(new TotalCost(suppliersNum, demand, dq, de).getValue(new Chromosome(original)));
 //        System.out.println(new unqualifiedQuantity(dq, de).getValue(new Chromosome(original)));
 //        System.out.println("*****************************************");
